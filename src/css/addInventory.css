@@ -1,0 +1,40 @@
+.add-inventory {
+    padding: 5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.add-inventory-container {
+    width: 50%;
+    padding-right: 4rem;
+}
+
+.add-inventory-input {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 0.7rem;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.add-inventory-input input {
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.add-inventory-checkbox {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.add-inventory-gallery {
+    width: 50%;
+    padding-left: 4rem;
+}

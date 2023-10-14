@@ -1,0 +1,136 @@
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 0 5px 5px rgba(34, 34, 34, 0.8);
+    background-color: rgba(34, 34, 34, 0.8);
+    color: white;
+    text-align: center;
+}
+
+.navbar-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 20px 10px 20px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1rem;
+    margin: 20px;
+    align-items: center;
+}
+
+.navbar-links a {
+    color: white;
+}
+
+.navbar-internal-links {
+    color: white;
+    position: relative; /* Necessary for pseudo-element */
+}
+
+.submenu {
+    position: absolute;
+    margin-top: 27px;
+    width: 10rem;
+    box-shadow: 0 0 5px 5px rgba(34, 34, 34, 0.8);
+    background-color: rgba(34, 34, 34, 0.8);
+    text-align: start;
+    padding: 2px;
+}
+
+.submenu a {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 2px
+}
+
+.navbar-internal-links::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px; /* Adjust as needed */
+    background-color: white;
+    transition: width 0.5s ease; /* Adjust the duration and easing as needed */
+}
+
+.navbar-internal-links:hover::after {
+    width: 100%; /* Expand to 100% width on hover */
+}
+
+.navbar-icons {
+    display: flex;
+    gap: 1rem;
+    padding: 0 50px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.navbar-icons svg:hover {
+    color: gray;
+}
+
+@media (max-width: 768px) {
+    .navbar-icons {
+        display: none;
+    }
+    .navbar-links {
+        display: none;
+    }
+    .navbar-mobile {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 1rem;
+    }
+    .nav-mobile-links {
+        gap: 1rem;
+        display: flex;
+        padding: 0 20px;
+    }
+    .navbar-mobile a {
+        color: white;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-mobile {
+        display: none;
+    }
+    .nav-mobile-links {
+        display: none;
+    }
+}
+
+.nav-logo {
+    max-width: 100%;
+}
+
+.nav-logo-link {
+    max-width: 5%;
+    margin-right: 20px;
+}
+
+.nav-mobile-logo {
+    max-width: 100%;
+}
+
+.nav-mobile-logo-link {
+    max-width: 5%;
+}
+
+@media (min-width: 768px) {
+    .nav-mobile-logo-link {
+        display: none;
+    }
+}

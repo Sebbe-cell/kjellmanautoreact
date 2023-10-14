@@ -1,0 +1,45 @@
+.leaflet-container {
+    height: 50vh;
+    width: 50%;
+}
+
+.findus-container {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    padding: 2rem;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+    margin: 2rem 10rem;
+    max-height: 600px;
+    overflow: hidden;
+}
+
+.findus-content {
+    width: 50%;
+    margin: 2rem;
+}
+
+@media (max-width: 992px) {
+    .findus-container {
+        margin: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .findus-container {
+        flex-direction: column;
+        padding: 0;
+        margin: 0.5rem;
+    }
+    .leaflet-container {
+        height: 50vh;
+        width: 90%;
+        margin-bottom: 10px;
+    }
+    .findus-content {
+        width: 90%;
+        margin: 2rem;
+    }
+}

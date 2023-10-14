@@ -1,13 +1,522 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Track */
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: rgb(58, 58, 58);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Hide the Picture-in-Picture button */
+video::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arcon', sans-serif;
+    background-color: #0f1a25;
+    color: white;
+}
+
+@font-face {
+    font-family: 'Arcon';
+    src: url('../src/utils/Arcon-Regular_1.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+li {
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
+.outlet-wrapper {
+    flex: 1;
+}
+
+.btn {
+    border: 3px solid white;
+    cursor: pointer;
+    color: white;
+    background-color: transparent;
+    width: 10rem;
+    height: 3rem;
+    font-size: large;
+    border-radius: 10px 0 10px 0;
+    transition: 0.4s;
+}
+
+.btn:hover {
+    background-color: rgb(0, 0, 0, 0.3);
+    color: white;
+    background-color: transparent;
+    border-radius: 0 10px 0 10px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 3rem;
+    }
+
+    .logo-img {
+        max-width: 100%;
+        min-width: 250px;
+    }
+}
+
+.logo-img {
+    max-width: 60%;
+    height: auto;
+}
+
+.ka-new {
+    position: relative;
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+}
+
+.ka-new img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.ka-container {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    text-align: left;
+    padding: 5rem;
+    font-size: x-large;
+    text-shadow: -1px -1px 0 #000, /* Top left */ 1px -1px 0 #000,
+        /* Top right */ -1px 1px 0 #000, /* Bottom left */ 1px 1px 0 #000; /* Bottom right */
+}
+
+@media (max-width: 768px) {
+    .ka-container {
+        padding: 1rem;
+    }
+    .ka-container h1 {
+        margin: 0;
+    }
+}
+
+.disable-background-scroll {
+    overflow: hidden;
+}
+
+.contact-container {
+    margin-bottom: 150px;
+    z-index: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: start;
+    gap: 2rem;
+    color: white;
+    width: 100%;
+}
+
+.contact-second-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-text-container {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    padding: 4rem 2rem;
+    margin: 3rem;
+    border: 1px solid white;
+    background-color: rgba(34, 34, 34, 0.8);
+    width: 1000px;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        margin-top: -100px;
+    }
+    .contact-text-container {
+        flex-direction: column;
+    }
+}
+
+.contact-text-container div:last-child {
+    text-align: end;
+}
+
+.video-responsive {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .video-responsive {
+        overflow: hidden;
+        padding-bottom: 56.25%;
+        position: relative;
+        height: 0;
+    }
+
+    .video-responsive iframe {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+}
+
+/* Default styles for larger screens */
+.ka-car-details-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 10rem 4rem 0rem 4rem;
+}
+
+.ka-car-info-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 4rem 0rem 4rem;
+}
+
+.ka-car-info {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid black;
+}
+
+.ka-car-info-body {
+    display: flex;
+    gap: 1rem;
+    max-width: 100%; /* Set a maximum width for the container */
+    flex-wrap: wrap;
+}
+
+/* Style for individual items */
+.ka-car-info-body > div {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+@media (max-width: 768px) {
+    .ka-car-info-body > div {
+        width: 100%;
+    }
+    .ka-car-info-body {
+        justify-content: center;
+    }
+}
+
+.ka-car-details {
+    width: 40%;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ka-car-img {
+    width: 60%;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid black;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ka-car-img img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+    .ka-car-details-container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center elements horizontally */
+        padding: 7rem 2rem 1rem 2rem; /* Adjust margin for mobile */
+    }
+
+    .ka-car-info-container {
+        padding: 0rem 2rem 4rem 2rem;
+    }
+
+    .ka-car-details,
+    .ka-car-img {
+        width: 100%; /* Full width for both elements */
+    }
+}
+
+.calculate-price {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+/* Card.css */
+.card {
+    width: 300px; /* Adjust the card width as needed */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 16px;
+    cursor: pointer;
+}
+
+.card-image-container {
+    width: 100%;
+    height: 200px; /* Set a fixed height for the image container */
+    overflow: hidden; /* Hide overflow to contain the image */
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover .card-image {
+    transform: scale(1.1);
+}
+
+.cards {
+    width: 400px; /* Adjust the card width as needed */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 16px;
+    cursor: pointer;
+    color: white;
+}
+
+.cards-image-container {
+    width: 100%;
+    height: 200px; /* Set a fixed height for the image container */
+    overflow: hidden;
+}
+
+.cards-image {
+    width: 100%;
+    height: 100%; /* Ensure the image takes up the full container height */
+    object-fit: cover; /* Ensures the image scales and crops as needed */
+    transition: transform 0.2s ease-in-out;
+}
+
+.cards:hover .cards-image {
+    transform: scale(1.2);
+}
+
+.cards-content {
+    padding: 16px;
+}
+
+.cards-title {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.cards-description {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+
+@media (max-width: 768px) {
+    .hero-container {
+        max-height: 200px;
+    }
+}
+
+.hero-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.inventory-main-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 4rem;
+}
+
+.inventory-input {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.inventory-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.inventory {
+    width: 360px;
+    cursor: pointer;
+    color: white;
+}
+
+.inventory a {
+    color: white !important;
+}
+
+.inventory-content {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.inventory-facts-container {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.1em;
+    padding-top: 0.4rem;
+}
+
+.inventory-facts-container span {
+    font-size: 0.8em;
+    color: rgb(211, 174, 95);
+}
+
+.inventory-container {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.inventory-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.inventory-title {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.inventory-description {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.inventory-footer h2 {
+    padding-top: 2rem;
+    font-size: 1em;
+    color: rgb(255, 255, 255);
+}
+
+.card-with-image-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    margin: 4rem 2rem;
+}
+
+@media (max-width: 768px) {
+    .card-with-image-container {
+        flex-direction: column;
+        margin: 4rem 1rem;
+    }
+}
+
+.sell-form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.sell-form-container > h1 {
+    display: flex;
+    text-align: start;
+    width: 42rem;
+    margin: 0;
+    margin-left: 2rem;
+}
+
+.sell-form-container > div {
+    width: 40rem;
+}
+
+.sell-form-container > div > button {
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .sell-form-container > div > button {
+        margin-left: 2rem;
+    }
 }

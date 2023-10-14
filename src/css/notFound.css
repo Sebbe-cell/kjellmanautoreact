@@ -1,0 +1,44 @@
+.not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .not-found-container {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    width: 1000px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(70, 70, 70, 0.2);
+  }
+
+  .not-found-container a {
+    border: 1px solid black;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 1px solid white;
+  }
+
+  .not-found-container a:hover {
+    border: 1px solid black;
+    color: black;
+    background-color: rgb(167, 233, 255);
+  }
+
+  .not-found-container > div {
+    width: 50%;
+  }
+  
+  @media (max-width: 768px) {
+    .not-found-container {
+        flex-direction: column;
+    }
+  }
+  
+  .not-found-container img {
+    max-width: 100%;
+    height: auto;
+  }

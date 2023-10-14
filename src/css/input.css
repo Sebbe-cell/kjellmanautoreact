@@ -1,0 +1,46 @@
+.forms {
+    position: relative;
+    color: white;
+    width: 40rem;
+    height: 2rem;
+    margin: 2rem;
+}
+
+.forms-optional {
+    position: relative;
+    color: black;
+    height: 2rem;
+    margin: 0 1rem 3rem 0;
+}
+
+.forms__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #e1e5ee;
+    color: white;
+    outline: none;
+    background: none;
+    padding: 0.5rem 0;
+    transition: all 160ms ease-in;
+}
+
+.forms__input:hover {
+    border-color: #adffff;
+}
+
+.forms__input:focus {
+    border-color: #18ffff;
+}
+
+.forms__label {
+    position: absolute;
+    left: 1rem;
+    top: -0.5rem;
+    padding: 0 0.5rem;
+    color: #fff;
+    cursor: text;
+    background-color: #0f1a25;
+}
