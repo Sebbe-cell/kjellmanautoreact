@@ -1,71 +1,7 @@
-import { useEffect, useRef } from 'react'
-import { motion, useAnimation } from 'framer-motion'
 import herologo from '../assets/beachbig.jpg'
 import Hero from '../components/hero'
 
 const SalesAssignment = (): JSX.Element => {
-    const mounted = useRef(false)
-
-    useEffect(() => {
-        if (!mounted.current) {
-            mounted.current = true
-        } else {
-            startAnimations()
-        }
-    })
-
-    const firstVariants = {
-        hidden: {
-            opacity: 0,
-            x: -300,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 0.3,
-            },
-        },
-    }
-
-    const secondVariants = {
-        hidden: {
-            opacity: 0,
-            x: 300,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 0.3,
-            },
-        },
-    }
-
-    const thirdVariants = {
-        hidden: {
-            opacity: 0,
-            x: -300,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 0.3,
-            },
-        },
-    }
-
-    const firstControls = useAnimation()
-    const secondControls = useAnimation()
-    const thirdControls = useAnimation()
-
-    const startAnimations = () => {
-        firstControls.start('visible')
-        secondControls.start('visible')
-        thirdControls.start('visible')
-    }
-
     return (
         <>
             <Hero imgSrc={herologo} />
@@ -78,18 +14,8 @@ const SalesAssignment = (): JSX.Element => {
                 }}
             >
                 <div style={{ maxWidth: '80rem', padding: '2rem' }}>
-                    <motion.h1
-                        initial="hidden"
-                        animate={firstControls}
-                        variants={firstVariants}
-                    >
-                        Försäljningsuppdrag
-                    </motion.h1>
-                    <motion.div
-                        initial="hidden"
-                        animate={secondControls}
-                        variants={secondVariants}
-                    >
+                    <h1>Försäljningsuppdrag</h1>
+                    <div>
                         <h3>
                             Vill du göra dig av med din bil på ett smidigt sätt
                             och samtidigt få det bästa möjliga priset? Då har vi
@@ -106,12 +32,8 @@ const SalesAssignment = (): JSX.Element => {
                             marknadsför vi den på samma exklusiva sätt som vi
                             gör med våra egna bilar.
                         </h3>
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        animate={thirdControls}
-                        variants={thirdVariants}
-                    >
+                    </div>
+                    <div>
                         <h3>
                             Det enda du behöver göra är att fylla i dina
                             kontaktuppgifter i formuläret nedan. Inom 48 timmar
@@ -126,7 +48,7 @@ const SalesAssignment = (): JSX.Element => {
                             emot att hjälpa dig att få det bästa priset för din
                             bil!
                         </h3>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </>

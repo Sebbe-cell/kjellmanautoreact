@@ -160,13 +160,6 @@ img {
     width: 100%;
 }
 
-.contact-second-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
 .contact-text-container {
     display: flex;
     flex-direction: row;
@@ -342,31 +335,23 @@ img {
 }
 
 .cards {
-    width: 400px; /* Adjust the card width as needed */
+    width: 400px;
     border: 1px solid #ccc;
-    border-radius: 8px;
     overflow: hidden;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin: 16px;
-    cursor: pointer;
-    color: white;
 }
 
 .cards-image-container {
     width: 100%;
-    height: 200px; /* Set a fixed height for the image container */
+    height: 200px;
     overflow: hidden;
 }
 
 .cards-image {
     width: 100%;
-    height: 100%; /* Ensure the image takes up the full container height */
-    object-fit: cover; /* Ensures the image scales and crops as needed */
-    transition: transform 0.2s ease-in-out;
-}
-
-.cards:hover .cards-image {
-    transform: scale(1.2);
+    height: 100%;
+    object-fit: cover;
 }
 
 .cards-content {
@@ -375,7 +360,7 @@ img {
 
 .cards-title {
     font-size: 1.25rem;
-    margin: 0;
+    margin: 0 0 20px 0;
 }
 
 .cards-description {
@@ -519,4 +504,42 @@ img {
     .sell-form-container > div > button {
         margin-left: 2rem;
     }
+}
+
+.submitted-form-container {
+    border: 1px solid red;
+}
+
+.contact-widget {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.chat-btn {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    background-color: rgb(211, 174, 95);
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    width: 200px;
+    background-color: white;
+    color: black;
+    margin: 1rem;
+    padding: 0.3rem;
+    border-radius: 3% 3% 13% 3%;
 }

@@ -45,84 +45,104 @@ const InventorySlider = (): JSX.Element => {
 
     return (
         <>
-            <div className="slider-wrapper">
-                <h1>Nyinkommna bilar</h1>
-                <div className="slider-container">
-                    {initialData.map((data) => (
-                        <>
-                            <Link to={`${routePaths.inventory}/${data.id}`}>
-                                <div className="slides">
-                                    <img
-                                        src={data.images?.[0]?.fileName}
-                                        alt={'preview'}
-                                    />
-                                    <h4>{data.header}</h4>
-                                    <div className="inventory-facts-container">
-                                        <div className="inventory-description">
-                                            <span>{data.modelYear}</span>
+            {!error && (
+                <>
+                    <h1 className="slider-header">Nyinkommna bilar</h1>
+                    <div className="slider-wrapper">
+                        <div className="slider-container">
+                            {initialData.map((data) => (
+                                <>
+                                    <Link
+                                        to={`${routePaths.inventory}/${data.id}`}
+                                    >
+                                        <div className="slides">
+                                            <img
+                                                src={data.images?.[0]?.fileName}
+                                                alt={'preview'}
+                                            />
+                                            <h4>{data.header}</h4>
+                                            <div className="inventory-facts-container">
+                                                <div className="inventory-description">
+                                                    <span>
+                                                        {data.modelYear}
+                                                    </span>
+                                                </div>
+                                                <div className="inventory-description">
+                                                    <span>
+                                                        {data.milage} mil
+                                                    </span>
+                                                </div>
+                                                <div className="inventory-description">
+                                                    <span>{data.gearBox}</span>
+                                                </div>
+                                                <div className="inventory-description">
+                                                    <span>
+                                                        {data.propellent}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h4>
+                                                Pris:{' '}
+                                                {Number(
+                                                    data.price
+                                                ).toLocaleString('sv-SE')}{' '}
+                                                kr
+                                            </h4>
                                         </div>
-                                        <div className="inventory-description">
-                                            <span>{data.milage} mil</span>
+                                    </Link>
+                                </>
+                            ))}
+                        </div>
+                        <div
+                            className="slider-container"
+                            style={{ marginLeft: '1rem' }}
+                        >
+                            {initialData.map((data) => (
+                                <>
+                                    <Link
+                                        to={`${routePaths.inventory}/${data.id}`}
+                                    >
+                                        <div className="slides">
+                                            <img
+                                                src={data.images?.[0]?.fileName}
+                                                alt={'preview'}
+                                            />
+                                            <h4>{data.header}</h4>
+                                            <div className="inventory-facts-container">
+                                                <div className="inventory-description">
+                                                    <span>
+                                                        {data.modelYear}
+                                                    </span>
+                                                </div>
+                                                <div className="inventory-description">
+                                                    <span>
+                                                        {data.milage} mil
+                                                    </span>
+                                                </div>
+                                                <div className="inventory-description">
+                                                    <span>{data.gearBox}</span>
+                                                </div>
+                                                <div className="inventory-description">
+                                                    <span>
+                                                        {data.propellent}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <h4>
+                                                Pris:{' '}
+                                                {Number(
+                                                    data.price
+                                                ).toLocaleString('sv-SE')}{' '}
+                                                kr
+                                            </h4>
                                         </div>
-                                        <div className="inventory-description">
-                                            <span>{data.gearBox}</span>
-                                        </div>
-                                        <div className="inventory-description">
-                                            <span>{data.propellent}</span>
-                                        </div>
-                                    </div>
-                                    <h4>
-                                        Pris:{' '}
-                                        {Number(data.price).toLocaleString(
-                                            'sv-SE'
-                                        )}{' '}
-                                        kr
-                                    </h4>
-                                </div>
-                            </Link>
-                        </>
-                    ))}
-                </div>
-                <div
-                    className="slider-container"
-                    style={{ marginLeft: '1rem' }}
-                >
-                    {initialData.map((data) => (
-                        <>
-                            <Link to={`${routePaths.inventory}/${data.id}`}>
-                                <div className="slides">
-                                    <img
-                                        src={data.images?.[0]?.fileName}
-                                        alt={'preview'}
-                                    />
-                                    <h4>{data.header}</h4>
-                                    <div className="inventory-facts-container">
-                                        <div className="inventory-description">
-                                            <span>{data.modelYear}</span>
-                                        </div>
-                                        <div className="inventory-description">
-                                            <span>{data.milage} mil</span>
-                                        </div>
-                                        <div className="inventory-description">
-                                            <span>{data.gearBox}</span>
-                                        </div>
-                                        <div className="inventory-description">
-                                            <span>{data.propellent}</span>
-                                        </div>
-                                    </div>
-                                    <h4>
-                                        Pris:{' '}
-                                        {Number(data.price).toLocaleString(
-                                            'sv-SE'
-                                        )}{' '}
-                                        kr
-                                    </h4>
-                                </div>
-                            </Link>
-                        </>
-                    ))}
-                </div>
-            </div>
+                                    </Link>
+                                </>
+                            ))}
+                        </div>
+                    </div>
+                </>
+            )}
         </>
     )
 }

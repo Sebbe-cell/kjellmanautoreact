@@ -1,8 +1,7 @@
-import audi from '../assets/audi46.jpg'
 import FindUs from '../components/findus'
 import Hero from '../components/hero'
 import logo from '../assets/map.jpg'
-import RoundedCardWithImage from '../components/roundedCardWithImage'
+
 
 const Contact = (): JSX.Element => {
     return (
@@ -23,29 +22,6 @@ const Contact = (): JSX.Element => {
                         <p>Maila oss: info@kjellmanauto.se</p>
                     </div>
                 </div>
-            </div>
-            <div className='contact-second-container'>
-                <RoundedCardWithImage
-                    logo={audi}
-                    title={'Få rätt pris för din bil'}
-                    description={
-                        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum a provident ipsam asperiores autem voluptatibus cum ad, dolores sunt odio.'
-                    }
-                />
-                <RoundedCardWithImage
-                    logo={audi}
-                    title={'Få dina biluppgifter verifierade'}
-                    description={
-                        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum a provident ipsam asperiores autem voluptatibus cum ad, dolores sunt odio.'
-                    }
-                />
-                <RoundedCardWithImage
-                    logo={audi}
-                    title={'Få dina pengar'}
-                    description={
-                        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum a provident ipsam asperiores autem voluptatibus cum ad, dolores sunt odio.'
-                    }
-                />
             </div>
             <FindUs />
         </>

@@ -6,7 +6,7 @@ export const routePaths = {
     add: '/add',
     login: '/login',
     dashBoard: '/dashboard',
-    sell: '/sälj',
+    sell: '/salj',
     warrantys: '/garantier',
     aboutus: '/om-oss',
     salesassignment: '/forsaljningsuppdrag',

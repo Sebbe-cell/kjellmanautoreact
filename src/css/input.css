@@ -1,9 +1,20 @@
+::placeholder {
+    color: red;
+    padding: 20px;
+}
+
 .forms {
     position: relative;
     color: white;
     width: 40rem;
     height: 2rem;
     margin: 2rem;
+}
+
+.text-area-container {
+    position: relative;
+    color: white;
+    margin: 0 3rem 3rem 0;
 }
 
 .forms-optional {
@@ -25,17 +36,53 @@
     background: none;
     padding: 0.5rem 0;
     transition: all 160ms ease-in;
+    font-family: 'Arcon', sans-serif;
 }
 
 .forms__input:hover {
-    border-color: #adffff;
+    border-color: rgb(211, 174, 95);
 }
 
 .forms__input:focus {
-    border-color: #18ffff;
+    border-color: rgb(211, 174, 95);
 }
 
 .forms__label {
+    position: absolute;
+    left: 1rem;
+    top: -0.5rem;
+    padding: 0 0.5rem;
+    color: #fff;
+    cursor: text;
+    background-color: #0f1a25;
+}
+
+
+.forms__textarea {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 150px;
+    max-height: 500px;
+    border: 2px solid #e1e5ee;
+    color: white;
+    outline: none;
+    background: none;
+    padding: 1rem 1rem;
+    font-family: 'Arcon', sans-serif;
+    resize: vertical;
+}
+
+.forms__textarea:hover {
+    border-color: rgb(211, 174, 95);
+}
+
+.forms__textarea:focus {
+    border-color: rgb(211, 174, 95);
+}
+
+.forms__label__textarea {
     position: absolute;
     left: 1rem;
     top: -0.5rem;

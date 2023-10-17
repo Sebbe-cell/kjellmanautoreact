@@ -9,7 +9,7 @@ import { routePaths } from '../utils/routePaths'
 import logo from '../assets/nav-logo.png'
 import '../css/navbar.css'
 import { useState } from 'react'
-import { faBars, faHamburger, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = (): JSX.Element => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false)
@@ -118,7 +118,7 @@ const Navbar = (): JSX.Element => {
                         <FontAwesomeIcon icon={faTwitter} size="xl" />
                         <FontAwesomeIcon icon={faInstagram} size="xl" />
                     </div>
-                    {/* <div className="navbar-mobile">
+                    <div className="navbar-mobile">
                         <div className="nav-mobile-logo-link">
                             <Link to={routePaths.home}>
                                 <img
@@ -130,24 +130,61 @@ const Navbar = (): JSX.Element => {
                         </div>
                         <div className="nav-mobile-links">
                             {!toggleMobileMenu ? (
-                                    <FontAwesomeIcon
-                                        icon={faBars}
-                                        onClick={openMobileMenu}
-                                    />
+                                <FontAwesomeIcon
+                                    icon={faBars}
+                                    onClick={openMobileMenu}
+                                    size="xl"
+                                />
                             ) : (
-                                    <FontAwesomeIcon
-                                        icon={faXmark}
-                                        onClick={openMobileMenu}
-                                    />
+                                <FontAwesomeIcon
+                                    icon={faXmark}
+                                    onClick={openMobileMenu}
+                                    size="xl"
+                                />
                             )}
                         </div>
-                        {toggleMobileMenu && (
-                            <>
-                                <p>Hello</p>
-                            </>
-                        )}
-                    </div> */}
+                    </div>
                 </div>
+                {toggleMobileMenu && (
+                    <div className="mobile-dropdown">
+                        <Link
+                            to={routePaths.inventory}
+                            className="navbar-internal-links"
+                        >
+                            Köp
+                        </Link>
+                        <Link
+                            to={routePaths.sell}
+                            className="navbar-internal-links"
+                        >
+                            Sälj
+                        </Link>
+                        <Link
+                            to={routePaths.salesassignment}
+                            className="navbar-internal-links"
+                        >
+                            Försäljningsuppdrag
+                        </Link>
+                        <Link
+                            to={routePaths.warrantys}
+                            className="navbar-internal-links"
+                        >
+                            Villkor & Garantier
+                        </Link>
+                        <Link
+                            to={routePaths.contact}
+                            className="navbar-internal-links"
+                        >
+                            Kontakt
+                        </Link>
+                        <Link
+                            to={routePaths.aboutus}
+                            className="navbar-internal-links"
+                        >
+                            Om oss
+                        </Link>
+                    </div>
+                )}
             </div>
         </>
     )

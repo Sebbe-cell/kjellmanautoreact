@@ -32,7 +32,7 @@ const AboutUs = (): JSX.Element => {
                         köpupplevelsen så smidig och trygg som möjligt för våra
                         kunder.
                     </h2>
-                    <h3>Varför välja oss:</h3>
+                    <h3 style={{color: 'rgb(211, 174, 95)'}}>Varför välja oss:</h3>
                     <ul>
                         <li>
                             Erfarenhet: Med åtta års erfarenhet inom branschen
@@ -55,7 +55,7 @@ const AboutUs = (): JSX.Element => {
                             lokala samhället.
                         </li>
                     </ul>
-                    <h3>Våra tjänster inkluderar:</h3>
+                    <h3 style={{color: 'rgb(211, 174, 95)'}}>Våra tjänster inkluderar:</h3>
                     <ul>
                         <li>
                             Försäljning av Begagnade Bilar: Utforska vårt brett

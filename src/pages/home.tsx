@@ -66,13 +66,13 @@ const Home = (): JSX.Element => {
             <InventorySlider />
 
             {openModal && (
-                <>
+                <div style={{zIndex: '1000'}}>
                     <Modal
                         headerText="Fyll i bilens uppgifter"
                         submittedText="Tack!"
                         onClose={handleCloseModal}
                     />
-                </>
+                </div>
             )}
         </>
     )

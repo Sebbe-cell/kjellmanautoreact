@@ -1,56 +1,50 @@
 import clsx from 'clsx'
 import '../css/input.css'
-import { FormGroup } from './modal'
 import { CSSProperties } from 'react'
+import { FormGroup } from './modal'
 
-interface IFormInputProps {
+interface IFormTextAreaProps {
     label: string
     id: string
     name?: FormGroup
     value?: string | number | undefined
-    type?: string
     optionalClass?: boolean
     optionalInputStyle?: CSSProperties | undefined
     placeholder?: string
     required?: boolean
-    onChange?: (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => void
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-const FormInput = (props: IFormInputProps): JSX.Element => {
+const FormTextArea = (props: IFormTextAreaProps): JSX.Element => {
     const {
-        label,
-        id,
+        optionalClass,
         name,
         value,
-        type,
-        optionalClass,
+        id,
         optionalInputStyle,
         placeholder,
         required,
+        label,
         onChange,
     } = props
-
     return (
         <>
-            <div className={clsx(optionalClass ? 'forms-optional' : 'forms')}>
-                <input
+            <div className={clsx(optionalClass ? 'forms-optional' : 'text-area-container')}>
+                <textarea
                     name={name}
                     value={value}
                     onChange={onChange}
-                    type={type ?? 'text'}
-                    className="forms__input"
+                    className="forms__textarea"
                     id={id}
                     style={optionalInputStyle}
                     autoComplete="off"
                     placeholder={placeholder}
                     required={required}
                 />
-                <label className="forms__label">{label}</label>
+                <label className='forms__label__textarea'>{label}</label>
             </div>
         </>
     )
 }
 
-export default FormInput
+export default FormTextArea

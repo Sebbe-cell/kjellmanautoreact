@@ -1,71 +1,7 @@
-import { motion, useAnimation } from 'framer-motion'
 import herologo from '../assets/kamrem.jpg'
 import Hero from '../components/hero'
-import { useEffect, useRef } from 'react'
 
 const Warranty = (): JSX.Element => {
-    const mounted = useRef(false)
-
-    useEffect(() => {
-        if (!mounted.current) {
-            mounted.current = true
-        } else {
-            startAnimations()
-        }
-    })
-
-    const fadeInFromTopVariants = {
-        hidden: {
-            opacity: 0,
-            x: -300,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 1,
-            },
-        },
-    }
-
-    const slideInFromRightVariants = {
-        hidden: {
-            opacity: 0,
-            x: 300,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 1,
-            },
-        },
-    }
-
-    const slideInFromLeftVariants = {
-        hidden: {
-            opacity: 0,
-            x: -300,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: {
-                duration: 1,
-            },
-        },
-    }
-
-    const h1Controls = useAnimation()
-    const divControls = useAnimation()
-    const sentenceControls = useAnimation()
-
-    const startAnimations = () => {
-        h1Controls.start('visible') // Start the h1 animation
-        divControls.start('visible') // Start the div animation
-        sentenceControls.start('visible') // Start the säljande sentence animation
-    }
-
     return (
         <>
             <Hero imgSrc={herologo} />
@@ -78,31 +14,19 @@ const Warranty = (): JSX.Element => {
                 }}
             >
                 <div style={{ maxWidth: '80rem', padding: '2rem' }}>
-                    <motion.h1
-                        initial="hidden"
-                        animate={h1Controls}
-                        variants={fadeInFromTopVariants}
-                    >
-                        Garantivillkor
-                    </motion.h1>
-                    <motion.div
-                        initial="hidden"
-                        animate={divControls}
-                        variants={slideInFromRightVariants}
-                    >
+                    <h1>Garantivillkor</h1>
+                    <div>
                         <h2>
                             Vi på Kjellman Auto är fast beslutna att ge dig
                             bästa möjliga service och stöd. Nedan finner du våra
                             garantivillkor som säkerställer din trygghet som
                             kund:
                         </h2>
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        animate={sentenceControls}
-                        variants={slideInFromLeftVariants}
-                    >
-                        <h3 style={{color: 'rgb(211, 174, 95)'}}>1. Garantiansvar</h3>
+                    </div>
+                    <div>
+                        <h3 style={{ color: 'rgb(211, 174, 95)' }}>
+                            1. Garantiansvar
+                        </h3>
                         <h4>
                             Om du upptäcker ett fel vid leveransen av din bil
                             eller om det uppstår något inom den angivna
@@ -121,7 +45,9 @@ const Warranty = (): JSX.Element => {
                             ska detta också beaktas vid bedömningen av rimlig
                             tid för åtgärdande.
                         </h4>
-                        <h3 style={{color: 'rgb(211, 174, 95)'}}>2. Alternativ vid uteblivet avhjälpande</h3>
+                        <h3 style={{ color: 'rgb(211, 174, 95)' }}>
+                            2. Alternativ vid uteblivet avhjälpande
+                        </h3>
                         <h4>
                             Om avhjälpande inte utförs enligt punkt ett, har du
                             som kund rätt att vidta följande åtgärder: *Gör
@@ -141,7 +67,9 @@ const Warranty = (): JSX.Element => {
                             motsvarar den bil du returnerade vid
                             hävningstillfället.
                         </h4>
-                        <h3 style={{color: 'rgb(211, 174, 95)'}}>3. Skydd enligt konsumentköplagen</h3>
+                        <h3 style={{ color: 'rgb(211, 174, 95)' }}>
+                            3. Skydd enligt konsumentköplagen
+                        </h3>
                         <h4>
                             Det är viktigt att notera att innehållet i denna
                             garanti inte begränsar dina rättigheter enligt
@@ -163,7 +91,7 @@ const Warranty = (): JSX.Element => {
                             några frågor eller behöver stöd. Vi finns här för
                             att hjälpa dig.
                         </h4>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </>

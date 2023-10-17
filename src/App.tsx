@@ -5,6 +5,7 @@ import { useToken } from './utils/tokenContext'
 import { verifyJwt } from './utils/verifyToken'
 import Loader from './components/loader'
 import ScrollToTop from './utils/scrollToTop'
+import ContactWidget from './components/contactWidget'
 
 const Contact = lazy(() => import('../src/pages/contact'))
 const Footer = lazy(() => import('../src/components/footer'))
@@ -27,6 +28,7 @@ const AppLayout = (): JSX.Element => {
             <Navbar />
             <div className="outlet-wrapper">
                 <Outlet />
+                <ContactWidget/>
             </div>
             <Footer />
         </div>

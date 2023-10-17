@@ -97,9 +97,22 @@
         gap: 1rem;
         display: flex;
         padding: 0 20px;
+        cursor: pointer;
     }
     .navbar-mobile a {
         color: white;
+    }
+    .mobile-dropdown {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0 10rem;
+        font-size: large;
+        margin-bottom: 4rem;
+    }
+    .navbar-container {
+        box-shadow: 0 0 5px 5px rgba(34, 34, 34, 1);
+        background-color: rgba(34, 34, 34, 1);
     }
 }
 
@@ -108,6 +121,9 @@
         display: none;
     }
     .nav-mobile-links {
+        display: none;
+    }
+    .mobile-dropdown {
         display: none;
     }
 }

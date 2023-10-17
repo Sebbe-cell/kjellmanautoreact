@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import '../css/modal.css'
 import FormInput from './formInput'
+import FormTextArea from './formTextarea'
 
 interface IModalProps {
     headerText?: string
@@ -146,6 +147,7 @@ const Modal = (props: IModalProps): JSX.Element => {
                             </>
                         ) : (
                             <>
+                            <FormTextArea label={'asdasd'} id={'dasasd'}/>
                                 <FormInput
                                     label={'Registreringsnummer*'}
                                     id={'Registreringsnummer'}
