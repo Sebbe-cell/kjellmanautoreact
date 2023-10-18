@@ -8,8 +8,8 @@ type LatLngTuple = [number, number]
 const FindUs = (): JSX.Element => {
     const markers = [
         {
-            geocode: [59.237993225168175, 18.191430248174676] as LatLngTuple,
-            popUp: 'Solkraftsvägen',
+            geocode: [58.93180021553279, 17.935663781692448] as LatLngTuple,
+            popUp: 'Teknikervägen 1, 149 45 Nynäshamn',
         },
     ]
 
@@ -21,17 +21,17 @@ const FindUs = (): JSX.Element => {
     return (
         <div className="findus-container">
             <div className="findus-content">
-                <h3>
-                    Välkommen till Kjellman Auto, din pålitliga bilhandlare i
-                    Stockholm! För att hitta till oss kan du enkelt följa
-                    adressen som finns angiven här nedan. Med bil tar det endast
-                    cirka 20 minuter från centrala Stockholm att nå vår
+                <h1>Välkommen till Kjellman Auto!</h1>
+                <p>
+                    För att hitta till oss kan du enkelt följa
+                    adressen som finns angiven ovan. Med bil tar det endast
+                    cirka 30 minuter från centrala Stockholm att nå vår
                     anläggning. Vi ser fram emot att hjälpa dig hitta din
-                    perfekta bil!
-                </h3>
+                    perfekta bil.
+                </p>
             </div>
             <MapContainer
-                center={[59.237993225168175, 18.191430248174676]}
+                center={[58.93180021553279, 17.935663781692448]}
                 zoom={14}
                 scrollWheelZoom={false}
                 style={{ zIndex: 0 }}

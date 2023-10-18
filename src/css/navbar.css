@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 1;
     box-shadow: 0 0 5px 5px rgba(34, 34, 34, 0.8);
     background-color: rgba(34, 34, 34, 0.8);
     color: white;
@@ -37,7 +37,7 @@
 
 .submenu {
     position: absolute;
-    margin-top: 27px;
+    margin-top: 24px;
     width: 10rem;
     box-shadow: 0 0 5px 5px rgba(34, 34, 34, 0.8);
     background-color: rgba(34, 34, 34, 0.8);
@@ -106,7 +106,6 @@
         display: flex;
         flex-direction: column;
         gap: 2rem;
-        padding: 0 10rem;
         font-size: large;
         margin-bottom: 4rem;
     }

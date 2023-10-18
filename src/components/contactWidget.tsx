@@ -33,7 +33,7 @@ const ContactWidget = (): JSX.Element => {
             <div className="chat-btn" onClick={handleOpenModal}>
                 <FontAwesomeIcon icon={faMessage} size="xl" />
             </div>
-            {openModal && <Modal onClose={handleCloseModal} headerText='Kontakta oss direkt' submittedText='Tack!' />}
+            {openModal && <Modal onClose={handleCloseModal} headerText='Kontakta oss direkt' submittedText='Tack!' isContactForm={true} />}
         </div>
     )
 }

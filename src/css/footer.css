@@ -4,6 +4,7 @@
     color: white;
     text-align: center;
     padding: 10px;
+    height: 200px;
 }
 
 .footer-content {
@@ -11,6 +12,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
     margin: 0 2rem 0 2rem;
 }
 

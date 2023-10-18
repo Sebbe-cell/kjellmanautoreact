@@ -1,6 +1,6 @@
 .kjellman-auto-hero {
     position: relative; /* Change to relative */
-    z-index: 1;
+    z-index: 0;
     color: white;
     text-align: center;
     width: 100%; /* Take up full width */

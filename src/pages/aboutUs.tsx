@@ -20,18 +20,18 @@ const AboutUs = (): JSX.Element => {
                     </h1>
                     <h2>
                         Vi är din pålitliga partner för begagnade bilar i
-                        Nynäshamn och södra Stockholm. Med över åtta år i
+                        Nynäshamn och hela Sverige. Med över åtta år i
                         branschen har vi dedikerat oss till att leverera
                         högkvalitativa begagnade bilar till våra kunder.
                     </h2>
-                    <h2>
+                    <h3>
                         Vår resa började 2015, och sedan dess har vi byggt ett
                         starkt rykte för pålitlighet, professionalism och
                         ärlighet i vårt arbete. Vår vision är att erbjuda
                         högkvalitativa begagnade bilar och att göra
                         köpupplevelsen så smidig och trygg som möjligt för våra
                         kunder.
-                    </h2>
+                    </h3>
                     <h3 style={{color: 'rgb(211, 174, 95)'}}>Varför välja oss:</h3>
                     <ul>
                         <li>
@@ -40,7 +40,7 @@ const AboutUs = (): JSX.Element => {
                             kan erbjuda expertrådgivning.
                         </li>
                         <li>
-                            Kvalitet: Vi noggrant väljer och granskar varje
+                            Kvalitet: Vi granskar varje
                             begagnad bil i vår inventering för att säkerställa
                             högsta kvalitet och pålitlighet.
                         </li>
@@ -58,7 +58,7 @@ const AboutUs = (): JSX.Element => {
                     <h3 style={{color: 'rgb(211, 174, 95)'}}>Våra tjänster inkluderar:</h3>
                     <ul>
                         <li>
-                            Försäljning av Begagnade Bilar: Utforska vårt brett
+                            Försäljning av begagnade bilar: Utforska vårt
                             utbud av begagnade bilar och hitta den perfekta
                             matchningen för dina behov.
                         </li>
@@ -67,7 +67,7 @@ const AboutUs = (): JSX.Element => {
                             begagnade bil snabbt och effektivt.
                         </li>
                         <li>
-                            Högkvalitativ Kundservice: Vår vänliga och kunniga
+                            Högkvalitativ kundservice: Vår vänliga och kunniga
                             personal är alltid redo att hjälpa dig med dina
                             frågor och behov.
                         </li>
@@ -77,12 +77,12 @@ const AboutUs = (): JSX.Element => {
                         under åren och ser fram emot att fortsätta att erbjuda
                         högkvalitativa begagnade bilar och förstklassig service
                         i många år framöver. Kontakta oss idag för att lära dig
-                        mer eller besöka vår utställningslokal i Nynäshamn.
+                        mer eller besöka vår anläggning i Nynäshamn.
                     </h3>
-                    <h3>
+                    <h2>
                         Tack för att du väljer Kjellman Auto - Din Partner för
                         Begagnade Bilar!
-                    </h3>
+                    </h2>
                 </div>
             </div>
         </>

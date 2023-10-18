@@ -114,9 +114,8 @@ const Navbar = (): JSX.Element => {
                                 </>
                             )}
                         </div>
-                        <FontAwesomeIcon icon={faFacebook} size="xl" />
-                        <FontAwesomeIcon icon={faTwitter} size="xl" />
-                        <FontAwesomeIcon icon={faInstagram} size="xl" />
+                        <FontAwesomeIcon icon={faInstagram} size="2x" />
+                        <FontAwesomeIcon icon={faFacebook} size="2x" />
                     </div>
                     <div className="navbar-mobile">
                         <div className="nav-mobile-logo-link">

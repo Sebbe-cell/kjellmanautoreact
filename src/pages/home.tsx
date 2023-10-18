@@ -66,8 +66,9 @@ const Home = (): JSX.Element => {
             <InventorySlider />
 
             {openModal && (
-                <div style={{zIndex: '1000'}}>
+                <div style={{ zIndex: '1000' }}>
                     <Modal
+                        isSellForm={true}
                         headerText="Fyll i bilens uppgifter"
                         submittedText="Tack!"
                         onClose={handleCloseModal}

@@ -2,6 +2,7 @@
     overflow: hidden;
     padding: 0 0 4rem 0;
     white-space: nowrap;
+    height: 400px; /* TEMPORÄR LÖSNING */
 }
 
 .slider-header {
@@ -42,7 +43,7 @@
 .slider-container {
     display: inline-flex;
     flex-direction: row;
-    animation: 50s slide infinite linear;
+    animation: 200s slide infinite linear;
     gap: 1rem;
 }
 

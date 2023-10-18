@@ -1,7 +1,33 @@
+import { useEffect, useState } from 'react'
 import herologo from '../assets/kamrem.jpg'
 import Hero from '../components/hero'
+import Modal from '../components/modal'
 
 const Warranty = (): JSX.Element => {
+    const [openModal, setOpenModal] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (openModal) {
+            document.body.classList.add('disable-background-scroll')
+        } else {
+            document.body.classList.remove('disable-background-scroll')
+        }
+
+        return () => {
+            document.body.classList.remove('disable-background-scroll')
+        }
+    }, [openModal])
+
+    const handleOpenModal = (): void => {
+        setOpenModal(true)
+        document.body.classList.add('disable-background-scroll')
+    }
+
+    const handleCloseModal = (): void => {
+        setOpenModal(false)
+        document.body.classList.remove('disable-background-scroll')
+    }
+
     return (
         <>
             <Hero imgSrc={herologo} />
@@ -27,7 +53,7 @@ const Warranty = (): JSX.Element => {
                         <h3 style={{ color: 'rgb(211, 174, 95)' }}>
                             1. Garantiansvar
                         </h3>
-                        <h4>
+                        <p>
                             Om du upptäcker ett fel vid leveransen av din bil
                             eller om det uppstår något inom den angivna
                             garantitiden/körsträckan, så är du täckt av Kjellman
@@ -44,11 +70,11 @@ const Warranty = (): JSX.Element => {
                             vårt förfogande. Om vi tillhandahåller en lånebil
                             ska detta också beaktas vid bedömningen av rimlig
                             tid för åtgärdande.
-                        </h4>
+                        </p>
                         <h3 style={{ color: 'rgb(211, 174, 95)' }}>
                             2. Alternativ vid uteblivet avhjälpande
                         </h3>
-                        <h4>
+                        <p>
                             Om avhjälpande inte utförs enligt punkt ett, har du
                             som kund rätt att vidta följande åtgärder: *Gör
                             avdrag på köpeskillingen med det belopp som
@@ -66,11 +92,11 @@ const Warranty = (): JSX.Element => {
                             felfri bil som, vad gäller standard och skick,
                             motsvarar den bil du returnerade vid
                             hävningstillfället.
-                        </h4>
+                        </p>
                         <h3 style={{ color: 'rgb(211, 174, 95)' }}>
                             3. Skydd enligt konsumentköplagen
                         </h3>
-                        <h4>
+                        <p>
                             Det är viktigt att notera att innehållet i denna
                             garanti inte begränsar dina rättigheter enligt
                             konsumentköplagen. Enligt lagen ansvarar
@@ -90,10 +116,57 @@ const Warranty = (): JSX.Element => {
                             ditt bilköp. Tveka inte att kontakta oss om du har
                             några frågor eller behöver stöd. Vi finns här för
                             att hjälpa dig.
-                        </h4>
+                        </p>
+                    </div>
+
+                    <div
+                        style={{
+                            border: '2px solid rgb(211, 174, 95)',
+                            margin: '4rem 0',
+                        }}
+                    ></div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <div style={{ maxWidth: '60rem' }}>
+                            <h1 style={{ margin: '0' }}>Reklamation</h1>
+                            <p>
+                                För att hjälpa oss att hantera din reklamation
+                                på bästa sätt, vänligen fyll i formuläret nedan.
+                                Vi är dedikerade till att lösa eventuella
+                                problem och säkerställa din fullständiga nöjdhet
+                                med din bilaffär. Vi kommer att återkomma inom
+                                en skälig tidsram.
+                            </p>
+                            <button
+                                style={{ marginTop: '1rem' }}
+                                className="btn"
+                                onClick={handleOpenModal}
+                            >
+                                Öppna formuläret
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            {openModal && (
+                <div style={{ zIndex: '1000' }}>
+                    <Modal
+                        isWarrantyForm={true}
+                        headerText="Fyll i formuläret"
+                        submittedText="Tack!"
+                        onClose={handleCloseModal}
+                    />
+                </div>
+            )}
         </>
     )
 }

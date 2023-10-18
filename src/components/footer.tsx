@@ -20,11 +20,10 @@ const Footer = (): JSX.Element => {
                         </Link>
                     </div>
                     <div>
-                        <p>Örkroken 21</p>
-                        <p>Tel: 0739393939</p>
-                        <FontAwesomeIcon icon={faFacebook} size="2x" />
-                        <FontAwesomeIcon icon={faTwitter} size="2x" />
+                        <p>Teknikervägen 1, 149 45 Nynäshamn</p>
+                        <p>Tel: +46 (0)8-400 687 86</p>
                         <FontAwesomeIcon icon={faInstagram} size="2x" />
+                        <FontAwesomeIcon icon={faFacebook} size="2x" />
                     </div>
                 </div>
             </div>

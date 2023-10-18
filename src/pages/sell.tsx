@@ -8,6 +8,7 @@ import value from '../assets/value.jpg'
 import assessment from '../assets/assesment.jpg'
 import cash from '../assets/cash.jpg'
 import transfer from '../assets/transfer.jpg'
+import { sellFormInfoAfter, ISellFormInfoAfter } from '../utils/sellFormAfter'
 
 interface ICarDetails {
     regNr: string
@@ -40,20 +41,6 @@ const Sell = (): JSX.Element => {
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-        const { name, value } = e.target
-
-        setInitialValues({
-            ...initialValues,
-            [name]: value,
-        })
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: false,
-        }))
-    }
-
-    const handleDropdownChange = (e: any) => {
         const { name, value } = e.target
 
         setInitialValues({
@@ -131,19 +118,18 @@ const Sell = (): JSX.Element => {
                 }}
             >
                 <div style={{ maxWidth: '80rem', padding: '2rem' }}>
-                    <h1>Sätt din bil till försäljning online idag!</h1>
-                    <h3>
+                    <h1>Vi köper din bil</h1>
+                    <p>
                         Om du funderar på att skaffa en ny bil och är osäker på
                         vad du ska göra med din nuvarande, så är det många som
                         väljer att annonsera den på sociala medier, Blocket
                         eller i tidningar. Tyvärr kan det vara en tidskrävande
                         och tråkig process.
-                    </h3>
-                    <h3>
+                    </p>
+                    <p>
                         Men oroa dig inte, på Kjellman Auto är vi mer än villiga
-                        att köpa din bil! Sätt din bil till försäljning online
-                        idag!
-                    </h3>
+                        att köpa din bil.
+                    </p>
                     <div
                         style={{
                             border: '2px solid rgb(211, 174, 95)',
@@ -280,76 +266,54 @@ const Sell = (): JSX.Element => {
                             dig genom hela försäljningsprocessen. Här är vad som
                             händer nu:
                         </h3>
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '.5rem',
-                                marginBottom: '0',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    height: '8px',
-                                    width: '8px',
-                                    backgroundColor: 'rgb(211, 174, 95)',
-                                    borderRadius: '50%',
-                                }}
-                            ></div>
-                            <p style={{ color: 'rgb(211, 174, 95)' }}>
-                                Granskning av din information:
-                            </p>
+                        {sellFormInfoAfter.map(
+                            (info: ISellFormInfoAfter, key: number) => (
+                                <>
+                                    <div
+                                        key={key}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '.5rem',
+                                            marginBottom: '0',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                height: '8px',
+                                                width: '8px',
+                                                backgroundColor:
+                                                    'rgb(211, 174, 95)',
+                                                borderRadius: '50%',
+                                            }}
+                                        ></div>
+                                        <p
+                                            style={{
+                                                color: 'rgb(211, 174, 95)',
+                                            }}
+                                        >
+                                            {info.title}
+                                        </p>
+                                    </div>
+                                    <p
+                                        style={{
+                                            margin: '0',
+                                            paddingLeft: '1.1rem',
+                                        }}
+                                    >
+                                        {info.description}
+                                    </p>
+                                </>
+                            )
+                        )}
+                        <div style={{ marginTop: '2rem' }}>
+                            <button
+                                onClick={() => setIsSubmitted(false)}
+                                className="btn"
+                            >
+                                Värdera annan bil
+                            </button>
                         </div>
-                        <p style={{ margin: '0', paddingLeft: '1.1rem' }}>
-                            Vårt team kommer noggrant granska den information du
-                            har skickat in om din bil. Det inkluderar märke,
-                            modell, årsmodell, körsträcka och skick. Detta
-                            hjälper oss att fastställa ett rättvist och
-                            konkurrenskraftigt bud för din bil.
-                        </p>
-                        <p style={{ color: 'rgb(211, 174, 95)' }}>
-                            Uppskattning av värdet:
-                        </p>
-                        Våra experter kommer att använda den tillhandahållna
-                        informationen tillsammans med marknadsdata och andra
-                        faktorer för att fastställa ett bud som återspeglar din
-                        bils verkliga värde. Vi strävar alltid efter att ge dig
-                        det bästa möjliga erbjudandet.
-                        <p style={{ color: 'rgb(211, 174, 95)' }}>
-                            Kontakt med dig:
-                        </p>
-                        Efter att vi har fastställt ett bud som vi tror är
-                        rimligt, kommer vi att kontakta dig för att diskutera
-                        erbjudandet. Vi kan svara på eventuella frågor eller
-                        funderingar du har och vi är öppna för att förhandla om
-                        priset om det behövs.
-                        <p style={{ color: 'rgb(211, 174, 95)' }}>
-                            Bilinspektion:
-                        </p>
-                        Om du accepterar vårt erbjudande, kommer vi att
-                        arrangera en tid för att inspektera din bil. Detta görs
-                        för att säkerställa att bilen är i det skick du har
-                        beskrivit den och för att slutföra
-                        försäljningsprocessen.
-                        <p style={{ color: 'rgb(211, 174, 95)' }}>
-                            Slutförande av försäljning:
-                        </p>
-                        När bilinspektionen är klar och allt är i ordning,
-                        hjälper vi dig att slutföra försäljningen. Vi tar hand
-                        om all den administrativa och juridiska hanteringen, så
-                        att du kan slappna av och fokusera på det som är
-                        viktigast för dig.
-                        <p>
-                            Vi strävar efter att göra försäljningsprocessen så
-                            enkel och smidig som möjligt för dig. Om du har
-                            några frågor eller funderingar längs vägen, tveka
-                            inte att kontakta oss. Tack igen för att du valde
-                            oss för att sälja din bil, och vi ser fram emot att
-                            hjälpa dig att slutföra denna affär på ett
-                            framgångsrikt sätt. Med vänliga hälsningar, Kjellman
-                            Auto
-                        </p>
-                        <button className="btn">Värdera annan bil</button>
                     </div>
                 </div>
             )}
@@ -364,27 +328,19 @@ const Sell = (): JSX.Element => {
             >
                 <RoundedCardWithImage
                     logo={value}
-                    title={'Professionell Värdering'}
-                    description={'Vi fastställer din bils värde noggrant'}
+                    title={'1. Professionell värdering'}
                 />
                 <RoundedCardWithImage
                     logo={cash}
-                    title={'Erbjudande som Reflekterar Värdet'}
-                    description={'Ett konkurrenskraftigt erbjudande skapas'}
+                    title={'2. Erbjudande som reflekterar värdet'}
                 />
                 <RoundedCardWithImage
                     logo={assessment}
-                    title={'Bilinspektion och Godkännande'}
-                    description={
-                        'Vi inspekterar din bil för att säkerställa kvaliteten'
-                    }
+                    title={'3. Bilinspektion och godkännande'}
                 />
                 <RoundedCardWithImage
                     logo={transfer}
-                    title={'Snabb och Säker Överföring'}
-                    description={
-                        'Pengarna överförs till din angivna betalningsmetod'
-                    }
+                    title={'4. Snabb och säker överföring'}
                 />
             </div>
         </>

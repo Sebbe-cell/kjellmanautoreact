@@ -14,7 +14,7 @@
 .text-area-container {
     position: relative;
     color: white;
-    margin: 0 3rem 3rem 0;
+    margin: 0 2rem 2rem 0;
 }
 
 .forms-optional {
@@ -34,9 +34,10 @@
     color: white;
     outline: none;
     background: none;
-    padding: 0.5rem 0;
+    padding: 0.5rem .5rem;
     transition: all 160ms ease-in;
     font-family: 'Arcon', sans-serif;
+    font-size: 18px;
 }
 
 .forms__input:hover {
@@ -72,6 +73,7 @@
     padding: 1rem 1rem;
     font-family: 'Arcon', sans-serif;
     resize: vertical;
+    font-size: 18px;
 }
 
 .forms__textarea:hover {
@@ -83,6 +85,56 @@
 }
 
 .forms__label__textarea {
+    position: absolute;
+    left: 1rem;
+    top: -0.5rem;
+    padding: 0 0.5rem;
+    color: #fff;
+    cursor: text;
+    background-color: #0f1a25;
+}
+
+
+
+.select-container {
+    position: relative;
+    width: 100%;
+    color: white;
+    margin: 0 2rem 2rem 0;
+}
+
+.forms__select {
+    width: 100%;
+    border: 2px solid #e1e5ee;
+    color: white;
+    outline: none;
+    background: none;
+    padding: .5rem .5rem;
+    font-family: 'Arcon', sans-serif;
+    font-size: 18px;
+    appearance: none;
+}
+
+.forms__select__option {
+    background-color: transparent !important;
+    border-radius: 0;
+}
+
+.select-container .forms__select__icon {
+    position: absolute;
+    top: 0.8rem;
+    right: 0;
+    padding-right: 10px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: text;
+    background-color: transparent;
+    z-index: -1;
+}
+
+.forms__label__select {
     position: absolute;
     left: 1rem;
     top: -0.5rem;

@@ -1,11 +1,15 @@
 import { useState } from 'react'
-import '../css/modal.css'
+import { ISellFormInfoAfter, sellFormInfoAfter } from '../utils/sellFormAfter'
 import FormInput from './formInput'
 import FormTextArea from './formTextarea'
+import '../css/modal.css'
 
 interface IModalProps {
     headerText?: string
     submittedText?: string
+    isSellForm?: boolean
+    isContactForm?: boolean
+    isWarrantyForm?: boolean
     onClose: () => void
 }
 
@@ -28,7 +32,14 @@ export enum FormGroup {
 }
 
 const Modal = (props: IModalProps): JSX.Element => {
-    const { headerText, submittedText, onClose } = props
+    const {
+        headerText,
+        submittedText,
+        isSellForm,
+        isContactForm,
+        isWarrantyForm,
+        onClose,
+    } = props
 
     const [errors, setErrors] = useState<{ [key in FormGroup]: boolean }>({
         regNr: false,
@@ -51,20 +62,6 @@ const Modal = (props: IModalProps): JSX.Element => {
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-        const { name, value } = e.target
-
-        setInitialValues({
-            ...initialValues,
-            [name]: value,
-        })
-
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: false,
-        }))
-    }
-
-    const handleDropdownChange = (e: any) => {
         const { name, value } = e.target
 
         setInitialValues({
@@ -138,109 +135,239 @@ const Modal = (props: IModalProps): JSX.Element => {
                         <h1>{isSubmitted ? submittedText : headerText}</h1>
                     </div>
                     <div className="modal-body">
-                        {isSubmitted ? (
+                        {isSellForm && (
                             <>
-                                <h3>
-                                    Vi kommer att höra av oss inom 24 timmar med
-                                    ett bud.
-                                </h3>
+                                {isSubmitted ? (
+                                    <>
+                                        <h3>Vad händer nu?</h3>
+                                        <h3>
+                                            Vi uppskattar att du valt att
+                                            använda vår tjänst för att sälja din
+                                            bil och vi ser fram emot att hjälpa
+                                            dig genom hela
+                                            försäljningsprocessen. Här är vad
+                                            som händer nu:
+                                        </h3>
+                                        {sellFormInfoAfter.map(
+                                            (
+                                                info: ISellFormInfoAfter,
+                                                key: number
+                                            ) => (
+                                                <>
+                                                    <div
+                                                        key={key}
+                                                        style={{
+                                                            display: 'flex',
+                                                            alignItems:
+                                                                'center',
+                                                            gap: '.5rem',
+                                                            marginBottom: '0',
+                                                        }}
+                                                    >
+                                                        <div
+                                                            style={{
+                                                                height: '8px',
+                                                                width: '8px',
+                                                                backgroundColor:
+                                                                    'rgb(211, 174, 95)',
+                                                                borderRadius:
+                                                                    '50%',
+                                                            }}
+                                                        ></div>
+                                                        <p
+                                                            style={{
+                                                                color: 'rgb(211, 174, 95)',
+                                                            }}
+                                                        >
+                                                            {info.title}
+                                                        </p>
+                                                    </div>
+                                                    <p
+                                                        style={{
+                                                            margin: '0',
+                                                            paddingLeft:
+                                                                '1.1rem',
+                                                        }}
+                                                    >
+                                                        {info.description}
+                                                    </p>
+                                                </>
+                                            )
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        <FormInput
+                                            label={'Registreringsnummer*'}
+                                            id={'Registreringsnummer'}
+                                            name={FormGroup.regNr}
+                                            value={initialValues.regNr}
+                                            onChange={(e) =>
+                                                handleInputChange(e)
+                                            }
+                                            type="text"
+                                            optionalClass={true}
+                                            optionalInputStyle={{
+                                                border: errors.regNr
+                                                    ? '2px solid red'
+                                                    : '',
+                                            }}
+                                            placeholder={
+                                                errors.regNr
+                                                    ? 'Obligatoriskt fält'
+                                                    : ''
+                                            }
+                                        />
+                                        <FormInput
+                                            label={'Märke*'}
+                                            id={'Märke'}
+                                            name={FormGroup.make}
+                                            value={initialValues.make}
+                                            onChange={(e) =>
+                                                handleInputChange(e)
+                                            }
+                                            type="text"
+                                            optionalClass={true}
+                                            optionalInputStyle={{
+                                                border: errors.make
+                                                    ? '2px solid red'
+                                                    : '',
+                                            }}
+                                            placeholder={
+                                                errors.make
+                                                    ? 'Obligatoriskt fält'
+                                                    : ''
+                                            }
+                                        />
+                                        <FormInput
+                                            label={'Modell*'}
+                                            id={'Modell'}
+                                            name={FormGroup.modell}
+                                            value={initialValues.modell}
+                                            onChange={(e) =>
+                                                handleInputChange(e)
+                                            }
+                                            type="text"
+                                            optionalClass={true}
+                                            optionalInputStyle={{
+                                                border: errors.modell
+                                                    ? '2px solid red'
+                                                    : '',
+                                            }}
+                                            placeholder={
+                                                errors.modell
+                                                    ? 'Obligatoriskt fält'
+                                                    : ''
+                                            }
+                                        />
+                                        <FormInput
+                                            label={'Miltal*'}
+                                            id={'Miltal'}
+                                            name={FormGroup.milage}
+                                            value={initialValues.milage}
+                                            onChange={(e) =>
+                                                handleInputChange(e)
+                                            }
+                                            type="number"
+                                            optionalClass={true}
+                                            optionalInputStyle={{
+                                                border: errors.milage
+                                                    ? '2px solid red'
+                                                    : '',
+                                            }}
+                                            placeholder={
+                                                errors.milage
+                                                    ? 'Obligatoriskt fält'
+                                                    : ''
+                                            }
+                                        />
+                                        <FormInput
+                                            label={'E-post adress*'}
+                                            id={'E-post adress'}
+                                            name={FormGroup.email}
+                                            value={initialValues.email}
+                                            onChange={(e) =>
+                                                handleInputChange(e)
+                                            }
+                                            type="email"
+                                            optionalClass={true}
+                                            optionalInputStyle={{
+                                                border: errors.email
+                                                    ? '2px solid red'
+                                                    : '',
+                                            }}
+                                            placeholder={
+                                                errors.email
+                                                    ? 'Obligatoriskt fält'
+                                                    : ''
+                                            }
+                                        />
+                                        <FormInput
+                                            label={'Telefonnummer'}
+                                            id={'Telefonnummer'}
+                                            name={FormGroup.telephone}
+                                            value={initialValues.telephone}
+                                            onChange={(e) =>
+                                                handleInputChange(e)
+                                            }
+                                            type="number"
+                                            optionalClass={true}
+                                            optionalInputStyle={{
+                                                border: errors.telephone
+                                                    ? '2px solid red'
+                                                    : '',
+                                            }}
+                                            placeholder={
+                                                errors.telephone
+                                                    ? 'Obligatoriskt fält'
+                                                    : ''
+                                            }
+                                        />
+                                    </>
+                                )}
                             </>
-                        ) : (
+                        )}
+                        {isContactForm && (
                             <>
-                            <FormTextArea label={'asdasd'} id={'dasasd'}/>
-                                <FormInput
-                                    label={'Registreringsnummer*'}
-                                    id={'Registreringsnummer'}
-                                    name={FormGroup.regNr}
-                                    value={initialValues.regNr}
-                                    onChange={(e) => handleInputChange(e)}
-                                    type="text"
-                                    optionalClass={true}
-                                    optionalInputStyle={{
-                                        border: errors.regNr
-                                            ? '2px solid red'
-                                            : '',
-                                    }}
-                                />
-                                <FormInput
-                                    label={'Märke*'}
-                                    id={'Märke'}
-                                    name={FormGroup.make}
-                                    value={initialValues.make}
-                                    onChange={(e) => handleInputChange(e)}
-                                    type="text"
-                                    optionalClass={true}
-                                    optionalInputStyle={{
-                                        border: errors.make
-                                            ? '2px solid red'
-                                            : '',
-                                    }}
-                                />
-                                <FormInput
-                                    label={'Modell*'}
-                                    id={'Modell'}
-                                    name={FormGroup.modell}
-                                    value={initialValues.modell}
-                                    onChange={(e) => handleInputChange(e)}
-                                    type="text"
-                                    optionalClass={true}
-                                    optionalInputStyle={{
-                                        border: errors.modell
-                                            ? '2px solid red'
-                                            : '',
-                                    }}
-                                />
-                                <FormInput
-                                    label={'Miltal*'}
-                                    id={'Miltal'}
-                                    name={FormGroup.milage}
-                                    value={initialValues.milage}
-                                    onChange={(e) => handleInputChange(e)}
-                                    type="number"
-                                    optionalClass={true}
-                                    optionalInputStyle={{
-                                        border: errors.milage
-                                            ? '2px solid red'
-                                            : '',
-                                    }}
+                                <FormTextArea
+                                    label={'Beskriv ditt ärende*'}
+                                    id={'Errend'}
                                 />
                                 <FormInput
                                     label={'E-post adress*'}
-                                    id={'E-post adress'}
-                                    name={FormGroup.email}
-                                    value={initialValues.email}
-                                    onChange={(e) => handleInputChange(e)}
-                                    type="email"
+                                    id={'E-post'}
                                     optionalClass={true}
-                                    optionalInputStyle={{
-                                        border: errors.email
-                                            ? '2px solid red'
-                                            : '',
-                                    }}
                                 />
                                 <FormInput
                                     label={'Telefonnummer'}
                                     id={'Telefonnummer'}
-                                    name={FormGroup.telephone}
-                                    value={initialValues.telephone}
-                                    onChange={(e) => handleInputChange(e)}
-                                    type="number"
                                     optionalClass={true}
-                                    optionalInputStyle={{
-                                        border: errors.telephone
-                                            ? '2px solid red'
-                                            : '',
-                                    }}
                                 />
+                            </>
+                        )}
+                        {isWarrantyForm && (
+                            <>
+                                <>
+                                    <FormTextArea
+                                        label={'Beskriv ditt ärende*'}
+                                        id={'Errend'}
+                                    />
+                                    <FormInput
+                                        label={'E-post adress*'}
+                                        id={'E-post'}
+                                        optionalClass={true}
+                                    />
+                                    <FormInput
+                                        label={'Telefonnummer'}
+                                        id={'Telefonnummer'}
+                                        optionalClass={true}
+                                    />
+                                </>
                             </>
                         )}
                     </div>
                     <div className="modal-footer">
-                        <button
-                            type="button"
-                            className="btn"
-                            onClick={onClose}
-                        >
+                        <button type="button" className="btn" onClick={onClose}>
                             Stäng
                         </button>
                         {!isSubmitted && (
