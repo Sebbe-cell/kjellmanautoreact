@@ -394,8 +394,7 @@ img {
 }
 
 .inventory-input {
-    display: flex;
-    justify-content: center;
+    padding-top: 4rem;
     width: 100%;
 }
 
@@ -426,8 +425,6 @@ img {
 .inventory-facts-container {
     display: flex;
     gap: 0.5rem;
-    font-size: 0.1em;
-    padding-top: 0.4rem;
 }
 
 .inventory-facts-container span {
@@ -448,8 +445,9 @@ img {
 }
 
 .inventory-title {
-    font-size: 1.25rem;
+    font-size: 22px;
     margin: 0;
+    padding-bottom: 10px;
 }
 
 .inventory-description {
@@ -457,10 +455,8 @@ img {
     margin: 0;
 }
 
-.inventory-footer h2 {
+.inventory-footer {
     padding-top: 2rem;
-    font-size: 1em;
-    color: rgb(255, 255, 255);
 }
 
 .inventory-list {
@@ -471,10 +467,16 @@ img {
     padding: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     .inventory-list {
         flex-direction: column;
         text-align: start;
+    }
+    .inventory-main-container {
+        padding: 2rem 0;
+    }
+    .inventory {
+        width: 95%;
     }
 }
 
@@ -490,6 +492,9 @@ img {
     .card-with-image-container {
         flex-direction: column;
         margin: 4rem 1rem;
+    }
+    .inventory-input {
+        padding-top: 2rem;
     }
 }
 

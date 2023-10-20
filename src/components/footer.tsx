@@ -1,11 +1,5 @@
-import {
-    faFacebook,
-    faTwitter,
-    faInstagram,
-} from '@fortawesome/free-brands-svg-icons'
+import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom'
-import { routePaths } from '../utils/routePaths'
 import '../css/footer.css'
 
 const Footer = (): JSX.Element => {
@@ -15,14 +9,17 @@ const Footer = (): JSX.Element => {
                 <div className="footer-content">
                     <div>
                         <h2>Kjellman Auto &copy;</h2>
-                        <Link to={routePaths.login}>
-                            <h4>Logga in</h4>
-                        </Link>
                     </div>
                     <div>
                         <p>Teknikervägen 1, 149 45 Nynäshamn</p>
                         <p>Tel: +46 (0)8-400 687 86</p>
-                        <FontAwesomeIcon icon={faInstagram} size="2x" />
+                        <a
+                            href="https://www.instagram.com/kjellmanauto/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <FontAwesomeIcon icon={faInstagram} size="2x" />
+                        </a>
                         <FontAwesomeIcon icon={faFacebook} size="2x" />
                     </div>
                 </div>

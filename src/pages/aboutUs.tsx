@@ -2,6 +2,7 @@ import Hero from '../components/hero'
 import herologo from '../assets/aboutus.jpg'
 
 const AboutUs = (): JSX.Element => {
+
     return (
         <>
             <Hero imgSrc={herologo} />
@@ -20,9 +21,9 @@ const AboutUs = (): JSX.Element => {
                     </h1>
                     <h2>
                         Vi är din pålitliga partner för begagnade bilar i
-                        Nynäshamn och hela Sverige. Med över åtta år i
-                        branschen har vi dedikerat oss till att leverera
-                        högkvalitativa begagnade bilar till våra kunder.
+                        Nynäshamn och hela Sverige. Med över åtta år i branschen
+                        har vi dedikerat oss till att leverera högkvalitativa
+                        begagnade bilar till våra kunder.
                     </h2>
                     <h3>
                         Vår resa började 2015, och sedan dess har vi byggt ett
@@ -32,7 +33,9 @@ const AboutUs = (): JSX.Element => {
                         köpupplevelsen så smidig och trygg som möjligt för våra
                         kunder.
                     </h3>
-                    <h3 style={{color: 'rgb(211, 174, 95)'}}>Varför välja oss:</h3>
+                    <h3 style={{ color: 'rgb(211, 174, 95)' }}>
+                        Varför välja oss:
+                    </h3>
                     <ul>
                         <li>
                             Erfarenhet: Med åtta års erfarenhet inom branschen
@@ -40,9 +43,9 @@ const AboutUs = (): JSX.Element => {
                             kan erbjuda expertrådgivning.
                         </li>
                         <li>
-                            Kvalitet: Vi granskar varje
-                            begagnad bil i vår inventering för att säkerställa
-                            högsta kvalitet och pålitlighet.
+                            Kvalitet: Vi granskar varje begagnad bil i vår
+                            inventering för att säkerställa högsta kvalitet och
+                            pålitlighet.
                         </li>
                         <li>
                             Personlig service: Vår dedikerade personal är här
@@ -55,11 +58,13 @@ const AboutUs = (): JSX.Element => {
                             lokala samhället.
                         </li>
                     </ul>
-                    <h3 style={{color: 'rgb(211, 174, 95)'}}>Våra tjänster inkluderar:</h3>
+                    <h3 style={{ color: 'rgb(211, 174, 95)' }}>
+                        Våra tjänster inkluderar:
+                    </h3>
                     <ul>
                         <li>
-                            Försäljning av begagnade bilar: Utforska vårt
-                            utbud av begagnade bilar och hitta den perfekta
+                            Försäljning av begagnade bilar: Utforska vårt utbud
+                            av begagnade bilar och hitta den perfekta
                             matchningen för dina behov.
                         </li>
                         <li>

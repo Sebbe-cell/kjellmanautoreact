@@ -1,8 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import { routePaths } from './utils/routePaths'
 import { Suspense, lazy } from 'react'
-import { useToken } from './utils/tokenContext'
-import { verifyJwt } from './utils/verifyToken'
 import Loader from './components/loader'
 import ScrollToTop from './utils/scrollToTop'
 import ContactWidget from './components/contactWidget'
@@ -10,9 +8,6 @@ import ContactWidget from './components/contactWidget'
 const Contact = lazy(() => import('../src/pages/contact'))
 const Footer = lazy(() => import('../src/components/footer'))
 const Navbar = lazy(() => import('../src/components/navbar'))
-const Login = lazy(() => import('../src/pages/admin/login'))
-const AddInventory = lazy(() => import('../src/pages/admin/addInventory'))
-const DashBoard = lazy(() => import('../src/pages/admin/dashboard'))
 const Home = lazy(() => import('../src/pages/home'))
 const Sell = lazy(() => import('../src/pages/sell'))
 const NotFound = lazy(() => import('../src/pages/notFound'))
@@ -28,7 +23,7 @@ const AppLayout = (): JSX.Element => {
             <Navbar />
             <div className="outlet-wrapper">
                 <Outlet />
-                <ContactWidget/>
+                <ContactWidget />
             </div>
             <Footer />
         </div>
@@ -44,31 +39,12 @@ const Loading = (): JSX.Element => {
 }
 
 const App = (): JSX.Element => {
-    const tokenKey = process.env.REACT_APP_TOKEN_KEY
-    const { token } = useToken()
-    const verificationResult = verifyJwt(token, tokenKey)
-
     return (
         <>
             <BrowserRouter>
                 <Suspense fallback={<Loading />}>
-                    <ScrollToTop/>
+                    <ScrollToTop />
                     <Routes>
-                        {/* Admin Routes */}
-                        <Route path={routePaths.login} element={<Login />} />
-                        {verificationResult && (
-                            <>
-                                <Route
-                                    path={routePaths.dashBoard}
-                                    element={<DashBoard />}
-                                />
-                                <Route
-                                    path={routePaths.add}
-                                    element={<AddInventory />}
-                                />
-                            </>
-                        )}
-
                         <Route element={<AppLayout />}>
                             {/* Public Routes */}
                             <Route index element={<Home />} />

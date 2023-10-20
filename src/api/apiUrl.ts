@@ -1,1 +1,1 @@
-export const apiBaseUrl = "https://localhost:7114/api"
+export const apiBaseUrl = "https://kjellman-auto-api-aa8c40e1985e.herokuapp.com"

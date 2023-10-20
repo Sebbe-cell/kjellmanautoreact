@@ -34,6 +34,7 @@ module.exports = {
       "crypto": false,
       "stream": require.resolve("stream-browserify"),
       "util": require.resolve("util/"),
+      "timers": require.resolve("timers-browserify"),
     }
   },
   devServer: {

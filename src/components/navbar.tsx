@@ -1,25 +1,39 @@
-import {
-    faFacebook,
-    faInstagram,
-    faTwitter,
-} from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { routePaths } from '../utils/routePaths'
+import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import logo from '../assets/nav-logo.png'
 import '../css/navbar.css'
-import { useState } from 'react'
-import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = (): JSX.Element => {
     const [toggleMenu, setToggleMenu] = useState<boolean>(false)
     const [toggleMobileMenu, setToggleMobileMenu] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (toggleMobileMenu) {
+            document.body.classList.add('disable-background-scroll')
+        } else {
+            document.body.classList.remove('disable-background-scroll')
+        }
+
+        return () => {
+            document.body.classList.remove('disable-background-scroll')
+        }
+    }, [toggleMobileMenu])
 
     let submenuTimeout: string | number | NodeJS.Timeout | null | undefined =
         null
 
     const openMobileMenu = (): void => {
         setToggleMobileMenu(!toggleMobileMenu)
+        document.body.classList.add('disable-background-scroll')
+    }
+
+    const closeMobileMenu = (): void => {
+        setToggleMobileMenu(false);
+        document.body.classList.remove('disable-background-scroll')
     }
 
     const openSubmenu = (): void => {
@@ -114,7 +128,13 @@ const Navbar = (): JSX.Element => {
                                 </>
                             )}
                         </div>
-                        <FontAwesomeIcon icon={faInstagram} size="2x" />
+                        <a
+                            href="https://www.instagram.com/kjellmanauto/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <FontAwesomeIcon icon={faInstagram} size="2x" />
+                        </a>
                         <FontAwesomeIcon icon={faFacebook} size="2x" />
                     </div>
                     <div className="navbar-mobile">
@@ -149,36 +169,42 @@ const Navbar = (): JSX.Element => {
                         <Link
                             to={routePaths.inventory}
                             className="navbar-internal-links"
+                            onClick={closeMobileMenu}
                         >
                             Köp
                         </Link>
                         <Link
                             to={routePaths.sell}
                             className="navbar-internal-links"
+                            onClick={closeMobileMenu}
                         >
                             Sälj
                         </Link>
                         <Link
                             to={routePaths.salesassignment}
                             className="navbar-internal-links"
+                            onClick={closeMobileMenu}
                         >
                             Försäljningsuppdrag
                         </Link>
                         <Link
                             to={routePaths.warrantys}
                             className="navbar-internal-links"
+                            onClick={closeMobileMenu}
                         >
                             Villkor & Garantier
                         </Link>
                         <Link
                             to={routePaths.contact}
                             className="navbar-internal-links"
+                            onClick={closeMobileMenu}
                         >
                             Kontakt
                         </Link>
                         <Link
                             to={routePaths.aboutus}
                             className="navbar-internal-links"
+                            onClick={closeMobileMenu}
                         >
                             Om oss
                         </Link>
