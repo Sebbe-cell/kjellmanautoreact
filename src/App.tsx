@@ -46,7 +46,6 @@ const App = (): JSX.Element => {
                     <ScrollToTop />
                     <Routes>
                         <Route element={<AppLayout />}>
-                            {/* Public Routes */}
                             <Route index element={<Home />} />
                             <Route
                                 path={routePaths.contact}

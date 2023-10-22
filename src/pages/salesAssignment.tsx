@@ -1,24 +1,14 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import herologo from '../assets/beachbig.jpg'
 import FormInput from '../components/formInput'
 import FormTextArea from '../components/formTextarea'
 import Hero from '../components/hero'
-import { faArrowDown, faCircleChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 const SalesAssignment = (): JSX.Element => {
     return (
         <>
             <Hero imgSrc={herologo} />
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    textAlign: 'start',
-                }}
-            >
-                <div style={{ maxWidth: '80rem', padding: '2rem' }}>
+            <div className="text-container">
+                <div>
                     <h1>Försäljningsuppdrag</h1>
                     <div>
                         <h2>
@@ -45,7 +35,7 @@ const SalesAssignment = (): JSX.Element => {
                     </div>
                     <div>
                         <p>
-                            <span style={{ color: 'rgb(211, 174, 95)' }}>
+                            <span>
                                 Det enda du behöver göra är att fylla i dina
                                 kontaktuppgifter i formuläret nedan.
                             </span>{' '}
@@ -58,7 +48,6 @@ const SalesAssignment = (): JSX.Element => {
                             Om du föredrar att prata direkt med oss, kan du
                             ringa oss på telefonnummer:{' '}
                             <a
-                                style={{ color: 'rgb(211, 174, 95)' }}
                                 href="tel:+46 (0)8-400 687 86"
                             >
                                 +46 (0)8-400 687 86
@@ -68,54 +57,25 @@ const SalesAssignment = (): JSX.Element => {
                             Vi ser fram emot att hjälpa dig att få det bästa
                             priset för din bil!
                         </p>
-                        <div
-                            style={{
-                                border: '2px solid rgb(211, 174, 95)',
-                                marginTop: '2rem',
-                            }}
-                        ></div>
+                        <div className="divider-2"></div>
                     </div>
                 </div>
-                <div className="sales-assignment-form-container">
-                    <FormInput label={'Märke'} id={''} optionalClass={true} />
-                    <FormInput label={'Modell'} id={''} optionalClass={true} />
-                    <FormInput label={'Miltal'} id={''} optionalClass={true} />
-                    <FormInput
-                        label={'Önskat pris'}
-                        id={''}
-                        optionalClass={true}
-                    />
-                    <FormTextArea
-                        label={'Övrig info / Eventuella brister'}
-                        id={''}
-                    />
-                    <FormInput
-                        label={'E-post adress'}
-                        id={''}
-                        optionalClass={true}
-                    />
-                    <FormInput
-                        label={'Telefonnummer'}
-                        id={''}
-                        optionalClass={true}
-                    />
+            </div>
+
+            <div className="sell-form-container">
+                <FormInput label={'Märke'} id={''} />
+                <FormInput label={'Modell'} id={''} />
+                <FormInput label={'Miltal'} id={''} />
+                <FormInput label={'Önskat pris'} id={''} />
+                <FormTextArea
+                    label={'Övrig info / Eventuella brister'}
+                    id={''}
+                />
+                <FormInput label={'E-post adress'} id={''} />
+                <FormInput label={'Telefonnummer'} id={''} />
+                <div>
                     <button className="btn">Skicka</button>
                 </div>
-
-                {/* <div style={{ width: '30%' }}>
-                    <div className="select-container">
-                        <select className="forms__select">
-                            <option className='forms__select__option'>test 1</option>
-                            <option className='forms__select__option'>test 2</option>
-                            <option className='forms__select__option'>test 3</option>
-                        </select>
-                        <div className='forms__select__icon'>
-                            <FontAwesomeIcon icon={faCircleChevronDown} size="1x"/>
-                        </div>
-                        <label className="forms__label__select">test</label>
-                    </div>
-                </div> */}
-
             </div>
         </>
     )

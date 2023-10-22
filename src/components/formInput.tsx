@@ -1,7 +1,6 @@
-import clsx from 'clsx'
-import '../css/input.css'
-import { FormGroup } from './modal'
 import { CSSProperties } from 'react'
+import { FormGroup } from './modal'
+import '../css/input.css'
 
 interface IFormInputProps {
     label: string
@@ -9,7 +8,6 @@ interface IFormInputProps {
     name?: FormGroup
     value?: string | number | undefined
     type?: string
-    optionalClass?: boolean
     optionalInputStyle?: CSSProperties | undefined
     placeholder?: string
     required?: boolean
@@ -25,7 +23,6 @@ const FormInput = (props: IFormInputProps): JSX.Element => {
         name,
         value,
         type,
-        optionalClass,
         optionalInputStyle,
         placeholder,
         required,
@@ -34,7 +31,7 @@ const FormInput = (props: IFormInputProps): JSX.Element => {
 
     return (
         <>
-            <div className={clsx(optionalClass ? 'forms-optional' : 'forms')}>
+            <div className="forms">
                 <input
                     name={name}
                     value={value}

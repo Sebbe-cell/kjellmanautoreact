@@ -60,7 +60,6 @@ const InventorySlider = (): JSX.Element => {
             .get(apiBaseUrl + apiEndpoints.inventory)
             .then((response) => {
                 setError(false)
-                console.log(response.data.vehicles.vehicle)
                 setInitialData(response.data.vehicles.vehicle)
             })
             .finally(() => {

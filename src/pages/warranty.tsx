@@ -31,15 +31,8 @@ const Warranty = (): JSX.Element => {
     return (
         <>
             <Hero imgSrc={herologo} />
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <div style={{ maxWidth: '80rem', padding: '2rem' }}>
+            <div className="text-container">
+                <div>
                     <h1>Garantivillkor</h1>
                     <div>
                         <h2>
@@ -50,9 +43,7 @@ const Warranty = (): JSX.Element => {
                         </h2>
                     </div>
                     <div>
-                        <h3 style={{ color: 'rgb(211, 174, 95)' }}>
-                            1. Garantiansvar
-                        </h3>
+                        <h3>1. Garantiansvar</h3>
                         <p>
                             Om du upptäcker ett fel vid leveransen av din bil
                             eller om det uppstår något inom den angivna
@@ -71,9 +62,7 @@ const Warranty = (): JSX.Element => {
                             ska detta också beaktas vid bedömningen av rimlig
                             tid för åtgärdande.
                         </p>
-                        <h3 style={{ color: 'rgb(211, 174, 95)' }}>
-                            2. Alternativ vid uteblivet avhjälpande
-                        </h3>
+                        <h3>2. Alternativ vid uteblivet avhjälpande</h3>
                         <p>
                             Om avhjälpande inte utförs enligt punkt ett, har du
                             som kund rätt att vidta följande åtgärder: *Gör
@@ -93,9 +82,7 @@ const Warranty = (): JSX.Element => {
                             motsvarar den bil du returnerade vid
                             hävningstillfället.
                         </p>
-                        <h3 style={{ color: 'rgb(211, 174, 95)' }}>
-                            3. Skydd enligt konsumentköplagen
-                        </h3>
+                        <h3>3. Skydd enligt konsumentköplagen</h3>
                         <p>
                             Det är viktigt att notera att innehållet i denna
                             garanti inte begränsar dina rättigheter enligt
@@ -119,24 +106,11 @@ const Warranty = (): JSX.Element => {
                         </p>
                     </div>
 
-                    <div
-                        style={{
-                            border: '2px solid rgb(211, 174, 95)',
-                            margin: '4rem 0',
-                        }}
-                    ></div>
+                    <div className="divider-2"></div>
 
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            textAlign: 'center',
-                        }}
-                    >
-                        <div style={{ maxWidth: '60rem' }}>
-                            <h1 style={{ margin: '0' }}>Reklamation</h1>
+                    <div className="fault-report-container">
+                        <div>
+                            <h1>Reklamation</h1>
                             <p>
                                 För att hjälpa oss att hantera din reklamation
                                 på bästa sätt, vänligen fyll i formuläret nedan.
@@ -145,11 +119,7 @@ const Warranty = (): JSX.Element => {
                                 med din bilaffär. Vi kommer att återkomma inom
                                 en skälig tidsram.
                             </p>
-                            <button
-                                style={{ marginTop: '1rem' }}
-                                className="btn"
-                                onClick={handleOpenModal}
-                            >
+                            <button className="btn" onClick={handleOpenModal}>
                                 Öppna formuläret
                             </button>
                         </div>
@@ -158,7 +128,7 @@ const Warranty = (): JSX.Element => {
             </div>
 
             {openModal && (
-                <div style={{ zIndex: '1000' }}>
+                <div style={{ zIndex: '1' }}>
                     <Modal
                         isWarrantyForm={true}
                         headerText="Fyll i formuläret"

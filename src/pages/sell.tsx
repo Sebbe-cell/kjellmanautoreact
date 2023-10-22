@@ -17,17 +17,36 @@ interface ICarDetails {
     milage: number | undefined | string
     telephone: number | undefined | string
     email: string
+    [key: string]: string | number | undefined
+}
+
+interface ISellStepsFields {
+    title: string
+    logo: string
+}
+
+interface IFormFields {
+    label: string
+    id: string
+    name: FormGroup
+    value: string | number | undefined
 }
 
 const Sell = (): JSX.Element => {
-    const [errors, setErrors] = useState<{ [key in FormGroup]: boolean }>({
+    type State<T> = {
+        [K in keyof T]: boolean
+    }
+
+    const initialErrors: State<ICarDetails> = {
         regNr: false,
         make: false,
         modell: false,
         milage: false,
         telephone: false,
         email: false,
-    })
+    }
+
+    const [errors, setErrors] = useState<State<ICarDetails>>(initialErrors)
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
     const [initialValues, setInitialValues] = useState<ICarDetails>({
         regNr: '',
@@ -55,42 +74,23 @@ const Sell = (): JSX.Element => {
     }
 
     const handleValidationOnSubmit = (): boolean => {
+        const requiredFields: FormGroup[] = [
+            FormGroup.regNr,
+            FormGroup.make,
+            FormGroup.modell,
+            FormGroup.milage,
+            FormGroup.email,
+        ]
         let hasErrors = false
 
-        if (!initialValues.regNr) {
-            errors.regNr = true
-            hasErrors = true
-        } else {
-            errors.regNr = false
-        }
-
-        if (!initialValues.make) {
-            errors.make = true
-            hasErrors = true
-        } else {
-            errors.make = false
-        }
-
-        if (!initialValues.modell) {
-            errors.modell = true
-            hasErrors = true
-        } else {
-            errors.modell = false
-        }
-
-        if (!initialValues.milage) {
-            errors.milage = true
-            hasErrors = true
-        } else {
-            errors.milage = false
-        }
-
-        if (!initialValues.email) {
-            errors.email = true
-            hasErrors = true
-        } else {
-            errors.email = false
-        }
+        requiredFields.forEach((fieldName) => {
+            if (!initialValues[fieldName]) {
+                errors[fieldName] = true
+                hasErrors = true
+            } else {
+                errors[fieldName] = false
+            }
+        })
 
         setErrors({ ...errors })
 
@@ -106,18 +106,69 @@ const Sell = (): JSX.Element => {
         }
     }
 
+    const formFields: IFormFields[] = [
+        {
+            label: 'Registreringsnummer*',
+            id: 'Registreringsnummer',
+            name: FormGroup.regNr,
+            value: initialValues.regNr,
+        },
+        {
+            label: 'Märke*',
+            id: 'Märke',
+            name: FormGroup.make,
+            value: initialValues.make,
+        },
+        {
+            label: 'Modell*',
+            id: 'Modell',
+            name: FormGroup.modell,
+            value: initialValues.modell,
+        },
+        {
+            label: 'Miltal*',
+            id: 'Miltal',
+            name: FormGroup.milage,
+            value: initialValues.milage,
+        },
+        {
+            label: 'E-post adress*',
+            id: 'E-post adress',
+            name: FormGroup.email,
+            value: initialValues.email,
+        },
+        {
+            label: 'Telefonnummer',
+            id: 'Telefonnummer',
+            name: FormGroup.telephone,
+            value: initialValues.telephone,
+        },
+    ]
+
+    const sellStepsFields: ISellStepsFields[] = [
+        {
+            logo: value,
+            title: '1. Professionell värdering',
+        },
+        {
+            logo: cash,
+            title: '2. Erbjudande som reflekterar värdet',
+        },
+        {
+            logo: assessment,
+            title: '3. Bilinspektion och godkännande',
+        },
+        {
+            logo: transfer,
+            title: '4. Snabb och säker överföring',
+        },
+    ]
+
     return (
         <>
             <Hero imgSrc={road} />
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <div style={{ maxWidth: '80rem', padding: '2rem' }}>
+            <div className="text-container">
+                <div>
                     <h1>Vi köper din bil</h1>
                     <p>
                         Om du funderar på att skaffa en ny bil och är osäker på
@@ -130,179 +181,65 @@ const Sell = (): JSX.Element => {
                         Men oroa dig inte, på Kjellman Auto är vi mer än villiga
                         att köpa din bil.
                     </p>
-                    <div
-                        style={{
-                            border: '2px solid rgb(211, 174, 95)',
-                            marginTop: '2rem',
-                        }}
-                    ></div>
+                    <div className="divider-2"></div>
                 </div>
             </div>
+
             {!isSubmitted ? (
-                <>
-                    <div className="sell-form-container">
+                <div className="sell-form-container">
+                    <div className="">
                         <h1>Fyll i dina uppgifter här</h1>
                     </div>
-                    <div className="sell-form-container">
+                    {formFields.map((fields: IFormFields, index: number) => (
                         <FormInput
-                            label={'Registreringsnummer*'}
-                            id={'Registreringsnummer'}
-                            name={FormGroup.regNr}
-                            value={initialValues.regNr}
+                            key={index}
+                            label={fields.label}
+                            id={fields.id}
+                            name={fields.name}
+                            value={fields.value}
                             onChange={(e) => handleInputChange(e)}
                             type="text"
                             optionalInputStyle={{
-                                border: errors.regNr ? '2px solid red' : '',
+                                border: errors[fields.name]
+                                    ? '2px solid red'
+                                    : '',
                             }}
                             placeholder={
-                                errors.regNr ? 'Obligatoriskt fält' : ''
+                                errors[fields.name] ? 'Obligatoriskt fält' : ''
                             }
                         />
+                    ))}
+                    <div>
+                        <button
+                            className="btn"
+                            type="submit"
+                            onClick={onSubmit}
+                        >
+                            Skicka
+                        </button>
                     </div>
-                    <div className="sell-form-container">
-                        <FormInput
-                            label={'Märke*'}
-                            id={'Märke'}
-                            name={FormGroup.make}
-                            value={initialValues.make}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            optionalInputStyle={{
-                                border: errors.make ? '2px solid red' : '',
-                            }}
-                            placeholder={
-                                errors.make ? 'Obligatoriskt fält' : ''
-                            }
-                        />
-                    </div>
-                    <div className="sell-form-container">
-                        <FormInput
-                            label={'Modell*'}
-                            id={'Modell'}
-                            name={FormGroup.modell}
-                            value={initialValues.modell}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            optionalInputStyle={{
-                                border: errors.modell ? '2px solid red' : '',
-                            }}
-                            placeholder={
-                                errors.modell ? 'Obligatoriskt fält' : ''
-                            }
-                        />
-                    </div>
-                    <div className="sell-form-container">
-                        <FormInput
-                            label={'Miltal*'}
-                            id={'Miltal'}
-                            name={FormGroup.milage}
-                            value={initialValues.milage}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            optionalInputStyle={{
-                                border: errors.milage ? '2px solid red' : '',
-                            }}
-                            placeholder={
-                                errors.milage ? 'Obligatoriskt fält' : ''
-                            }
-                        />
-                    </div>
-                    <div className="sell-form-container">
-                        <FormInput
-                            label={'E-post adress*'}
-                            id={'E-post adress'}
-                            name={FormGroup.email}
-                            value={initialValues.email}
-                            onChange={(e) => handleInputChange(e)}
-                            type="email"
-                            required={true}
-                            optionalInputStyle={{
-                                border: errors.email ? '2px solid red' : '',
-                            }}
-                            placeholder={
-                                errors.email ? 'Obligatoriskt fält' : ''
-                            }
-                        />
-                    </div>
-                    <div className="sell-form-container">
-                        <FormInput
-                            label={'Telefonnummer*'}
-                            id={'Telefonnummer'}
-                            name={FormGroup.telephone}
-                            value={initialValues.telephone}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            optionalInputStyle={{
-                                border: errors.telephone ? '2px solid red' : '',
-                            }}
-                        />
-                    </div>
-                    <div className="sell-form-container">
-                        <div>
-                            <button
-                                className="btn"
-                                type="submit"
-                                onClick={onSubmit}
-                            >
-                                Skicka
-                            </button>
-                        </div>
-                    </div>
-                </>
+                </div>
             ) : (
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <div style={{ maxWidth: '60rem', padding: '2rem' }}>
+                <div className="sell-form-container">
+                    <div>
                         <h1>Tack!</h1>
-                        <h3>
+                        <p>
                             Vi uppskattar att du valt att använda vår tjänst för
                             att sälja din bil och vi ser fram emot att hjälpa
                             dig genom hela försäljningsprocessen. Här är vad som
                             händer nu:
-                        </h3>
+                        </p>
                         {sellFormInfoAfter.map(
                             (info: ISellFormInfoAfter, key: number) => (
                                 <>
                                     <div
                                         key={key}
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '.5rem',
-                                            marginBottom: '0',
-                                        }}
+                                        className="sell-form-info-after"
                                     >
-                                        <div
-                                            style={{
-                                                height: '8px',
-                                                width: '8px',
-                                                backgroundColor:
-                                                    'rgb(211, 174, 95)',
-                                                borderRadius: '50%',
-                                            }}
-                                        ></div>
-                                        <p
-                                            style={{
-                                                color: 'rgb(211, 174, 95)',
-                                            }}
-                                        >
-                                            {info.title}
-                                        </p>
+                                        <div></div>
+                                        <p>{info.title}</p>
                                     </div>
-                                    <p
-                                        style={{
-                                            margin: '0',
-                                            paddingLeft: '1.1rem',
-                                        }}
-                                    >
-                                        {info.description}
-                                    </p>
+                                    <p>{info.description}</p>
                                 </>
                             )
                         )}
@@ -317,31 +254,17 @@ const Sell = (): JSX.Element => {
                     </div>
                 </div>
             )}
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    margin: '4rem 0 4rem 0',
-                }}
-            >
-                <RoundedCardWithImage
-                    logo={value}
-                    title={'1. Professionell värdering'}
-                />
-                <RoundedCardWithImage
-                    logo={cash}
-                    title={'2. Erbjudande som reflekterar värdet'}
-                />
-                <RoundedCardWithImage
-                    logo={assessment}
-                    title={'3. Bilinspektion och godkännande'}
-                />
-                <RoundedCardWithImage
-                    logo={transfer}
-                    title={'4. Snabb och säker överföring'}
-                />
+
+            <div className="sell-steps-container">
+                {sellStepsFields.map(
+                    (steps: ISellStepsFields, index: number) => (
+                        <RoundedCardWithImage
+                            key={index}
+                            logo={steps.logo}
+                            title={steps.title}
+                        />
+                    )
+                )}
             </div>
         </>
     )

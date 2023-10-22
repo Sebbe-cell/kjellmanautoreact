@@ -32,7 +32,7 @@ const Navbar = (): JSX.Element => {
     }
 
     const closeMobileMenu = (): void => {
-        setToggleMobileMenu(false);
+        setToggleMobileMenu(false)
         document.body.classList.remove('disable-background-scroll')
     }
 
@@ -84,13 +84,26 @@ const Navbar = (): JSX.Element => {
                         >
                             Sälj
                         </Link>
+                        <Link
+                            className="navbar-internal-links"
+                            to={routePaths.salesassignment}
+                        >
+                            Försäljningsuppdrag
+                        </Link>
+                        <Link
+                            className="navbar-internal-links"
+                            to={routePaths.contact}
+                        >
+                            Kontakt
+                        </Link>
                         <div>
                             <p
+                            style={{fontSize: '16px', display: 'inline-block', whiteSpace: 'nowrap'}}
                                 onMouseEnter={openSubmenu}
                                 onMouseLeave={closeSubmenu}
                                 className="navbar-internal-links"
                             >
-                                Kontakt
+                                Upptäck mer
                             </p>
                             {toggleMenu && (
                                 <>
@@ -101,22 +114,10 @@ const Navbar = (): JSX.Element => {
                                         onClick={resetSubmenu}
                                     >
                                         <Link
-                                            to={routePaths.salesassignment}
-                                            className="navbar-internal-links"
-                                        >
-                                            Försäljningsuppdrag
-                                        </Link>
-                                        <Link
                                             to={routePaths.warrantys}
                                             className="navbar-internal-links"
                                         >
                                             Villkor & Garantier
-                                        </Link>
-                                        <Link
-                                            to={routePaths.contact}
-                                            className="navbar-internal-links"
-                                        >
-                                            Kontakt
                                         </Link>
                                         <Link
                                             to={routePaths.aboutus}
@@ -135,10 +136,19 @@ const Navbar = (): JSX.Element => {
                         >
                             <FontAwesomeIcon icon={faInstagram} size="2x" />
                         </a>
-                        <FontAwesomeIcon icon={faFacebook} size="2x" />
+                        <a
+                            href="https://www.instagram.com/kjellmanauto/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <FontAwesomeIcon icon={faFacebook} size="2x" />
+                        </a>
                     </div>
                     <div className="navbar-mobile">
-                        <div className="nav-mobile-logo-link">
+                        <div
+                            className="nav-mobile-logo-link"
+                            onClick={closeMobileMenu}
+                        >
                             <Link to={routePaths.home}>
                                 <img
                                     className="nav-mobile-logo"

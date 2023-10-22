@@ -2,19 +2,11 @@ import Hero from '../components/hero'
 import herologo from '../assets/aboutus.jpg'
 
 const AboutUs = (): JSX.Element => {
-
     return (
         <>
             <Hero imgSrc={herologo} />
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <div style={{ maxWidth: '80rem', padding: '2rem' }}>
+            <div className="text-container">
+                <div>
                     <h1>
                         Välkommen till Kjellman Auto - Din Partner för Begagnade
                         Bilar!

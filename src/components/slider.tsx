@@ -7,7 +7,6 @@ interface ISliderProps {
 
 const Slider = (props: ISliderProps): JSX.Element => {
     const {images} = props;
-    console.log(images)
     return (
         <Carousel>
             {images.map((imageSrc: any, index: number) => (

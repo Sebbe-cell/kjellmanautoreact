@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import '../css/input.css'
 import { CSSProperties } from 'react'
 import { FormGroup } from './modal'
@@ -8,7 +7,6 @@ interface IFormTextAreaProps {
     id: string
     name?: FormGroup
     value?: string | number | undefined
-    optionalClass?: boolean
     optionalInputStyle?: CSSProperties | undefined
     placeholder?: string
     required?: boolean
@@ -17,7 +15,6 @@ interface IFormTextAreaProps {
 
 const FormTextArea = (props: IFormTextAreaProps): JSX.Element => {
     const {
-        optionalClass,
         name,
         value,
         id,
@@ -27,9 +24,10 @@ const FormTextArea = (props: IFormTextAreaProps): JSX.Element => {
         label,
         onChange,
     } = props
+
     return (
         <>
-            <div className={clsx(optionalClass ? 'forms-optional' : 'text-area-container')}>
+            <div className="text-area-container">
                 <textarea
                     name={name}
                     value={value}
@@ -41,7 +39,7 @@ const FormTextArea = (props: IFormTextAreaProps): JSX.Element => {
                     placeholder={placeholder}
                     required={required}
                 />
-                <label className='forms__label__textarea'>{label}</label>
+                <label className="forms__label__textarea">{label}</label>
             </div>
         </>
     )

@@ -15,14 +15,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    margin: 10px 20px 10px 20px;
+    margin: 10px 20px;
 }
 
 .navbar-links {
     display: flex;
     gap: 1rem;
-    margin: 20px;
+    margin: 20px 0;
     align-items: center;
 }
 
@@ -32,12 +31,12 @@
 
 .navbar-internal-links {
     color: white;
-    position: relative; /* Necessary for pseudo-element */
+    position: relative;
 }
 
 .submenu {
     position: absolute;
-    margin-top: 24px;
+    margin-top: 28px;
     width: 10rem;
     box-shadow: 0 0 5px 5px rgba(34, 34, 34, 0.8);
     background-color: rgba(34, 34, 34, 0.8);
@@ -48,7 +47,7 @@
 .submenu a {
     display: flex;
     flex-direction: column;
-    padding: 10px 2px
+    padding: 10px 2px;
 }
 
 .navbar-internal-links::after {
@@ -59,24 +58,30 @@
     left: 0;
     width: 0;
     height: 2px; /* Adjust as needed */
-    background-color: white;
-    transition: width 0.5s ease; /* Adjust the duration and easing as needed */
+    background-color: rgb(211, 174, 95);
+    transition: width 0.5s ease;
 }
 
 .navbar-internal-links:hover::after {
-    width: 100%; /* Expand to 100% width on hover */
+    width: 100%;
+}
+
+.navbar-internal-links:hover {
+    color: rgb(211, 174, 95);
 }
 
 .navbar-icons {
     display: flex;
     gap: 1rem;
-    padding: 0 50px;
     align-items: center;
+}
+
+.navbar-icons > div > p:hover {
     cursor: pointer;
 }
 
 .navbar-icons svg:hover {
-    color: gray;
+    color: rgb(211, 174, 95);
 }
 
 @media (max-width: 768px) {
@@ -91,12 +96,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 1rem;
+        margin: 1rem 0;
     }
     .nav-mobile-links {
         gap: 1rem;
         display: flex;
-        padding: 0 20px;
         cursor: pointer;
     }
     .navbar-mobile a {
@@ -111,7 +115,7 @@
     }
     .navbar-container {
         box-shadow: 0 0 5px 5px rgba(34, 34, 34, 1);
-        background-color: rgba(34, 34, 34, 1);
+        background-color: rgba(34, 34, 34, 0.97);
     }
 }
 
@@ -127,13 +131,12 @@
     }
 }
 
-.nav-logo {
-    max-width: 100%;
+.nav-logo-link {
+    max-width: 30px;
 }
 
-.nav-logo-link {
-    max-width: 5%;
-    margin-right: 20px;
+.nav-logo {
+    max-width: 100%;
 }
 
 .nav-mobile-logo {
@@ -141,7 +144,7 @@
 }
 
 .nav-mobile-logo-link {
-    max-width: 5%;
+    max-width: 30px;
 }
 
 @media (min-width: 768px) {

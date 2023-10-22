@@ -206,7 +206,6 @@ const Modal = (props: IModalProps): JSX.Element => {
                                                 handleInputChange(e)
                                             }
                                             type="text"
-                                            optionalClass={true}
                                             optionalInputStyle={{
                                                 border: errors.regNr
                                                     ? '2px solid red'
@@ -227,7 +226,6 @@ const Modal = (props: IModalProps): JSX.Element => {
                                                 handleInputChange(e)
                                             }
                                             type="text"
-                                            optionalClass={true}
                                             optionalInputStyle={{
                                                 border: errors.make
                                                     ? '2px solid red'
@@ -248,7 +246,6 @@ const Modal = (props: IModalProps): JSX.Element => {
                                                 handleInputChange(e)
                                             }
                                             type="text"
-                                            optionalClass={true}
                                             optionalInputStyle={{
                                                 border: errors.modell
                                                     ? '2px solid red'
@@ -269,7 +266,6 @@ const Modal = (props: IModalProps): JSX.Element => {
                                                 handleInputChange(e)
                                             }
                                             type="number"
-                                            optionalClass={true}
                                             optionalInputStyle={{
                                                 border: errors.milage
                                                     ? '2px solid red'
@@ -290,7 +286,6 @@ const Modal = (props: IModalProps): JSX.Element => {
                                                 handleInputChange(e)
                                             }
                                             type="email"
-                                            optionalClass={true}
                                             optionalInputStyle={{
                                                 border: errors.email
                                                     ? '2px solid red'
@@ -311,7 +306,6 @@ const Modal = (props: IModalProps): JSX.Element => {
                                                 handleInputChange(e)
                                             }
                                             type="number"
-                                            optionalClass={true}
                                             optionalInputStyle={{
                                                 border: errors.telephone
                                                     ? '2px solid red'
@@ -336,12 +330,10 @@ const Modal = (props: IModalProps): JSX.Element => {
                                 <FormInput
                                     label={'E-post adress*'}
                                     id={'E-post'}
-                                    optionalClass={true}
                                 />
                                 <FormInput
                                     label={'Telefonnummer'}
                                     id={'Telefonnummer'}
-                                    optionalClass={true}
                                 />
                             </>
                         )}
@@ -355,12 +347,12 @@ const Modal = (props: IModalProps): JSX.Element => {
                                     <FormInput
                                         label={'E-post adress*'}
                                         id={'E-post'}
-                                        optionalClass={true}
+
                                     />
                                     <FormInput
                                         label={'Telefonnummer'}
                                         id={'Telefonnummer'}
-                                        optionalClass={true}
+
                                     />
                                 </>
                             </>

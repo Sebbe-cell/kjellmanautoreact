@@ -1,10 +1,11 @@
 interface IRoundedCardWithImageProps {
     logo: string
     title: string
+    key: number
     description?: string
 }
 
-const RoundedCardWithImage = (props: IRoundedCardWithImageProps) => {
+const RoundedCardWithImage = (props: IRoundedCardWithImageProps): JSX.Element => {
     const { logo, description, title } = props
     return (
         <>

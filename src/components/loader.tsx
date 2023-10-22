@@ -5,11 +5,11 @@ interface ILoaderProps {
 }
 
 const Loader = (props: ILoaderProps): JSX.Element => {
-    const {shouldHaveContainer} = props
+    const { shouldHaveContainer } = props
 
     return (
         <>
-            <div className={shouldHaveContainer ? "spinner-container" : ""}>
+            <div className={shouldHaveContainer ? 'spinner-container' : ''}>
                 <div className="spinner"></div>
             </div>
         </>

@@ -1,27 +1,25 @@
+/* CSS to hide increment and decrement buttons for number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
 ::placeholder {
     color: red;
     padding: 20px;
 }
 
-.forms {
-    position: relative;
-    color: white;
-    width: 40rem;
-    height: 2rem;
-    margin: 2rem;
-}
-
 .text-area-container {
     position: relative;
     color: white;
-    margin: 0 2rem 2rem 0;
 }
 
-.forms-optional {
+.forms {
     position: relative;
-    color: black;
+    color: white;
     height: 2rem;
-    margin: 0 1rem 3rem 0;
 }
 
 .forms__input {
@@ -34,10 +32,11 @@
     color: white;
     outline: none;
     background: none;
-    padding: 0.5rem .5rem;
+    padding: 0.5rem;
     transition: all 160ms ease-in;
     font-family: 'Arcon', sans-serif;
     font-size: 18px;
+    text-indent: 0.1rem;
 }
 
 .forms__input:hover {
@@ -58,7 +57,6 @@
     background-color: #0f1a25;
 }
 
-
 .forms__textarea {
     position: relative;
     top: 0;
@@ -70,10 +68,11 @@
     color: white;
     outline: none;
     background: none;
-    padding: 1rem 1rem;
+    padding: 0.5rem 0;
     font-family: 'Arcon', sans-serif;
     resize: vertical;
     font-size: 18px;
+    margin-bottom: -20px;
 }
 
 .forms__textarea:hover {
@@ -93,9 +92,7 @@
     cursor: text;
     background-color: #0f1a25;
 }
-
-
-
+ 
 .select-container {
     position: relative;
     width: 100%;
