@@ -14,6 +14,10 @@ module.exports = {
         use: ['babel-loader'], // Add TypeScript loader if needed
       },
       {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg|mp4|webm|ogg|mp3|wav|flac)$/i,
         use: [
           {

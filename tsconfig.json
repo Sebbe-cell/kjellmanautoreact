@@ -18,13 +18,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.js",
     "src/**/*.jsx",
-    "src/**/*.jpg"
+    "src/**/*.jpg",
+    "src/**/*.svg",
+    "src/index.d.ts"
   ]
 }

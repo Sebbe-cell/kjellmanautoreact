@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom'
+
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../css/cards.css'
-import { Link } from 'react-router-dom'
 
 interface ICardWithImageProps {
     logo: string

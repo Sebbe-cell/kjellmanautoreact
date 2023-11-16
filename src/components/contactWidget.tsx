@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react'
+
 import { faMessage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useState } from 'react'
-import Modal from './modal'
+import ContactInfoFormModal from './modals/contactInfoFormModal'
 
 const ContactWidget = (): JSX.Element => {
     const [openModal, setOpenModal] = useState<boolean>(false)
@@ -33,7 +34,13 @@ const ContactWidget = (): JSX.Element => {
             <div className="chat-btn" onClick={handleOpenModal}>
                 <FontAwesomeIcon icon={faMessage} size="xl" />
             </div>
-            {openModal && <Modal onClose={handleCloseModal} headerText='Kontakta oss direkt' submittedText='Tack!' isContactForm={true} />}
+            {openModal && (
+                <ContactInfoFormModal
+                    onClose={handleCloseModal}
+                    headerText="Kontakta oss direkt"
+                    submittedText="Tack!"
+                />
+            )}
         </div>
     )
 }

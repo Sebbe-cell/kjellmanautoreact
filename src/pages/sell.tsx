@@ -1,23 +1,36 @@
-import { useState } from 'react'
-import road from '../assets/gearknobbig.jpg'
+import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+
+import { apiBaseUrl } from '../api/apiUrl'
+import { apiEndpoints } from '../api/endpoints'
+import { sellFormInfoAfter, ISellFormInfoAfter } from '../utils/sellFormAfter'
+import road from '../assets/uppdragstor.jpg'
 import Hero from '../components/hero'
 import FormInput from '../components/formInput'
-import { FormGroup } from '../components/modal'
 import RoundedCardWithImage from '../components/roundedCardWithImage'
 import value from '../assets/value.jpg'
 import assessment from '../assets/assesment.jpg'
 import cash from '../assets/cash.jpg'
 import transfer from '../assets/transfer.jpg'
-import { sellFormInfoAfter, ISellFormInfoAfter } from '../utils/sellFormAfter'
+import FormTextArea from '../components/formTextarea'
+import axios from 'axios'
+import Loader from '../components/loader'
+import 'react-toastify/dist/ReactToastify.css'
+import '../css/modal.css'
 
+export enum FormGroup {
+    regNr = 'regNr',
+    milage = 'milage',
+    telephone = 'telephone',
+    email = 'email',
+    information = 'information'
+}
 interface ICarDetails {
     regNr: string
-    make: string
-    modell: string
-    milage: number | undefined | string
-    telephone: number | undefined | string
+    milage: number
+    telephone: number
     email: string
-    [key: string]: string | number | undefined
+    [key: string]: string | number
 }
 
 interface ISellStepsFields {
@@ -30,6 +43,7 @@ interface IFormFields {
     id: string
     name: FormGroup
     value: string | number | undefined
+    type: string
 }
 
 const Sell = (): JSX.Element => {
@@ -39,23 +53,74 @@ const Sell = (): JSX.Element => {
 
     const initialErrors: State<ICarDetails> = {
         regNr: false,
-        make: false,
-        modell: false,
         milage: false,
         telephone: false,
-        email: false,
+        email: false
     }
 
+    const [loading, setLoading] = useState<boolean>(false)
     const [errors, setErrors] = useState<State<ICarDetails>>(initialErrors)
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
     const [initialValues, setInitialValues] = useState<ICarDetails>({
         regNr: '',
-        make: '',
-        modell: '',
-        milage: undefined,
-        telephone: undefined,
+        milage: 0,
+        telephone: 0,
         email: '',
+        information: ''
     })
+
+    const formFields: IFormFields[] = [
+        {
+            label: 'E-post adress*',
+            id: 'E-post adress',
+            name: FormGroup.email,
+            value: initialValues.email,
+            type: 'email'
+        },
+        {
+            label: 'Telefonnummer*',
+            id: 'Telefonnummer',
+            name: FormGroup.telephone,
+            value: initialValues.telephone,
+            type: 'number'
+        }
+    ]
+
+    const inlineFormFields: IFormFields[] = [
+        {
+            label: 'Registreringsnummer*',
+            id: 'Registreringsnummer',
+            name: FormGroup.regNr,
+            value: initialValues.regNr,
+            type: 'text'
+        },
+        {
+            label: 'Miltal*',
+            id: 'Miltal',
+            name: FormGroup.milage,
+            value: initialValues.milage,
+            type: 'number'
+        }
+    ]
+
+    const sellStepsFields: ISellStepsFields[] = [
+        {
+            logo: value,
+            title: '1. Professionell värdering'
+        },
+        {
+            logo: cash,
+            title: '2. Erbjudande som reflekterar värdet'
+        },
+        {
+            logo: assessment,
+            title: '3. Bilinspektion och godkännande'
+        },
+        {
+            logo: transfer,
+            title: '4. Snabb och säker överföring'
+        }
+    ]
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -64,22 +129,21 @@ const Sell = (): JSX.Element => {
 
         setInitialValues({
             ...initialValues,
-            [name]: value,
+            [name]: value
         })
 
         setErrors((prevErrors) => ({
             ...prevErrors,
-            [name]: false,
+            [name]: false
         }))
     }
 
     const handleValidationOnSubmit = (): boolean => {
         const requiredFields: FormGroup[] = [
             FormGroup.regNr,
-            FormGroup.make,
-            FormGroup.modell,
             FormGroup.milage,
             FormGroup.email,
+            FormGroup.telephone
         ]
         let hasErrors = false
 
@@ -97,79 +161,77 @@ const Sell = (): JSX.Element => {
         return !hasErrors
     }
 
-    const onSubmit = (): void => {
+    const onSubmit = async (): Promise<void> => {
         const isValid = handleValidationOnSubmit()
+        const emailData = {
+            from: `KjellmanAuto <joakim@kjellmanauto.se>`,
+            to: 'joakim@kjellmanauto.se',
+            subject: 'Säljformulär',
+            text:
+                'Reg nr: ' +
+                initialValues.regNr +
+                'Miltal: ' +
+                initialValues.milage +
+                'Information: ' +
+                initialValues.information +
+                'Kundens email: ' +
+                initialValues.email +
+                'Kundens telefonnummer: ' +
+                initialValues.telephone
+        }
         if (isValid) {
-            setIsSubmitted(true)
+            setLoading(true)
+            try {
+                await axios.post(
+                    apiBaseUrl + apiEndpoints.sendEmail,
+                    emailData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                )
+                setIsSubmitted(true)
+                setLoading(false)
+            } catch (error: any) {
+                setLoading(false)
+                toast.error(
+                    `Kunde inte skicka mail. Felkod: ${error.message}`,
+                    {
+                        position: 'bottom-right',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'light'
+                    }
+                )
+            }
         } else {
             setErrors({ ...errors })
         }
     }
 
-    const formFields: IFormFields[] = [
-        {
-            label: 'Registreringsnummer*',
-            id: 'Registreringsnummer',
-            name: FormGroup.regNr,
-            value: initialValues.regNr,
-        },
-        {
-            label: 'Märke*',
-            id: 'Märke',
-            name: FormGroup.make,
-            value: initialValues.make,
-        },
-        {
-            label: 'Modell*',
-            id: 'Modell',
-            name: FormGroup.modell,
-            value: initialValues.modell,
-        },
-        {
-            label: 'Miltal*',
-            id: 'Miltal',
-            name: FormGroup.milage,
-            value: initialValues.milage,
-        },
-        {
-            label: 'E-post adress*',
-            id: 'E-post adress',
-            name: FormGroup.email,
-            value: initialValues.email,
-        },
-        {
-            label: 'Telefonnummer',
-            id: 'Telefonnummer',
-            name: FormGroup.telephone,
-            value: initialValues.telephone,
-        },
-    ]
+    const onEvaluteOther = (): void => {
+        setIsSubmitted(false)
+        const clearedValues: ICarDetails = {
+            regNr: '',
+            milage: 0,
+            telephone: 0,
+            email: ''
+        }
 
-    const sellStepsFields: ISellStepsFields[] = [
-        {
-            logo: value,
-            title: '1. Professionell värdering',
-        },
-        {
-            logo: cash,
-            title: '2. Erbjudande som reflekterar värdet',
-        },
-        {
-            logo: assessment,
-            title: '3. Bilinspektion och godkännande',
-        },
-        {
-            logo: transfer,
-            title: '4. Snabb och säker överföring',
-        },
-    ]
+        setInitialValues(clearedValues)
+    }
 
     return (
         <>
             <Hero imgSrc={road} />
-            <div className="text-container">
+            <div className='text-container'>
                 <div>
-                    <h1>Vi köper din bil</h1>
+                    <h1>Vi köper din bil - En snabb och smidig affär</h1>
                     <p>
                         Om du funderar på att skaffa en ny bil och är osäker på
                         vad du ska göra med din nuvarande, så är det många som
@@ -181,48 +243,103 @@ const Sell = (): JSX.Element => {
                         Men oroa dig inte, på Kjellman Auto är vi mer än villiga
                         att köpa din bil.
                     </p>
-                    <div className="divider-2"></div>
+                    <p>
+                        Fyll i formuläret nedan, och vi kommer att snarast
+                        möjligt ge dig ett konkurrenskraftigt erbjudande.
+                    </p>
+                    <div className='divider-2'></div>
                 </div>
             </div>
 
             {!isSubmitted ? (
-                <div className="sell-form-container">
-                    <div className="">
-                        <h1>Fyll i dina uppgifter här</h1>
-                    </div>
-                    {formFields.map((fields: IFormFields, index: number) => (
-                        <FormInput
-                            key={index}
-                            label={fields.label}
-                            id={fields.id}
-                            name={fields.name}
-                            value={fields.value}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            optionalInputStyle={{
-                                border: errors[fields.name]
-                                    ? '2px solid red'
-                                    : '',
-                            }}
-                            placeholder={
-                                errors[fields.name] ? 'Obligatoriskt fält' : ''
-                            }
+                <>
+                    <div className='sell-form-container'>
+                        {loading && <Loader modalContainer={true} />}
+                        <ToastContainer />
+                        <div>
+                            <h1 style={{ margin: '0' }}>Bilens uppgifter</h1>
+                        </div>
+                        <div className='modal-input'>
+                            {inlineFormFields.map(
+                                (fields: IFormFields, index: number) => (
+                                    <FormInput
+                                        key={index}
+                                        label={fields.label}
+                                        id={fields.id}
+                                        name={fields.name}
+                                        value={
+                                            fields.value === 0
+                                                ? ''
+                                                : fields.value
+                                        }
+                                        onChange={(e) => handleInputChange(e)}
+                                        type={fields.type}
+                                        optionalInputStyle={{
+                                            border: errors[fields.name]
+                                                ? '2px solid red'
+                                                : ''
+                                        }}
+                                        placeholder={
+                                            errors[fields.name]
+                                                ? 'Obligatoriskt fält'
+                                                : ''
+                                        }
+                                        optionalText={
+                                            fields.name === FormGroup.milage
+                                                ? 'mil'
+                                                : ''
+                                        }
+                                    />
+                                )
+                            )}
+                        </div>
+                        <FormTextArea
+                            label={'Övrig info / Eventuella brister'}
+                            id={'Info'}
+                            name={FormGroup.information}
+                            value={initialValues.information}
+                            onChange={handleInputChange}
                         />
-                    ))}
-                    <div>
-                        <button
-                            className="btn"
-                            type="submit"
-                            onClick={onSubmit}
-                        >
-                            Skicka
-                        </button>
+                        {formFields.map(
+                            (fields: IFormFields, index: number) => (
+                                <FormInput
+                                    key={index}
+                                    label={fields.label}
+                                    id={fields.id}
+                                    name={fields.name}
+                                    value={
+                                        fields.value === 0 ? '' : fields.value
+                                    }
+                                    onChange={(e) => handleInputChange(e)}
+                                    type={fields.type}
+                                    optionalInputStyle={{
+                                        border: errors[fields.name]
+                                            ? '2px solid red'
+                                            : ''
+                                    }}
+                                    placeholder={
+                                        errors[fields.name]
+                                            ? 'Obligatoriskt fält'
+                                            : ''
+                                    }
+                                />
+                            )
+                        )}
+                        <div>
+                            <button
+                                className='modal-btn'
+                                type='submit'
+                                onClick={onSubmit}>
+                                Begär en värdering
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </>
             ) : (
-                <div className="sell-form-container">
+                <div className='sell-form-container'>
                     <div>
                         <h1>Tack!</h1>
+                        <p>{`När värderingen är klar kommer vi att kontakta dig på din angivna e-post adress: (${initialValues.email})`}</p>
                         <p>
                             Vi uppskattar att du valt att använda vår tjänst för
                             att sälja din bil och vi ser fram emot att hjälpa
@@ -230,24 +347,20 @@ const Sell = (): JSX.Element => {
                             händer nu:
                         </p>
                         {sellFormInfoAfter.map(
-                            (info: ISellFormInfoAfter, key: number) => (
-                                <>
-                                    <div
-                                        key={key}
-                                        className="sell-form-info-after"
-                                    >
+                            (info: ISellFormInfoAfter, index: number) => (
+                                <React.Fragment key={index}>
+                                    <div className='sell-form-info-after'>
                                         <div></div>
                                         <p>{info.title}</p>
                                     </div>
                                     <p>{info.description}</p>
-                                </>
+                                </React.Fragment>
                             )
                         )}
                         <div style={{ marginTop: '2rem' }}>
                             <button
-                                onClick={() => setIsSubmitted(false)}
-                                className="btn"
-                            >
+                                onClick={onEvaluteOther}
+                                className='modal-btn'>
                                 Värdera annan bil
                             </button>
                         </div>
@@ -255,7 +368,7 @@ const Sell = (): JSX.Element => {
                 </div>
             )}
 
-            <div className="sell-steps-container">
+            <div className='sell-steps-container'>
                 {sellStepsFields.map(
                     (steps: ISellStepsFields, index: number) => (
                         <RoundedCardWithImage

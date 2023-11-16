@@ -1,17 +1,79 @@
 import { useEffect, useState } from 'react'
+
 import { routePaths } from '../utils/routePaths'
+import { apiBaseUrl } from '../api/apiUrl'
+import { apiEndpoints } from '../api/endpoints'
+import { IAlteredVehicleData } from '../utils/interfaces'
+import axios from 'axios'
 import logo2 from '../assets/bluebmw.jpg'
-import Modal from '../components/modal'
-import logo3 from '../assets/beach.jpg'
+import logo3 from '../assets/uppdragsmall.jpg'
+import logo4 from '../assets/koepliten.jpg'
 import logo5 from '../assets/mapsmall.jpg'
-import logo6 from '../assets/gearknob.jpg'
 import MainHero from '../components/mainHero'
 import ImageBanner from '../components/imageBanner'
 import CardWithImage from '../components/cardWithImage'
 import InventorySlider from '../components/inventorySlider'
+import SellModal from '../components/modals/sellModal'
 
 const Home = (): JSX.Element => {
     const [openModal, setOpenModal] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(false)
+    const [initialData, setInitialData] = useState<IAlteredVehicleData[]>([
+        {
+            headline: [''],
+            miles: [
+                {
+                    _: '15 057 mil',
+                    $: {
+                        value: '15057',
+                    },
+                },
+            ],
+            gearbox: [''],
+            primaryfuel: [''],
+            modelyear: [''],
+            price: [
+                {
+                    _: '',
+                    $: {
+                        value: '',
+                    },
+                },
+            ],
+            $: {
+                id: '',
+                locationid: '',
+            },
+            image: [
+                {
+                    $: {
+                        index: '',
+                        showh2h: '',
+                    },
+                    thumb: [''],
+                    main: [''],
+                    large: [''],
+                },
+            ],
+        },
+    ])
+
+    useEffect(() => {
+        setLoading(true)
+        axios
+            .get(apiBaseUrl + apiEndpoints.inventory)
+            .then((response) => {
+                setError(false)
+                setInitialData(response.data.vehicles.vehicle)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+            .catch(() => {
+                setError(true)
+            })
+    }, [])
 
     useEffect(() => {
         if (openModal) {
@@ -47,12 +109,12 @@ const Home = (): JSX.Element => {
             />
             <div className="card-with-image-container">
                 <CardWithImage
-                    logo={logo3}
+                    logo={logo4}
                     title={'Försäljningsuppdrag'}
                     url={routePaths.salesassignment}
                 />
                 <CardWithImage
-                    logo={logo6}
+                    logo={logo3}
                     title={'Sälj din bil här'}
                     url={routePaths.sell}
                 />
@@ -63,17 +125,20 @@ const Home = (): JSX.Element => {
                 />
             </div>
 
-            <InventorySlider />
+            <div style={{ margin: '0 2rem 8rem 2rem' }}>
+                <InventorySlider
+                    data={initialData}
+                    loading={loading}
+                    error={error}
+                />
+            </div>
 
             {openModal && (
-                <div style={{ zIndex: '1000' }}>
-                    <Modal
-                        isSellForm={true}
-                        headerText="Fyll i bilens uppgifter"
-                        submittedText="Tack!"
-                        onClose={handleCloseModal}
-                    />
-                </div>
+                <SellModal
+                    headerText="Bilens uppgifter"
+                    submittedText="Tack!"
+                    onClose={handleCloseModal}
+                />
             )}
         </>
     )

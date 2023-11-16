@@ -1,10 +1,11 @@
+import { useState } from 'react'
+import clsx from 'clsx'
+
 import {
     faChevronCircleDown,
     faChevronCircleUp,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import clsx from 'clsx'
-import { useState } from 'react'
 
 const CustomSelect = (): JSX.Element => {
     const [isOpen, setIsOpen] = useState<boolean>(false)

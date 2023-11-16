@@ -32,18 +32,26 @@ input[type="number"]::-webkit-outer-spin-button {
     color: white;
     outline: none;
     background: none;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
     transition: all 160ms ease-in;
     font-family: 'Arcon', sans-serif;
     font-size: 18px;
-    text-indent: 0.1rem;
+    text-indent: 0.3rem;
 }
 
 .forms__input:hover {
     border-color: rgb(211, 174, 95);
 }
 
+.forms__input:hover + .forms__text {
+    border-color: rgb(211, 174, 95);
+}
+
 .forms__input:focus {
+    border-color: rgb(211, 174, 95);
+}
+
+.forms__input:focus + .forms__text {
     border-color: rgb(211, 174, 95);
 }
 
@@ -55,6 +63,23 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #fff;
     cursor: text;
     background-color: #0f1a25;
+}
+
+.forms__text {
+    position: absolute;
+    background-color: #0f1a25;
+    height: 48px;
+    width: 47px;
+    right: -2px;
+    top: 2px;
+    border-left: 2px solid white;
+    transition: all 160ms ease-in;
+}
+
+.forms__text p {
+    position: absolute;
+    bottom: -4px;
+    left: 10px;
 }
 
 .forms__textarea {
@@ -139,4 +164,31 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #fff;
     cursor: text;
     background-color: #0f1a25;
+}
+
+
+.input-checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.input-checkbox:hover {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    cursor: pointer;
+    background-color: rgb(211, 174, 95);
+}
+
+.input-checkbox-clicked {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-color: rgb(211, 174, 95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

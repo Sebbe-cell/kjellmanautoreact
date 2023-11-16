@@ -26,6 +26,8 @@ body {
     font-family: 'Arcon', sans-serif;
     background-color: #0f1a25;
     color: white;
+    /* background-color: #F8F8FF;
+    color: black; */
 }
 
 @font-face {
@@ -88,7 +90,7 @@ img {
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -97,7 +99,6 @@ img {
         justify-content: center;
         flex-direction: column;
         align-items: center;
-        margin-top: 3rem;
     }
 
     .logo-img {
@@ -107,7 +108,7 @@ img {
 }
 
 .logo-img {
-    max-width: 60%;
+    width: 70%;
     height: auto;
 }
 
@@ -287,104 +288,6 @@ img {
     height: 100%;
     object-fit: cover;
     overflow: hidden;
-}
-
-.inventory-input {
-    padding-top: 4rem;
-    width: 100%;
-}
-
-.inventory-main-container {
-    max-width: 1920px;
-    margin: 0 auto;
-    padding: 4rem;
-}
-
-.inventory-grid-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-}
-
-.inventory {
-    width: 360px;
-    cursor: pointer;
-    color: white;
-}
-
-.inventory-container {
-    width: 100%;
-    height: 250px;
-    overflow: hidden;
-}
-
-.inventory-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.2s;
-}
-
-.inventory-image:hover {
-    transform: scale(1.1);
-}
-
-.inventory a {
-    color: white !important;
-}
-
-.inventory-content {
-    padding-top: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.inventory-facts-container {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.inventory-facts-container span {
-    font-size: 0.8em;
-    color: rgb(211, 174, 95);
-}
-
-.inventory-title {
-    font-size: 22px;
-    margin: 0;
-    padding-bottom: 10px;
-}
-
-.inventory-description {
-    font-size: 1rem;
-    margin: 0;
-}
-
-.inventory-footer {
-    padding-top: 2rem;
-}
-
-.inventory-list {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: row;
-    list-style-type: none;
-    padding: 0;
-}
-
-@media (max-width: 480px) {
-    .inventory-list {
-        flex-direction: column;
-        text-align: start;
-    }
-    .inventory-main-container {
-        padding: 2rem 0;
-    }
-    .inventory {
-        width: 95%;
-    }
 }
 
 .card-with-image-container {
@@ -621,164 +524,6 @@ img {
     max-width: 60rem;
 }
 
-.car-details-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 7rem 8rem;
-}
-
-.car-details-container {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    width: 100%;
-    height: 100%;
-}
-
-.car-details-img {
-    width: 60%;
-    height: 650px;
-    position: relative;
-}
-
-.car-details-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.car-details-icon-left {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    left: 20px;
-    cursor: pointer;
-}
-
-.car-details-icon-right {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    right: 20px;
-    cursor: pointer;
-}
-
-.car-details-info {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.car-details-slider-container {
-    display: flex;
-    flex-direction: row;
-    gap: 0.3rem;
-    margin-top: 0.3rem;
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-.car-details-slider {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    cursor: pointer;
-}
-
-.car-details-slider img {
-    width: 100px;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-.car-details-btn-container {
-    display: flex;
-    justify-content: start;
-    width: 100%;
-    margin-bottom: 10px;
-    gap: 1rem;
-}
-
-.car-details-more-container {
-    display: flex;
-    justify-content: start;
-    width: 100%;
-    margin-top: 2rem;
-    gap: 1rem;
-}
-
-@media (max-width: 1024px) {
-    .car-details-wrapper {
-        margin: 10rem 2rem 4rem 2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .car-details-wrapper {
-        margin: 7rem 1rem 2rem 1rem;
-    }
-    .car-details-container {
-        display: flex;
-        flex-direction: column;
-        height: 100% !important;
-    }
-    .car-details-img {
-        height: 350px;
-        width: 100%;
-    }
-    .car-details-info {
-        width: 100%;
-    }
-    .car-details-info {
-        width: 100%;
-        margin-top: 6rem;
-    }
-}
-
-@media (max-width: 420px) {
-    .car-details-wrapper {
-        margin: 7rem 1rem 2rem 1rem;
-    }
-    .car-details-container {
-        display: flex;
-        flex-direction: column;
-        height: 100% !important;
-    }
-    .car-details-img {
-        height: 250px;
-        position: relative;
-        width: 100%;
-    }
-    .car-details-info {
-        width: 100%;
-        margin-top: 6rem;
-    }
-}
-
-.inline-items {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.inline-item {
-    margin-right: 10px;
-    white-space: nowrap;
-}
-
-.inline-dot {
-    width: 10px;
-    height: 10px;
-    background-color: rgb(161, 161, 161);
-    border-radius: 50%;
-    margin-right: 7px;
-}
-
 .standard-btn {
     background-color: transparent;
     color: white;
@@ -787,9 +532,108 @@ img {
     cursor: pointer;
     border-radius: 8px;
     transition: 0.2s;
+    display: flex;
+    justify-content: space-around;
+    gap: 0.3rem;
+    align-items: center;
 }
 
 .standard-btn:hover {
     background-color: rgb(211, 174, 95);
     border-color: rgb(211, 174, 95);
+}
+
+.info-btn {
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.info-btn:hover {
+    color: rgb(211, 174, 95);
+}
+
+.fullscreen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    z-index: 1;
+}
+
+.fullscreen-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-height: 90%;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    height: 100%;
+    width: 100%;
+}
+
+.fullscreen-wrapper > div > svg {
+    cursor: pointer;
+}
+
+.fullscreen-wrapper > div > p {
+    cursor: pointer;
+}
+
+.fullscreen-img-container {
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.test1 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    right: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.test1 > p {
+    border: 1px solid white;
+    padding: 0.3rem 0.5rem;
+    background-color: gray;
+    cursor: pointer;
+}
+
+.fullscreen-img-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+input::-webkit-calendar-picker-indicator {
+    content: '';
+    display: block;
+    background: url('./assets/calendermedium.png') no-repeat;
+    width: 32px;
+    height: 30px;
+    position: absolute;
+    color: rgb(255, 0, 0);
+    top: 50%;
+    right: 0;
+    margin-top: -14px;
+}
+
+input::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
 }

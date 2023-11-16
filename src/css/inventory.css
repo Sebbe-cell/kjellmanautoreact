@@ -1,0 +1,141 @@
+.inventory-main-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inventory-main-container > div {
+    max-width: 80rem;
+    text-align: center;
+    padding: 2rem;
+}
+
+.inventory-input {
+    padding-top: 4rem;
+    width: 100%;
+}
+
+.inventory-main-content {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 4rem;
+}
+
+.inventory-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.inventory {
+    width: 360px;
+    cursor: pointer;
+    color: white;
+}
+
+.inventory-container {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.inventory-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.inventory-image:hover {
+    transform: scale(1.1);
+}
+
+.inventory a {
+    color: white !important;
+}
+
+.inventory-content {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+}
+
+.inventory-facts-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.inventory-facts-container span {
+    font-size: 0.8em;
+    color: rgb(211, 174, 95);
+}
+
+.inventory-title {
+    font-size: 22px;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.inventory-description {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.inventory-footer {
+    padding-top: 2rem;
+}
+
+.inventory-footer > h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.inventory-footer > h3 {
+    font-size: 18px;
+    font-weight: 100;
+    margin: 0;
+}
+
+.inventory-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: row;
+    list-style-type: none;
+    padding: 0;
+}
+
+.inventory-list li {
+    color: white;
+    position: relative;
+    padding-left: 20px;
+}
+
+.inventory-list > li > div {
+    position: absolute;
+    left: 0;
+    margin-top: 5px;
+    background-color: rgb(211, 174, 95);
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
+
+@media (max-width: 480px) {
+    .inventory-main-content {
+        padding: 2rem 0;
+    }
+    .inventory {
+        width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .inventory-list {
+        flex-direction: column;
+        text-align: start;
+    }
+}

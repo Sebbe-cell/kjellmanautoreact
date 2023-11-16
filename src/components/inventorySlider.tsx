@@ -1,74 +1,49 @@
-import axios from 'axios'
-import '../css/inventorySlider.css'
-import { apiBaseUrl } from '../api/apiUrl'
-import { apiEndpoints } from '../api/endpoints'
-import { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
+
 import { routePaths } from '../utils/routePaths'
+import { IAlteredVehicleData } from '../utils/interfaces'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import Loader from './loader'
+import '../css/inventorySlider.css'
 
-const InventorySlider = (): JSX.Element => {
-    const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState<boolean>(false)
-    const [initialData, setInitialData] = useState([
-        {
-            headline: [],
-            miles: [
-                {
-                    _: '15 057 mil',
-                    $: {
-                        value: '15057',
-                    },
-                },
-            ],
-            gearbox: [],
-            color: [],
-            description: [],
-            brand: [],
-            primaryfuel: [],
-            model: [],
-            modelyear: [],
-            price: [
-                {
-                    _: '',
-                    $: {
-                        value: '',
-                    },
-                },
-            ],
-            $: {
-                id: '',
-                locationid: '',
-            },
-            image: [
-                {
-                    $: {
-                        index: '',
-                        showh2h: '',
-                    },
-                    thumb: [''],
-                    main: [''],
-                    large: [''],
-                },
-            ],
-        },
-    ])
+interface IInventorySliderProps {
+    loading: boolean
+    error: boolean
+    data: any
+}
 
-    useEffect(() => {
-        setLoading(true)
-        axios
-            .get(apiBaseUrl + apiEndpoints.inventory)
-            .then((response) => {
-                setError(false)
-                setInitialData(response.data.vehicles.vehicle)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-            .catch(() => {
-                setError(true)
-            })
-    }, [])
+const InventorySlider = (props: IInventorySliderProps): JSX.Element => {
+    const { loading, error, data } = props
+
+    const renderCommonInfo = (d: IAlteredVehicleData): JSX.Element => {
+        return (
+            <>
+                <div className="inventory-description">
+                    <span>{d.modelyear}</span>
+                </div>
+                <div className="inventory-description">
+                    <span>|</span>
+                </div>
+                <div className="inventory-description">
+                    <span>{d.miles[0]._}</span>
+                </div>
+                <div className="inventory-description">
+                    <span>|</span>
+                </div>
+                <div className="inventory-description">
+                    <span>{d.gearbox ?? 'n/a'}</span>
+                </div>
+                <div className="inventory-description">
+                    <span>|</span>
+                </div>
+                <div className="inventory-description">
+                    <span>{d.primaryfuel}</span>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
@@ -78,129 +53,74 @@ const InventorySlider = (): JSX.Element => {
                 <>
                     {!error && (
                         <>
-                            <h1 className="slider-header">Nyinkommna bilar</h1>
+                            <div className="slider-header">
+                                <h1>
+                                    <Link to={routePaths.inventory}>
+                                        Utforska hela lagret
+                                    </Link>{' '}
+                                    <FontAwesomeIcon
+                                        icon={faChevronRight}
+                                        size="xs"
+                                    />
+                                </h1>
+                            </div>
                             <div className="slider-wrapper">
                                 <div className="slider-container">
-                                    {initialData.map((data) => (
-                                        <>
+                                    {data.map((d: IAlteredVehicleData) => (
+                                        <React.Fragment key={d.$.id}>
                                             <Link
-                                                to={`${routePaths.inventory}/${data.$.id}`}
+                                                to={`${routePaths.inventory}/${d.$.id}`}
                                             >
                                                 <div className="slides">
                                                     <img
                                                         src={
-                                                            data.image?.[0]
+                                                            d.image?.[0]
                                                                 ?.main[0]
                                                         }
                                                         alt={'preview'}
                                                     />
-                                                    <p style={{marginBottom: '0.2rem'}}>{data.headline}</p>
+                                                    <p
+                                                        style={{
+                                                            marginBottom:
+                                                                '0.2rem',
+                                                        }}
+                                                    >
+                                                        {d.headline}
+                                                    </p>
                                                     <div className="inventory-facts-container">
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {data.modelyear}
-                                                            </span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>|</span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {
-                                                                    data
-                                                                        .miles[0]
-                                                                        ._
-                                                                }
-                                                            </span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>|</span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {data.gearbox ??
-                                                                    'n/a'}
-                                                            </span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>|</span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {
-                                                                    data.primaryfuel
-                                                                }
-                                                            </span>
-                                                        </div>
+                                                        {renderCommonInfo(d)}
                                                     </div>
-                                                    <h4>{data.price[0]._}</h4>
+                                                    <h4>{d.price[0]._}</h4>
                                                 </div>
                                             </Link>
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                 </div>
                                 <div
                                     className="slider-container"
                                     style={{ marginLeft: '1rem' }}
                                 >
-                                    {initialData.map((data) => (
-                                        <>
+                                    {data.map((d: IAlteredVehicleData) => (
+                                        <React.Fragment key={d.$.id}>
                                             <Link
-                                                to={`${routePaths.inventory}/${data.$.id}`}
+                                                to={`${routePaths.inventory}/${d.$.id}`}
                                             >
                                                 <div className="slides">
                                                     <img
                                                         src={
-                                                            data.image?.[0]
+                                                            d.image?.[0]
                                                                 ?.main[0]
                                                         }
                                                         alt={'preview'}
                                                     />
-                                                    <h4>{data.headline}</h4>
+                                                    <h4>{d.headline}</h4>
                                                     <div className="inventory-facts-container">
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {data.modelyear}
-                                                            </span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>|</span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {
-                                                                    data
-                                                                        .miles[0]
-                                                                        ._
-                                                                }
-                                                            </span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>|</span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {data.gearbox ??
-                                                                    'n/a'}
-                                                            </span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>|</span>
-                                                        </div>
-                                                        <div className="inventory-description">
-                                                            <span>
-                                                                {
-                                                                    data.primaryfuel
-                                                                }
-                                                            </span>
-                                                        </div>
+                                                        {renderCommonInfo(d)}
                                                     </div>
-                                                    <h4>
-                                                        Pris: {data.price[0]._}
-                                                    </h4>
+                                                    <h4>{d.price[0]._}</h4>
                                                 </div>
                                             </Link>
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                 </div>
                             </div>

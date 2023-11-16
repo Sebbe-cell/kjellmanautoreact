@@ -15,7 +15,7 @@
     background: #0f1a25;
     padding: 2rem;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
-    width: 40rem;
+    width: 35rem;
     margin: 0 1rem 0 1rem;
     max-height: 90%;
     overflow-y: auto;
@@ -25,6 +25,34 @@
 .modal-header {
     border-bottom: 1px solid white;
     margin-bottom: 30px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header svg:hover {
+    color: rgb(211, 174, 95);
+    cursor: pointer;
+}
+
+.modal-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.modal-input > div {
+    width: 100%;
+}
+
+@media (max-width: 500px) {
+    .modal-input {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .modal-body {
@@ -32,14 +60,64 @@
     flex-direction: column;
     width: 100%;
     gap: 3rem;
-    padding-bottom: 20px;
+}
+
+.modal-body-after {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body-after > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+}
+
+.modal-body-after > div > div {
+    height: 8px;
+    width: 8px;
+    background-color: rgb(211, 174, 95);
+    border-radius: 50%;
 }
 
 .modal-footer {
-    border-top: 1px solid white;
-    margin-top: 30px;
     padding-top: 30px;
+    margin-top: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.modal-btn {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: .5rem;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.modal-btn:hover {
+    background-color: rgb(211, 174, 95);
+    border-color: rgb(211, 174, 95);
+    color: black;
+}
+
+.cookie-modal-container {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+    max-width: 1920px;
+}
+
+.cookie-modal {
+    height: 200px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
 }

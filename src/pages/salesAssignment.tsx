@@ -1,13 +1,201 @@
-import herologo from '../assets/beachbig.jpg'
+import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+
+import { apiBaseUrl } from '../api/apiUrl'
+import { apiEndpoints } from '../api/endpoints'
+import herologo from '../assets/highwayy.jpg'
 import FormInput from '../components/formInput'
 import FormTextArea from '../components/formTextarea'
 import Hero from '../components/hero'
+import axios from 'axios'
+import Loader from '../components/loader'
+import '../css/modal.css'
+import 'react-toastify/dist/ReactToastify.css'
+
+enum FormGroup {
+    regNr = 'regNr',
+    milage = 'milage',
+    telephone = 'telephone',
+    email = 'email',
+    information = 'information',
+    price = 'price'
+}
+interface ICarDetails {
+    regNr: string
+    milage: number
+    telephone: number
+    email: string
+    price: number
+    information?: string | null | undefined
+    [key: string]: string | number | undefined | null
+}
+
+interface IFormFields {
+    label: string
+    id: string
+    name: FormGroup
+    value: string | number | undefined
+    type: string
+}
 
 const SalesAssignment = (): JSX.Element => {
+    type State<T> = {
+        [K in keyof T]: boolean
+    }
+
+    const initialErrors: State<ICarDetails> = {
+        regNr: false,
+        milage: false,
+        telephone: false,
+        email: false,
+        price: false
+    }
+
+    const [loading, setLoading] = useState<boolean>(false)
+    const [errors, setErrors] = useState<State<ICarDetails>>(initialErrors)
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
+    const [initialValues, setInitialValues] = useState<ICarDetails>({
+        regNr: '',
+        milage: 0,
+        telephone: 0,
+        email: '',
+        price: 0,
+        information: ''
+    })
+
+    const formFields: IFormFields[] = [
+        {
+            label: 'E-post adress*',
+            id: 'E-post adress',
+            name: FormGroup.email,
+            value: initialValues.email,
+            type: 'email'
+        },
+        {
+            label: 'Telefonnummer*',
+            id: 'Telefonnummer',
+            name: FormGroup.telephone,
+            value: initialValues.telephone,
+            type: 'number'
+        }
+    ]
+
+    const inlineFormFields: IFormFields[] = [
+        {
+            label: 'Registreringsnummer*',
+            id: 'Registreringsnummer',
+            name: FormGroup.regNr,
+            value: initialValues.regNr,
+            type: 'text'
+        },
+        {
+            label: 'Miltal*',
+            id: 'Miltal',
+            name: FormGroup.milage,
+            value: initialValues.milage,
+            type: 'number'
+        }
+    ]
+
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const { name, value } = e.target
+
+        setInitialValues({
+            ...initialValues,
+            [name]: value
+        })
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: false
+        }))
+    }
+
+    const handleValidationOnSubmit = (): boolean => {
+        const requiredFields: FormGroup[] = [
+            FormGroup.regNr,
+            FormGroup.milage,
+            FormGroup.email,
+            FormGroup.price,
+            FormGroup.telephone
+        ]
+        let hasErrors = false
+
+        requiredFields.forEach((fieldName) => {
+            if (!initialValues[fieldName]) {
+                errors[fieldName] = true
+                hasErrors = true
+            } else {
+                errors[fieldName] = false
+            }
+        })
+
+        setErrors({ ...errors })
+
+        return !hasErrors
+    }
+
+    const onSubmit = async (): Promise<void> => {
+        const isValid = handleValidationOnSubmit()
+        const emailData = {
+            from: `KjellmanAuto <joakim@kjellmanauto.se>`,
+            to: 'joakim@kjellmanauto.se',
+            subject: 'Försäljningsuppdrag',
+            text:
+                'Information: ' +
+                initialValues.information +
+                'Miltal: ' +
+                initialValues.milage +
+                'Reg nr: ' +
+                initialValues.regNr +
+                'Önskat pris: ' +
+                initialValues.price +
+                'Kundens email: ' +
+                initialValues.email +
+                'Kundens telefonnummer: ' +
+                initialValues.telephone
+        }
+        if (isValid) {
+            setLoading(true)
+            try {
+                await axios.post(
+                    apiBaseUrl + apiEndpoints.sendEmail,
+                    emailData,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                )
+                setIsSubmitted(true)
+                setLoading(false)
+            } catch (error: any) {
+                setLoading(false)
+                toast.error(
+                    `Kunde inte skicka mail. Felkod: ${error.message}`,
+                    {
+                        position: 'bottom-right',
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'light'
+                    }
+                )
+            }
+        } else {
+            setErrors({ ...errors })
+        }
+    }
+
     return (
         <>
             <Hero imgSrc={herologo} />
-            <div className="text-container">
+            <div className='text-container'>
                 <div>
                     <h1>Försäljningsuppdrag</h1>
                     <div>
@@ -47,9 +235,7 @@ const SalesAssignment = (): JSX.Element => {
                         <p>
                             Om du föredrar att prata direkt med oss, kan du
                             ringa oss på telefonnummer:{' '}
-                            <a
-                                href="tel:+46 (0)8-400 687 86"
-                            >
+                            <a href='tel:+46 (0)8-400 687 86'>
                                 +46 (0)8-400 687 86
                             </a>
                         </p>
@@ -57,25 +243,126 @@ const SalesAssignment = (): JSX.Element => {
                             Vi ser fram emot att hjälpa dig att få det bästa
                             priset för din bil!
                         </p>
-                        <div className="divider-2"></div>
+                        <div className='divider-2'></div>
                     </div>
                 </div>
             </div>
 
-            <div className="sell-form-container">
-                <FormInput label={'Märke'} id={''} />
-                <FormInput label={'Modell'} id={''} />
-                <FormInput label={'Miltal'} id={''} />
-                <FormInput label={'Önskat pris'} id={''} />
-                <FormTextArea
-                    label={'Övrig info / Eventuella brister'}
-                    id={''}
-                />
-                <FormInput label={'E-post adress'} id={''} />
-                <FormInput label={'Telefonnummer'} id={''} />
+            <div className='sell-form-container'>
+                {loading && <Loader modalContainer={true} />}
+                <ToastContainer />
                 <div>
-                    <button className="btn">Skicka</button>
+                    <h1 style={{ margin: '0' }}>
+                        {isSubmitted ? 'Tack!' : 'Bilens uppgifter'}
+                    </h1>
                 </div>
+                {isSubmitted ? (
+                    <div className=''>
+                        <p>
+                            Vi uppskattar att du valt att använda vår tjänst för
+                            att sälja din bil och vi ser fram emot att hjälpa
+                            dig genom hela försäljningsprocessen.
+                        </p>
+                        <p>{`Vi kommer att kontakta dig på din angivna e-post (${initialValues.email}) adress när värderingen är klar.`}</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className='modal-input'>
+                            {inlineFormFields.map(
+                                (fields: IFormFields, index: number) => (
+                                    <FormInput
+                                        key={index}
+                                        label={fields.label}
+                                        id={fields.id}
+                                        name={fields.name}
+                                        value={
+                                            fields.value === 0
+                                                ? ''
+                                                : fields.value
+                                        }
+                                        onChange={(e) => handleInputChange(e)}
+                                        type={fields.type}
+                                        optionalInputStyle={{
+                                            border: errors[fields.name]
+                                                ? '2px solid red'
+                                                : ''
+                                        }}
+                                        placeholder={
+                                            errors[fields.name]
+                                                ? 'Obligatoriskt fält'
+                                                : ''
+                                        }
+                                        optionalText={
+                                            fields.name === FormGroup.milage
+                                                ? 'mil'
+                                                : ''
+                                        }
+                                    />
+                                )
+                            )}
+                        </div>
+                        <FormInput
+                            label={'Önskat pris*'}
+                            id={'Price'}
+                            name={FormGroup.price}
+                            value={
+                                initialValues.price === 0
+                                    ? ''
+                                    : initialValues.price
+                            }
+                            onChange={handleInputChange}
+                            type='number'
+                            optionalInputStyle={{
+                                border: errors.price ? '2px solid red' : '',
+                                fontSize: errors.price ? '16px' : ''
+                            }}
+                            placeholder={
+                                errors.price ? 'Obligatoriskt fält' : ''
+                            }
+                            optionalText={'kr'}
+                        />
+                        <FormTextArea
+                            label={'Övrig info / Eventuella brister'}
+                            id={'Info'}
+                            name={FormGroup.information}
+                            value={initialValues.information ?? ''}
+                            onChange={handleInputChange}
+                        />
+                        {formFields.map(
+                            (fields: IFormFields, index: number) => (
+                                <FormInput
+                                    key={index}
+                                    label={fields.label}
+                                    id={fields.id}
+                                    name={fields.name}
+                                    value={
+                                        fields.value === 0 ? '' : fields.value
+                                    }
+                                    onChange={(e) => handleInputChange(e)}
+                                    type={fields.type}
+                                    optionalInputStyle={{
+                                        border: errors[fields.name]
+                                            ? '2px solid red'
+                                            : ''
+                                    }}
+                                    placeholder={
+                                        errors[fields.name]
+                                            ? 'Obligatoriskt fält'
+                                            : ''
+                                    }
+                                />
+                            )
+                        )}
+                        <div>
+                            <button
+                                className='modal-btn'
+                                type='submit'
+                                onClick={onSubmit}>
+                                Skicka in dina biluppgifter
+                            </button>
+                        </div>
+                    </>
+                )}
             </div>
         </>
     )

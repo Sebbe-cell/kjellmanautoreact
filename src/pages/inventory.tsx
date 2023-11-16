@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
 import { routePaths } from '../utils/routePaths'
 import { IVehicleData } from '../utils/interfaces'
 import axios from 'axios'
 import Hero from '../components/hero'
-import logo from '../assets/showroom.jpg'
+import logo from '../assets/uppdragstor.jpg'
 import Loader from '../components/loader'
 import FormInput from '../components/formInput'
+import '../css/inventory.css'
 
 interface IBulletPoints {
     title: string
@@ -66,6 +68,7 @@ const Inventory = (): JSX.Element => {
     useEffect(() => {
         setLoading(true)
         axios
+            // .get(apiBaseUrl + apiEndpoints.inventory)
             .get(apiBaseUrl + apiEndpoints.inventory)
             .then((response) => {
                 setError(false)
@@ -134,60 +137,28 @@ const Inventory = (): JSX.Element => {
     return (
         <>
             <Hero imgSrc={logo} />
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <div
-                    style={{
-                        maxWidth: '80rem',
-                        padding: '2rem 2rem 0 2rem',
-                        textAlign: 'center',
-                    }}
-                >
-                    <h1>Bilar till salu</h1>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <ul className="inventory-list">
-                            {bulletPoints.map(
-                                (p: IBulletPoints, index: number) => (
-                                    <li
-                                        key={index}
-                                        style={{
-                                            color: 'white',
-                                            position: 'relative',
-                                            paddingLeft: '20px',
-                                        }}
-                                    >
-                                        <span
-                                            style={{
-                                                position: 'absolute',
-                                                left: '0',
-                                                color: 'gold',
-                                            }}
-                                        >
-                                            &bull;
-                                        </span>
-                                        {p.title}
-                                    </li>
-                                )
-                            )}
-                        </ul>
-                    </div>
-                    <div className="inventory-input">
-                        <FormInput
-                            label={'Sök bland våra bilar'}
-                            id={'search'}
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                        />
-                    </div>
-                </div>
-            </div>
             <div className="inventory-main-container">
+                <h1>Bilar till salu</h1>
+                <ul className="inventory-list">
+                    {bulletPoints.map((p: IBulletPoints, index: number) => (
+                        <React.Fragment key={index}>
+                            <li>
+                                <div></div>
+                                {p.title}
+                            </li>
+                        </React.Fragment>
+                    ))}
+                </ul>
+            </div>
+            <div className="sell-form-container">
+                <FormInput
+                    label={'Sök bland våra bilar'}
+                    id={'search'}
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                />
+            </div>
+            <div className="inventory-main-content">
                 <div className="inventory-grid-container">
                     {loading ? (
                         <>
@@ -208,115 +179,103 @@ const Inventory = (): JSX.Element => {
                                         <>
                                             {filteredCars.map(
                                                 (car: IVehicleData) => (
-                                                    <>
-                                                        <div className="inventory">
-                                                            <Link
-                                                                to={`${routePaths.inventory}/${car.$.id}`}
-                                                            >
-                                                                <div className="inventory-container">
-                                                                    <img
-                                                                        src={
-                                                                            car
-                                                                                .image?.[0]
-                                                                                ?.main[0]
-                                                                        }
-                                                                        alt={
-                                                                            'preview'
-                                                                        }
-                                                                        className="inventory-image"
-                                                                    />
-                                                                </div>
-                                                                <div className="inventory-content">
-                                                                    <p className="inventory-title">
-                                                                        {
-                                                                            car.headline
-                                                                        }
-                                                                    </p>
-                                                                    <div className="inventory-facts-container">
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                {
-                                                                                    car.modelyear
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                |
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                {
-                                                                                    car
-                                                                                        .miles[0]
-                                                                                        ._
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                |
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                {
-                                                                                    car.gearbox
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                |
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="inventory-description">
-                                                                            <span>
-                                                                                {
-                                                                                    car.primaryfuel
-                                                                                }
-                                                                            </span>
-                                                                        </div>
+                                                    <div
+                                                        className="inventory"
+                                                        key={car.$.id}
+                                                    >
+                                                        <Link
+                                                            to={`${routePaths.inventory}/${car.$.id}`}
+                                                        >
+                                                            <div className="inventory-container">
+                                                                <img
+                                                                    src={
+                                                                        car
+                                                                            .image?.[0]
+                                                                            ?.main[0]
+                                                                    }
+                                                                    alt={
+                                                                        'preview'
+                                                                    }
+                                                                    className="inventory-image"
+                                                                />
+                                                            </div>
+                                                            <div className="inventory-content">
+                                                                <p className="inventory-title">
+                                                                    {
+                                                                        car.headline
+                                                                    }
+                                                                </p>
+                                                                <div className="inventory-facts-container">
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            {
+                                                                                car.modelyear
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            |
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            {
+                                                                                car
+                                                                                    .miles[0]
+                                                                                    ._
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            |
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            {
+                                                                                car.gearbox
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            |
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="inventory-description">
+                                                                        <span>
+                                                                            {
+                                                                                car.primaryfuel
+                                                                            }
+                                                                        </span>
                                                                     </div>
                                                                 </div>
-                                                                <div className="inventory-footer">
-                                                                    <p
-                                                                        style={{
-                                                                            fontSize:
-                                                                                '20px',
-                                                                            fontWeight:
-                                                                                'bold',
-                                                                            margin: '0',
-                                                                        }}
-                                                                    >
-                                                                        {
-                                                                            car
-                                                                                .price[0]
-                                                                                ._
-                                                                        }
-                                                                    </p>
-                                                                    <p
-                                                                        style={{
-                                                                            fontSize:
-                                                                                '14px',
-                                                                        }}
-                                                                    >
-                                                                        {car.monthlyPrice
-                                                                            ?.toFixed(
-                                                                                0
-                                                                            )
-                                                                            .replace(
-                                                                                /\B(?=(\d{3})+(?!\d))/g,
-                                                                                '.'
-                                                                            )}{' '}
-                                                                        kr/månad
-                                                                    </p>
-                                                                    <div className="divider"></div>
-                                                                </div>
-                                                            </Link>
-                                                        </div>
-                                                    </>
+                                                            </div>
+                                                            <div className="inventory-footer">
+                                                                <h2>
+                                                                    {car.monthlyPrice
+                                                                        ?.toFixed(
+                                                                            0
+                                                                        )
+                                                                        .replace(
+                                                                            /\B(?=(\d{3})+(?!\d))/g,
+                                                                            '.'
+                                                                        )}{' '}
+                                                                    kr/månad
+                                                                </h2>
+                                                                <h3>
+                                                                    {
+                                                                        car
+                                                                            .price[0]
+                                                                            ._
+                                                                    }
+                                                                </h3>
+                                                                <div className="divider"></div>
+                                                            </div>
+                                                        </Link>
+                                                    </div>
                                                 )
                                             )}
                                         </>

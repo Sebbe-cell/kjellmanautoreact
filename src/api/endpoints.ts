@@ -1,4 +1,5 @@
 export const apiEndpoints = {
-    inventory: "/vehicles",
-    inventoryById: "/vehicle",
-  };
+  inventory: "/vehicles",
+  inventoryById: "/vehicle",
+  sendEmail: "/send-email",
+};

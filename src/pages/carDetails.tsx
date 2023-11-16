@@ -1,129 +1,311 @@
+import React from 'react'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
+import { routePaths } from '../utils/routePaths'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IAlteredVehicleData } from '../utils/interfaces'
 import {
+    faBolt,
+    faCalendar,
+    faCartShopping,
     faChevronLeft,
     faChevronRight,
-    faFilePdf,
+    faCircleInfo,
+    faCloudDownload,
+    faGasPump,
+    faGears,
+    faPaintBrush,
+    faPhone,
+    faRoad
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import jsPDF from 'jspdf'
 import axios from 'axios'
-import FormInput from '../components/formInput'
-import { routePaths } from '../utils/routePaths'
 import Loader from '../components/loader'
+import InventorySlider from '../components/inventorySlider'
+import CalculateMonthlyModal from '../components/modals/calculateMonthlyModal'
+import InterestModal from '../components/modals/interestModal'
+import ContactModal from '../components/modals/contactModal'
+import logo from '../assets/logga_svart_guld.png'
+import '../css/carDetails.css'
 
 const CarDetails = (): JSX.Element => {
     const { carId } = useParams()
 
+    const navigate = useNavigate()
+    const [openFullscreenImage, setOpenFullscreenImage] =
+        useState<boolean>(false)
+    const [modalValue, setModalValue] = useState<string>('')
+    const [openModal, setOpenModal] = useState<boolean>(false)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
-    const [months, setMonths] = useState(24)
     const [deposit, setDeposit] = useState('')
+    const [openCalculateMonthlyPrice, setOpenCalculateMonthlyPrice] =
+        useState(false)
     const [carData, setCarData] = useState({
-        headline: [],
+        headline: [''],
         miles: [
             {
                 _: '',
                 $: {
-                    value: '',
-                },
-            },
+                    value: ''
+                }
+            }
         ],
-        gearbox: [],
-        color: [],
-        description: [],
-        brand: [],
-        primaryfuel: [],
-        model: [],
-        modelyear: [],
-        bodytype: [],
-        otherequipment: [],
+        gearbox: [''],
+        color: [''],
+        description: [''],
+        brand: [''],
+        primaryfuel: [''],
+        identification: [''],
+        model: [''],
+        modelyear: [''],
+        bodytype: [''],
+        colortext: [''],
+        otherequipment: [''],
         price: [
             {
                 _: '',
                 $: {
-                    value: '',
-                },
-            },
+                    value: ''
+                }
+            }
         ],
         power: [
             {
                 _: '',
                 $: {
-                    value: '',
-                },
-            },
+                    value: ''
+                }
+            }
         ],
         $: {
             id: '',
-            locationid: '',
+            locationid: ''
         },
         image: [
             {
                 $: {
                     index: '',
-                    showh2h: '',
+                    showh2h: ''
                 },
                 thumb: [''],
                 main: [''],
-                large: [''],
-            },
-        ],
+                large: ['']
+            }
+        ]
     })
+    const [initialData, setInitialData] = useState<IAlteredVehicleData[]>([
+        {
+            headline: [''],
+            miles: [
+                {
+                    _: '15 057 mil',
+                    $: {
+                        value: '15057'
+                    }
+                }
+            ],
+            gearbox: [''],
+            primaryfuel: [''],
+            modelyear: [''],
+            price: [
+                {
+                    _: '',
+                    $: {
+                        value: ''
+                    }
+                }
+            ],
+            $: {
+                id: '',
+                locationid: ''
+            },
+            image: [
+                {
+                    $: {
+                        index: '',
+                        showh2h: ''
+                    },
+                    thumb: [''],
+                    main: [''],
+                    large: ['']
+                }
+            ]
+        }
+    ])
 
     useEffect(() => {
         setLoading(true)
-        if (carId) {
-            axios
-                .get(apiBaseUrl + apiEndpoints.inventoryById + '/' + carId)
-                .then((response) => {
+        axios
+            .get(apiBaseUrl + apiEndpoints.inventoryById + '/' + carId)
+            .then((response) => {
+                if (response.status === 200) {
                     setCarData(response.data)
 
                     const initialDeposit =
                         0.2 * parseFloat(response.data.price[0].$.value)
                     setDeposit(initialDeposit.toString())
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
-                .catch(() => {
+                } else if (response.status === 502) {
+                    axios
+                        .get(
+                            apiBaseUrl +
+                                apiEndpoints.inventoryById +
+                                '/' +
+                                carId
+                        )
+                        .then((response) => {
+                            if (response.status === 200) {
+                                setCarData(response.data)
+
+                                const initialDeposit =
+                                    0.2 *
+                                    parseFloat(response.data.price[0].$.value)
+                                setDeposit(initialDeposit.toString())
+                            }
+                        })
+                } else {
                     setError(true)
-                })
-        }
+                }
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+            .catch((e: any) => {
+                console.log(e)
+                setError(true)
+            })
     }, [carId])
+
+    useEffect(() => {
+        axios
+            .get(apiBaseUrl + apiEndpoints.inventory)
+            .then((response) => {
+                setError(false)
+                setInitialData(response.data.vehicles.vehicle)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+            .catch(() => {
+                setError(true)
+            })
+    }, [])
+
+    useEffect(() => {
+        if (openModal || openCalculateMonthlyPrice) {
+            document.body.classList.add('disable-background-scroll')
+        } else {
+            document.body.classList.remove('disable-background-scroll')
+        }
+
+        return () => {
+            document.body.classList.remove('disable-background-scroll')
+        }
+    }, [openModal, openCalculateMonthlyPrice])
+
+    const handleOpenModal = (e: any): void => {
+        setModalValue(e.target.value)
+        setOpenModal(true)
+        document.body.classList.add('disable-background-scroll')
+    }
+
+    const handleOpenCalculateMonthlyModal = (e: any): void => {
+        setOpenCalculateMonthlyPrice(true)
+        document.body.classList.add('disable-background-scroll')
+    }
+
+    const handleCloseModal = (): void => {
+        setOpenModal(false)
+        setOpenCalculateMonthlyPrice(false)
+        document.body.classList.remove('disable-background-scroll')
+    }
 
     const generateCarPDF = (carData: any): void => {
         const doc = new jsPDF({
             orientation: 'portrait', // Portrait orientation for A4
             unit: 'mm', // Units in millimeters
-            format: 'a4', // A4 page format
+            format: 'a4' // A4 page format
         })
 
-        // Header - Add the title
-        doc.setFontSize(18)
-        const title = 'Kjellman Auto'
-
-        // Calculate the width of the title
-        const titleWidth = doc.getTextWidth(title)
-
-        // Calculate the X-coordinate for centering the title
         const pageWidth = doc.internal.pageSize.width
-        const xCoordinate = (pageWidth - titleWidth) / 2
 
-        doc.text(title, xCoordinate, 25)
+        // Calculate the width and X-coordinate for centering the logo
+        const logoWidth = 120
+        const xLogoCoordinate = (pageWidth - logoWidth) / 2
 
-        // Body
+        // Add the logo at the centered position
+        doc.addImage(logo, 'PNG', xLogoCoordinate, 10, logoWidth, 15)
+        doc.line(10, 35, 200, 35)
+
+        const fontSize = 34
+
+        doc.setFontSize(fontSize)
+
+        // Calculate the width of the text
+        const titleWidth =
+            (doc.getStringUnitWidth(carData.headline[0]) * fontSize) /
+            doc.internal.scaleFactor
+
+        // Calculate the X-coordinate for centering the text
+        const xTitleCoordinate = (pageWidth - titleWidth) / 2
+
+        // Add the centered title
+        doc.text(carData.headline[0], xTitleCoordinate, 55)
         doc.setFontSize(12)
-        doc.text(carData.headline, 10, 65)
-        doc.text(`Märke: ${carData.brand}`, 10, 75)
-        doc.text(`Modell: ${carData.model}`, 10, 85)
-        doc.text(`Miltal: ${carData.miles[0]._}`, 10, 95)
-        doc.text(`Pris: ${carData.price[0]._}`, 10, 105)
+        doc.text(`Modellår: ${carData.modelyear}`, 10, 75)
+        doc.text(`Mäterställning: ${carData.miles[0]._}`, 10, 85)
+        doc.text(`Växellåda: ${carData.gearbox[0]}`, 10, 95)
+        doc.text(`Bränsle: ${carData.primaryfuel[0]}`, 10, 105)
+        doc.text(`Hästkrafter: ${carData.power[0]._}`, 10, 115)
+        // Split description into lines to fit within a specified width
+        const maxWidth = 170 // Adjust the width as needed
+        const descriptionLines = doc.splitTextToSize(
+            carData.description[0],
+            maxWidth
+        )
+
+        // Add each line of the description to the document
+        descriptionLines.forEach((line: any, index: any) => {
+            const yOffset = 125 + index * 4 // Adjust the vertical spacing as needed
+            doc.text(line, 10, yOffset)
+        })
+
+        doc.setFontSize(68)
+        // Calculate the width of the calculateMonthlyPrice() string
+        const priceText = carData.price[0]._
+        const priceWidth = doc.getTextWidth(priceText)
+
+        // Calculate the X-coordinate for centering the monthly price
+        const xCoordinatePrice = (pageWidth - priceWidth) / 2
+
+        // Manually set the y-coordinate to 250 (adjust as needed)
+        const yCoordinatePrice = 230
+
+        doc.text(priceText, xCoordinatePrice, yCoordinatePrice)
+
+        doc.setFontSize(54)
+        // Calculate the width of the calculateMonthlyPrice() string
+        const monthlyPriceText = calculateMonthlyPrice()
+        const monthlyPriceWidth = doc.getTextWidth(monthlyPriceText)
+
+        // Calculate the X-coordinate for centering the monthly price
+        const xCoordinateMonthlyPrice = (pageWidth - monthlyPriceWidth) / 2
+
+        // Manually set the y-coordinate to 250 (adjust as needed)
+        const yCoordinateMonthlyPrice = 260
+
+        doc.text(
+            monthlyPriceText,
+            xCoordinateMonthlyPrice,
+            yCoordinateMonthlyPrice
+        )
 
         // Footer
+        doc.line(10, 280, 200, 280)
         doc.setFontSize(10)
         doc.text(
             'Teknikervägen 1, 149 45 Nynäshamn | Tel: +46 (0)8-400 687 86',
@@ -132,63 +314,22 @@ const CarDetails = (): JSX.Element => {
             { align: 'center' }
         )
 
-        // Convert the PDF to a data URL.
-        const pdfDataUri = doc.output('datauristring')
-
-        // Open the PDF in a new tab.
-        const newTab = window.open()
-        if (newTab) {
-            newTab.document.write(
-                '<iframe width="100%" height="100%" src="' +
-                    pdfDataUri +
-                    '"></iframe'
-            )
-        } else {
-            // Handle the case where window.open failed (e.g., due to a popup blocker).
-            alert(
-                'Failed to open a new tab. Please check your browser settings.'
-            )
-        }
+        const fileName = `${carData.headline[0]}.pdf`
+        doc.save(fileName)
     }
 
     const handleDownloadPDF = (): void => {
         generateCarPDF(carData)
     }
 
-    const handleChangeMonths = (e: any): void => {
-        setMonths(Number(e.target.value))
-    }
-
-    const handleChangeDeposit = (e: any): void => {
-        setDeposit(e.target.value)
-    }
-
-    if (!carData) {
-        return <div>Bilen hittades inte</div>
-    }
-
-    const interestRate = 0.07
+    const totalImageLength = carData.image.length
+    const interestRate = 0.08
     const carPrice = parseFloat(carData.price[0].$.value)
+    const months = 84
 
     const calculateMonthlyPrice = (): string => {
         const convertedDeposit = deposit.replace(/\./g, '')
-        console.log(convertedDeposit)
-        if (months === 0) {
-            return 'Välj antal månader'
-        }
-
-        // Calculate the loan amount after deducting the deposit
         const loanAmount = carPrice - Number(convertedDeposit)
-
-        if (loanAmount <= 0) {
-            return 'Depositionen är högre än eller lika med bilens pris.'
-        }
-
-        // Check if the deposit is less than 20% of the initial price
-        const twentyPercentOfPrice = 0.2 * carPrice
-        if (Number(convertedDeposit) < twentyPercentOfPrice) {
-            return 'Handpenningen måste vara minst 20%'
-        }
 
         const monthlyInterestRate = interestRate / 12
         const numerator =
@@ -226,7 +367,18 @@ const CarDetails = (): JSX.Element => {
     const flattenedEquipmentArray = otherEquipmentArray
         .join(',')
         .split(',')
-        .map((item) => item.trim())
+        .map((item, index) => ({
+            key: index,
+            value: item.trim()
+        }))
+
+    const handleBackBtn = (): void => {
+        navigate(routePaths.inventory)
+    }
+
+    const handleToggleFullScreen = (): void => {
+        setOpenFullscreenImage(!openFullscreenImage)
+    }
 
     return (
         <>
@@ -236,162 +388,419 @@ const CarDetails = (): JSX.Element => {
                 </>
             ) : (
                 <>
-                    <div className="car-details-wrapper">
+                    <div className='car-details-wrapper'>
                         {error ? (
                             <h1>Bilen du letar efter kunde ej hittas</h1>
                         ) : (
                             <>
-                                <div className="car-details-btn-container">
-                                    <button className="standard-btn">
-                                        <Link to={routePaths.inventory}>
-                                            <FontAwesomeIcon
-                                                icon={faChevronLeft}
-                                                size="xl"
-                                            />{' '}
-                                            Tillbaka till butiken
-                                        </Link>
+                                <div className='car-details-btn-container'>
+                                    <button
+                                        onClick={handleBackBtn}
+                                        className='standard-btn'>
+                                        <FontAwesomeIcon
+                                            icon={faChevronLeft}
+                                            size='xl'
+                                        />{' '}
+                                        Tillbaka till lagret
                                     </button>
                                     <button
                                         onClick={handleDownloadPDF}
-                                        className="standard-btn"
-                                    >
+                                        className='standard-btn'>
                                         <FontAwesomeIcon
-                                            icon={faFilePdf}
-                                            size="xl"
+                                            icon={faCloudDownload}
+                                            size='xl'
                                         />{' '}
                                         Ladda ner PDF
                                     </button>
                                 </div>
-                                <div className="car-details-container">
-                                    <div className="car-details-img">
-                                        <div className="car-details-icon-left">
-                                            <FontAwesomeIcon
-                                                icon={faChevronLeft}
-                                                size="3x"
-                                                onClick={goToNext}
+                                <div className='car-details-container'>
+                                    <div className='car-details-img-container'>
+                                        <div className='car-details-img'>
+                                            <div className='car-details-icon-left'>
+                                                <FontAwesomeIcon
+                                                    icon={faChevronLeft}
+                                                    size='3x'
+                                                    onClick={goToPrevious}
+                                                />
+                                            </div>
+                                            <img
+                                                alt=''
+                                                src={
+                                                    carData.image[currentIndex]
+                                                        .large[0]
+                                                }
                                             />
+                                            <div className='car-details-icon-top'>
+                                                <p
+                                                    onClick={
+                                                        handleToggleFullScreen
+                                                    }>
+                                                    Fullskärm
+                                                </p>
+                                            </div>
+                                            <div className='car-details-icon-bottom'>
+                                                <p>
+                                                    {`Bild ${
+                                                        currentIndex + 1
+                                                    } av ${totalImageLength}`}
+                                                </p>
+                                            </div>
+                                            <div className='car-details-icon-right'>
+                                                <FontAwesomeIcon
+                                                    icon={faChevronRight}
+                                                    onClick={goToNext}
+                                                    size='3x'
+                                                />
+                                            </div>
                                         </div>
-                                        <img
-                                            alt=""
-                                            src={
-                                                carData.image[currentIndex]
-                                                    .large[0]
-                                            }
-                                        />
-                                        <div className="car-details-icon-right">
-                                            <FontAwesomeIcon
-                                                icon={faChevronRight}
-                                                onClick={goToPrevious}
-                                                size="3x"
-                                            />
-                                        </div>
-                                        <div className="car-details-slider-container">
+                                        <div className='car-details-slider-container'>
                                             {carData.image.map((i, key) => (
                                                 <div
                                                     onClick={() =>
                                                         setNewIndex(key)
                                                     }
                                                     key={key}
-                                                    className="car-details-slider"
-                                                >
+                                                    className='car-details-slider'>
                                                     <img
                                                         src={i.thumb[0]}
-                                                        alt=""
+                                                        alt=''
                                                     />
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="car-details-info">
+                                    <div className='car-details-info'>
                                         <div>
                                             <h1>{carData.headline}</h1>
-                                            <div className="divider"></div>
-                                            <div className="inline-items">
-                                                {flattenedEquipmentArray.map(
-                                                    (item, index) => (
-                                                        <>
-                                                            <div className="inline-dot"></div>
-                                                            <div
-                                                                key={index}
-                                                                className="inline-item"
-                                                            >
-                                                                {item}
-                                                            </div>
-                                                        </>
-                                                    )
-                                                )}
-                                            </div>
-                                            <div className="divider"></div>
-                                            <p>{carData.description}</p>
-                                            <div className="divider"></div>
-                                            <p>
-                                                Räkna ut din månadskostnad här:
-                                            </p>
+                                            <div className='divider'></div>
                                             <div
                                                 style={{
                                                     display: 'flex',
-                                                    alignItems: 'center',
+                                                    flexDirection: 'row',
+                                                    width: '100%',
                                                     gap: '1rem',
-                                                }}
-                                            >
-                                                <input
-                                                    type="range"
-                                                    min="0"
-                                                    max="72"
-                                                    value={months}
-                                                    onChange={(e) =>
-                                                        handleChangeMonths(e)
-                                                    }
-                                                />
-                                                <span>{months} månader</span>
+                                                    margin: '0',
+                                                    flexWrap: 'wrap'
+                                                }}>
+                                                <p
+                                                    style={{
+                                                        margin: '0',
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        padding: '6px',
+                                                        color: 'white',
+                                                        borderRadius: '4px',
+                                                        fontSize: '16px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        gap: '0.4rem'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faCalendar}
+                                                    />{' '}
+                                                    {carData.modelyear}
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        margin: '0',
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        padding: '6px',
+                                                        color: 'white',
+                                                        borderRadius: '4px',
+                                                        fontSize: '16px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        gap: '0.4rem'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faRoad}
+                                                    />{' '}
+                                                    {carData.miles[0]._}
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        margin: '0',
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        padding: '6px',
+                                                        color: 'white',
+                                                        borderRadius: '4px',
+                                                        fontSize: '16px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        gap: '0.4rem'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faGears}
+                                                    />{' '}
+                                                    {carData.gearbox}
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        margin: '0',
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        padding: '6px',
+                                                        color: 'white',
+                                                        borderRadius: '4px',
+                                                        fontSize: '16px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        gap: '0.4rem'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faGasPump}
+                                                    />{' '}
+                                                    {carData.primaryfuel}
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        margin: '0',
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        padding: '6px',
+                                                        color: 'white',
+                                                        borderRadius: '4px',
+                                                        fontSize: '16px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        gap: '0.4rem'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faBolt}
+                                                    />{' '}
+                                                    {carData.power[0]._}
+                                                </p>
+                                                <p
+                                                    style={{
+                                                        margin: '0',
+                                                        backgroundColor:
+                                                            'transparent',
+                                                        padding: '6px',
+                                                        color: 'white',
+                                                        borderRadius: '4px',
+                                                        fontSize: '16px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        gap: '0.4rem'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faPaintBrush}
+                                                    />{' '}
+                                                    {carData.colortext}
+                                                </p>
                                             </div>
-
+                                            <div className='divider'></div>
+                                            <div className='inline-items'>
+                                                {flattenedEquipmentArray.map(
+                                                    (item) => (
+                                                        <React.Fragment
+                                                            key={item.key}>
+                                                            <div className='inline-dot'></div>
+                                                            <div className='inline-item'>
+                                                                <>
+                                                                    {item.value}
+                                                                </>
+                                                            </div>
+                                                        </React.Fragment>
+                                                    )
+                                                )}
+                                            </div>
+                                            <div className='divider'></div>
+                                            <p>{carData.description}</p>
+                                            <p>
+                                                Registreringsnummer:{' '}
+                                                {carData.identification}
+                                            </p>
+                                            <div className='divider'></div>
                                             <div
                                                 style={{
-                                                    width: '20rem',
-                                                    margin: '1.5rem 0',
-                                                }}
-                                            >
-                                                <FormInput
-                                                    type="number"
-                                                    label={
-                                                        'Handpenning (minst 20%)'
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent:
+                                                        'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                <div>
+                                                    <p
+                                                        style={{
+                                                            padding: '3px',
+                                                            margin: '0',
+                                                            fontSize: '26px'
+                                                        }}>
+                                                        {calculateMonthlyPrice()}
+                                                        <span className='info-btn'>
+                                                            <FontAwesomeIcon
+                                                                onClick={
+                                                                    handleOpenCalculateMonthlyModal
+                                                                }
+                                                                icon={
+                                                                    faCircleInfo
+                                                                }
+                                                                size='xs'
+                                                            />
+                                                        </span>
+                                                    </p>
+                                                    <h1
+                                                        style={{
+                                                            margin: '0',
+                                                            paddingTop: '3px',
+                                                            color: 'rgb(211, 174, 95)'
+                                                        }}>
+                                                        {carData.price[0]._}
+                                                    </h1>
+                                                </div>
+                                                <div className='car-details-info-container'>
+                                                    <button
+                                                        value='interest'
+                                                        onClick={(e) =>
+                                                            handleOpenModal(e)
+                                                        }
+                                                        className='standard-btn'
+                                                        style={{
+                                                            fontSize: '14px'
+                                                        }}>
+                                                        <FontAwesomeIcon
+                                                            icon={
+                                                                faCartShopping
+                                                            }
+                                                            size='xl'
+                                                        />{' '}
+                                                        Intresseanmälan
+                                                    </button>
+                                                    <button
+                                                        value='contact'
+                                                        onClick={(e) =>
+                                                            handleOpenModal(e)
+                                                        }
+                                                        className='standard-btn'
+                                                        style={{
+                                                            fontSize: '14px'
+                                                        }}>
+                                                        <FontAwesomeIcon
+                                                            icon={faPhone}
+                                                            size='xl'
+                                                        />{' '}
+                                                        Kontakta oss
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className='car-details-info-container__mobile'>
+                                                <button
+                                                    value='interest'
+                                                    onClick={(e) =>
+                                                        handleOpenModal(e)
                                                     }
-                                                    id={'deposit'}
-                                                    value={deposit}
-                                                    onChange={(e) =>
-                                                        handleChangeDeposit(e)
+                                                    className='standard-btn'
+                                                    style={{
+                                                        fontSize: '14px'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faCartShopping}
+                                                        size='xl'
+                                                    />{' '}
+                                                    Intresseanmälan
+                                                </button>
+                                                <button
+                                                    value='contact'
+                                                    onClick={(e) =>
+                                                        handleOpenModal(e)
                                                     }
-                                                />
+                                                    className='standard-btn'
+                                                    style={{
+                                                        fontSize: '14px'
+                                                    }}>
+                                                    <FontAwesomeIcon
+                                                        icon={faPhone}
+                                                        size='xl'
+                                                    />{' '}
+                                                    Kontakta oss
+                                                </button>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div className="divider"></div>
-                                            <h1
-                                                style={{
-                                                    margin: '0',
-                                                    paddingTop: '3px',
-                                                    color: 'rgb(211, 174, 95)',
-                                                }}
-                                            >
-                                                {carData.price[0]._}
-                                            </h1>
-                                            <p
-                                                style={{
-                                                    padding: '3px',
-                                                    margin: '0',
-                                                    fontSize: '16px',
-                                                }}
-                                            >
-                                                {calculateMonthlyPrice()}
-                                            </p>
-                                        </div>
                                     </div>
+                                </div>
+                                <div
+                                    style={{
+                                        width: '100%',
+                                        marginTop: '10rem'
+                                    }}>
+                                    <InventorySlider
+                                        loading={loading}
+                                        error={error}
+                                        data={initialData}
+                                    />
                                 </div>
                             </>
                         )}
                     </div>
                 </>
+            )}
+
+            {openCalculateMonthlyPrice && (
+                <CalculateMonthlyModal
+                    onClose={handleCloseModal}
+                    carData={carData}
+                />
+            )}
+
+            {openModal && (
+                <>
+                    {modalValue === 'interest' ? (
+                        <InterestModal
+                            headerText={carData.headline[0]}
+                            onClose={handleCloseModal}
+                        />
+                    ) : (
+                        <ContactModal
+                            headerText={'Kontakta oss direkt'}
+                            onClose={handleCloseModal}
+                        />
+                    )}
+                </>
+            )}
+
+            {openFullscreenImage && (
+                <div className='fullscreen-container'>
+                    <div className='fullscreen-wrapper'>
+                        <div style={{ paddingRight: '2rem' }}>
+                            <FontAwesomeIcon
+                                icon={faChevronLeft}
+                                onClick={goToPrevious}
+                                size='3x'
+                            />
+                        </div>
+                        <div className='fullscreen-img-container'>
+                            <img
+                                alt=''
+                                src={carData.image[currentIndex].large[0]}
+                            />
+                            <div className='test1'>
+                                <p onClick={handleToggleFullScreen}>Stäng</p>
+                            </div>
+                        </div>
+                        <div style={{ paddingLeft: '2rem' }}>
+                            <FontAwesomeIcon
+                                icon={faChevronRight}
+                                onClick={goToNext}
+                                size='3x'
+                            />
+                        </div>
+                    </div>
+                </div>
             )}
         </>
     )

@@ -11,6 +11,13 @@
     background-color: #0f1a25;
 }
 
+.test {
+    position: absolute;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
 .spinner {
     width: 40px;
     height: 40px;

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+
 import herologo from '../assets/kamrem.jpg'
 import Hero from '../components/hero'
-import Modal from '../components/modal'
+import WarrantyModal from '../components/modals/warrantyModal'
+import '../css/modal.css'
 
 const Warranty = (): JSX.Element => {
     const [openModal, setOpenModal] = useState<boolean>(false)
@@ -31,7 +33,7 @@ const Warranty = (): JSX.Element => {
     return (
         <>
             <Hero imgSrc={herologo} />
-            <div className="text-container">
+            <div className='text-container'>
                 <div>
                     <h1>Garantivillkor</h1>
                     <div>
@@ -106,9 +108,9 @@ const Warranty = (): JSX.Element => {
                         </p>
                     </div>
 
-                    <div className="divider-2"></div>
+                    <div className='divider-2'></div>
 
-                    <div className="fault-report-container">
+                    <div className='fault-report-container'>
                         <div>
                             <h1>Reklamation</h1>
                             <p>
@@ -116,10 +118,13 @@ const Warranty = (): JSX.Element => {
                                 på bästa sätt, vänligen fyll i formuläret nedan.
                                 Vi är dedikerade till att lösa eventuella
                                 problem och säkerställa din fullständiga nöjdhet
-                                med din bilaffär. Vi kommer att återkomma inom
-                                en skälig tidsram.
+                                med din bilaffär. När din reklamation har blivit
+                                genomgången kommer vi att återkomma inom en
+                                rimlig tidsram.
                             </p>
-                            <button className="btn" onClick={handleOpenModal}>
+                            <button
+                                className='modal-btn'
+                                onClick={handleOpenModal}>
                                 Öppna formuläret
                             </button>
                         </div>
@@ -128,14 +133,11 @@ const Warranty = (): JSX.Element => {
             </div>
 
             {openModal && (
-                <div style={{ zIndex: '1' }}>
-                    <Modal
-                        isWarrantyForm={true}
-                        headerText="Fyll i formuläret"
-                        submittedText="Tack!"
-                        onClose={handleCloseModal}
-                    />
-                </div>
+                <WarrantyModal
+                    headerText='Fyll i formuläret'
+                    submittedText='Tack!'
+                    onClose={handleCloseModal}
+                />
             )}
         </>
     )
