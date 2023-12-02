@@ -5,11 +5,11 @@ import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
 import { routePaths } from '../utils/routePaths'
 import { IVehicleData } from '../utils/interfaces'
+import { Helmet } from 'react-helmet'
 import axios from 'axios'
-import Hero from '../components/hero'
-import logo from '../assets/uppdragstor.jpg'
 import Loader from '../components/loader'
 import FormInput from '../components/formInput'
+import videoBg from '../assets/jul.mp4'
 import '../css/inventory.css'
 
 interface IBulletPoints {
@@ -28,9 +28,9 @@ const Inventory = (): JSX.Element => {
                 {
                     _: '',
                     $: {
-                        value: '',
-                    },
-                },
+                        value: ''
+                    }
+                }
             ],
             gearbox: [''],
             color: [''],
@@ -43,32 +43,31 @@ const Inventory = (): JSX.Element => {
                 {
                     _: '',
                     $: {
-                        value: '',
-                    },
-                },
+                        value: ''
+                    }
+                }
             ],
             $: {
                 id: '',
-                locationid: '',
+                locationid: ''
             },
             image: [
                 {
                     $: {
                         index: '',
-                        showh2h: '',
+                        showh2h: ''
                     },
                     thumb: [''],
                     main: [''],
-                    large: [''],
-                },
-            ],
-        },
+                    large: ['']
+                }
+            ]
+        }
     ])
 
     useEffect(() => {
         setLoading(true)
         axios
-            // .get(apiBaseUrl + apiEndpoints.inventory)
             .get(apiBaseUrl + apiEndpoints.inventory)
             .then((response) => {
                 setError(false)
@@ -78,7 +77,7 @@ const Inventory = (): JSX.Element => {
                         ...car,
                         monthlyPrice: calculateMonthlyPrice(
                             car.price[0].$.value
-                        ),
+                        )
                     }))
                 )
             })
@@ -105,7 +104,7 @@ const Inventory = (): JSX.Element => {
         { title: 'Varudeklarerade bilar' },
         { title: 'Hemleverans i hela Sverige' },
         { title: 'Möjlighet till 12-24 månaders garanti' },
-        { title: 'Förmånlig finansiering via Santander Bank' },
+        { title: 'Förmånlig finansiering via Santander Bank' }
     ]
 
     const calculateMonthlyPrice = (price: string) => {
@@ -116,10 +115,10 @@ const Inventory = (): JSX.Element => {
         const deposit = 0.2 * carPrice
 
         // Interest rate is 7% per year
-        const annualInterestRate = 0.07
+        const annualInterestRate = 0.0795
 
         // Total length of the loan in months
-        const totalLength = 48
+        const totalLength = 84
 
         // Calculate the monthly interest rate
         const monthlyInterestRate = annualInterestRate / 12
@@ -136,10 +135,27 @@ const Inventory = (): JSX.Element => {
 
     return (
         <>
-            <Hero imgSrc={logo} />
-            <div className="inventory-main-container">
+            <Helmet>
+                <title>Kjellman Auto - Lager</title>
+                <meta
+                    name='description'
+                    content='Utforska vårt lager'
+                />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
+            <video
+            style={{width: '100%', height: '400px', objectFit: 'cover'}}
+                    src={videoBg}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    disablePictureInPicture
+                    disableRemotePlayback
+                />
+            <div className='inventory-main-container'>
                 <h1>Bilar till salu</h1>
-                <ul className="inventory-list">
+                <ul className='inventory-list'>
                     {bulletPoints.map((p: IBulletPoints, index: number) => (
                         <React.Fragment key={index}>
                             <li>
@@ -150,7 +166,7 @@ const Inventory = (): JSX.Element => {
                     ))}
                 </ul>
             </div>
-            <div className="sell-form-container">
+            <div className='sell-form-container'>
                 <FormInput
                     label={'Sök bland våra bilar'}
                     id={'search'}
@@ -158,8 +174,8 @@ const Inventory = (): JSX.Element => {
                     onChange={(e) => setSearchInput(e.target.value)}
                 />
             </div>
-            <div className="inventory-main-content">
-                <div className="inventory-grid-container">
+            <div className='inventory-main-content'>
+                <div className='inventory-grid-container'>
                     {loading ? (
                         <>
                             <Loader />
@@ -180,13 +196,11 @@ const Inventory = (): JSX.Element => {
                                             {filteredCars.map(
                                                 (car: IVehicleData) => (
                                                     <div
-                                                        className="inventory"
-                                                        key={car.$.id}
-                                                    >
+                                                        className='inventory'
+                                                        key={car.$.id}>
                                                         <Link
-                                                            to={`${routePaths.inventory}/${car.$.id}`}
-                                                        >
-                                                            <div className="inventory-container">
+                                                            to={`${routePaths.inventory}/${car.$.id}`}>
+                                                            <div className='inventory-container'>
                                                                 <img
                                                                     src={
                                                                         car
@@ -196,29 +210,29 @@ const Inventory = (): JSX.Element => {
                                                                     alt={
                                                                         'preview'
                                                                     }
-                                                                    className="inventory-image"
+                                                                    className='inventory-image'
                                                                 />
                                                             </div>
-                                                            <div className="inventory-content">
-                                                                <p className="inventory-title">
+                                                            <div className='inventory-content'>
+                                                                <p className='inventory-title'>
                                                                     {
                                                                         car.headline
                                                                     }
                                                                 </p>
-                                                                <div className="inventory-facts-container">
-                                                                    <div className="inventory-description">
+                                                                <div className='inventory-facts-container'>
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             {
                                                                                 car.modelyear
                                                                             }
                                                                         </span>
                                                                     </div>
-                                                                    <div className="inventory-description">
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             |
                                                                         </span>
                                                                     </div>
-                                                                    <div className="inventory-description">
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             {
                                                                                 car
@@ -227,24 +241,24 @@ const Inventory = (): JSX.Element => {
                                                                             }
                                                                         </span>
                                                                     </div>
-                                                                    <div className="inventory-description">
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             |
                                                                         </span>
                                                                     </div>
-                                                                    <div className="inventory-description">
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             {
                                                                                 car.gearbox
                                                                             }
                                                                         </span>
                                                                     </div>
-                                                                    <div className="inventory-description">
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             |
                                                                         </span>
                                                                     </div>
-                                                                    <div className="inventory-description">
+                                                                    <div className='inventory-description'>
                                                                         <span>
                                                                             {
                                                                                 car.primaryfuel
@@ -253,7 +267,7 @@ const Inventory = (): JSX.Element => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="inventory-footer">
+                                                            <div className='inventory-footer'>
                                                                 <h2>
                                                                     {car.monthlyPrice
                                                                         ?.toFixed(
@@ -272,7 +286,7 @@ const Inventory = (): JSX.Element => {
                                                                             ._
                                                                     }
                                                                 </h3>
-                                                                <div className="divider"></div>
+                                                                <div className='divider'></div>
                                                             </div>
                                                         </Link>
                                                     </div>

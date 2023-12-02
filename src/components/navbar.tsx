@@ -136,13 +136,6 @@ const Navbar = (): JSX.Element => {
                         >
                             <FontAwesomeIcon icon={faInstagram} size="2x" />
                         </a>
-                        <a
-                            href="https://www.instagram.com/kjellmanauto/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <FontAwesomeIcon icon={faFacebook} size="2x" />
-                        </a>
                     </div>
                     <div className="navbar-mobile">
                         <div

@@ -9,8 +9,8 @@ interface ICalculateMonthly {
 const CalculateMonthlyModal = (props: ICalculateMonthly): JSX.Element => {
     const { onClose, carData } = props
 
-    const [months, setMonths] = useState(24)
-    const [deposit, setDeposit] = useState('')
+    const [months, setMonths] = useState<number>(24)
+    const [deposit, setDeposit] = useState<string>('')
 
     useEffect(() => {
         const initialDeposit = 0.3 * parseFloat(carData.price[0].$.value)
@@ -25,7 +25,7 @@ const CalculateMonthlyModal = (props: ICalculateMonthly): JSX.Element => {
         setDeposit(e.target.value)
     }
 
-    const interestRate = 0.08
+    const interestRate = 0.0795
     const carPrice = parseFloat(carData.price[0].$.value)
     const minDeposit = 0.2 * carPrice
     const maxDeposit = 0.8 * carPrice
@@ -53,66 +53,83 @@ const CalculateMonthlyModal = (props: ICalculateMonthly): JSX.Element => {
     }
 
     return (
-        <div className="modal">
-            <div className="modal-container">
-                <div className="modal-header">
-                    <h1>Räkna ut din månadskostnad här</h1>
-                    <p>Bilen pris: {carData.price[0].$.value} kr</p>
-                    <p>Ränta: 7.95%</p>
-                </div>
-                <div style={{ width: '100%' }} className="modal-body">
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'start',
-                            flexDirection: 'column',
-                            width: '100%',
-                        }}
-                    >
-                        <div>
-                            <span>{`Lånetid (${months} månader)`}</span>
-                        </div>
-                        <input
-                            type="range"
-                            min="12"
-                            max="72"
-                            value={months}
-                            onChange={(e) => handleChangeMonths(e)}
-                        />
+        <div className='modal'>
+            <div className='modal-container'>
+                <div className='modal-header__monthly'>
+                    <div>
+                        <h1>Räkna ut din månadskostnad här</h1>
                     </div>
-
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'start',
-                            flexDirection: 'column',
-                            width: '100%',
-                        }}
-                    >
-                        <div>
-                            <span>{`Kontantinsats (${deposit} kr)`}</span>
+                    <div className='modal-header__monthly_info'>
+                        <p>Bilen pris: {carData.price[0].$.value} kr</p>
+                        <p>Ränta: 7.95%</p>
+                    </div>
+                </div>
+                <div style={{ width: '100%' }} className='modal-body'>
+                    <div className='calculate-container'>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'start',
+                                flexDirection: 'column',
+                                width: '100%'
+                            }}>
+                            <div>
+                                <span>{`Lånetid (${months} månader)`}</span>
+                            </div>
+                            <div style={{ width: '100%' }}>
+                                <input
+                                    style={{ width: '100%' }}
+                                    type='range'
+                                    min='12'
+                                    max='84'
+                                    value={months}
+                                    onChange={(e) => handleChangeMonths(e)}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <input
-                                type="range"
-                                min={minDeposit}
-                                max={maxDeposit}
-                                value={deposit}
-                                onChange={(e) => handleChangeDeposit(e)}
-                            />
+
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'start',
+                                flexDirection: 'column',
+                                width: '100%'
+                            }}>
+                            <div>
+                                <span>{`Kontantinsats (${deposit} kr)`}</span>
+                            </div>
+                            <div style={{ width: '100%' }}>
+                                <input
+                                    style={{ width: '100%' }}
+                                    type='range'
+                                    min={minDeposit}
+                                    max={maxDeposit}
+                                    value={deposit}
+                                    onChange={(e) => handleChangeDeposit(e)}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div>
-                        <h1>{calculateMonthlyPrice()}</h1>
-                        <p>Alla priser är inkl moms</p>
-                        <p>
-                            Uppläggningsavg. samt aviavgift tillkommer. Effektiv
-                            ränta
+                        <h1
+                            style={{
+                                fontSize: '28px',
+                                textAlign: 'center',
+                                marginBottom: '3rem'
+                            }}>{`Din månadskostnad: ${calculateMonthlyPrice()}*`}</h1>
+                        <div className='divider'></div>
+                        <p style={{ fontSize: '14px' }}>
+                            *Alla priser är inkl moms
+                            <br />
+                            Uppläggningsavg. samt aviavgift tillkommer.
                         </p>
                     </div>
                 </div>
-                <div className="modal-footer">
-                    <button type="button" className="modal-btn" onClick={onClose}>
+                <div className='modal-footer'>
+                    <button
+                        type='button'
+                        className='modal-btn'
+                        onClick={onClose}>
                         Stäng
                     </button>
                 </div>

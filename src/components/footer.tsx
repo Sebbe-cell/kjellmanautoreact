@@ -11,7 +11,8 @@ const Footer = (): JSX.Element => {
         <>
             <div className='footer'>
                 <div className='footer-content'>
-                    <div style={{textAlign: 'start', paddingLeft: '1rem'}}> 
+                    <div className='footer-links'>
+                        <p>Snabblänkar:</p>
                         <Link to={routePaths.inventory}>
                             <p>Köp</p>
                         </Link>
@@ -22,10 +23,10 @@ const Footer = (): JSX.Element => {
                             <p>Kontakt</p>
                         </Link>
                     </div>
-                    <div>
-                       <img src={Logo} alt='Logo' style={{width: '450px', height: '40px'}}/>
+                    <div className='footer-logo'>
+                        <img src={Logo} alt='Logo' />
                     </div>
-                    <div style={{textAlign: 'end', paddingRight: '1rem'}}>
+                    <div className='footer-info'>
                         <p>Teknikervägen 1, 149 45 Nynäshamn</p>
                         <p>
                             <a href='tel:+46 (0)8-400 687 86'>
@@ -33,13 +34,12 @@ const Footer = (): JSX.Element => {
                             </a>
                         </p>
                         <a
-                        style={{paddingRight: '.4rem'}}
+                            style={{ paddingRight: '.4rem' }}
                             href='https://www.instagram.com/kjellmanauto/'
                             target='_blank'
                             rel='noreferrer'>
                             <FontAwesomeIcon icon={faInstagram} size='2x' />
                         </a>
-                        <FontAwesomeIcon icon={faFacebook} size='2x' />
                     </div>
                 </div>
             </div>

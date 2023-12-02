@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { routePaths } from '../utils/routePaths'
-import videoBg from '../assets/kabgloop.mp4'
+import videoBg from '../assets/snow1.mp4'
 import logo from '../assets/vit.svg'
 import '../css/hero.css'
 

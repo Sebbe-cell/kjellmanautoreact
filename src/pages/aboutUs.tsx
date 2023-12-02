@@ -1,5 +1,6 @@
 import Hero from '../components/hero'
 import herologo from '../assets/aboutus.jpg'
+import '../css/modal.css'
 
 const AboutUs = (): JSX.Element => {
     return (

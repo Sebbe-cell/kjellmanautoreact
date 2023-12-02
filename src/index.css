@@ -609,16 +609,21 @@ img {
 }
 
 .test1 > p {
-    border: 1px solid white;
+    border: 2px solid gray;
     padding: 0.3rem 0.5rem;
     background-color: gray;
+    border-radius: 8px;
     cursor: pointer;
+}
+
+.test1 > p:hover {
+    border: 2px solid rgb(78, 78, 78);
+    background-color: rgb(78, 78, 78);
 }
 
 .fullscreen-img-container img {
     width: 100%;
     height: auto;
-    object-fit: contain;
 }
 
 input::-webkit-calendar-picker-indicator {
@@ -636,4 +641,13 @@ input::-webkit-calendar-picker-indicator {
 
 input::-webkit-calendar-picker-indicator:hover {
     cursor: pointer;
+}
+
+.calculate-container {
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    border-radius: 5px;
 }

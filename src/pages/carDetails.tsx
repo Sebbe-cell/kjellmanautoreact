@@ -1,4 +1,3 @@
-import React from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -6,7 +5,6 @@ import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
 import { routePaths } from '../utils/routePaths'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IAlteredVehicleData } from '../utils/interfaces'
 import {
     faBolt,
     faCalendar,
@@ -24,12 +22,13 @@ import {
 import jsPDF from 'jspdf'
 import axios from 'axios'
 import Loader from '../components/loader'
-import InventorySlider from '../components/inventorySlider'
 import CalculateMonthlyModal from '../components/modals/calculateMonthlyModal'
 import InterestModal from '../components/modals/interestModal'
 import ContactModal from '../components/modals/contactModal'
 import logo from '../assets/logga_svart_guld.png'
 import '../css/carDetails.css'
+import '../css/modal.css'
+import useWindowDimensions from '../utils/useWindowDimensions'
 
 const CarDetails = (): JSX.Element => {
     const { carId } = useParams()
@@ -98,75 +97,20 @@ const CarDetails = (): JSX.Element => {
             }
         ]
     })
-    const [initialData, setInitialData] = useState<IAlteredVehicleData[]>([
-        {
-            headline: [''],
-            miles: [
-                {
-                    _: '15 057 mil',
-                    $: {
-                        value: '15057'
-                    }
-                }
-            ],
-            gearbox: [''],
-            primaryfuel: [''],
-            modelyear: [''],
-            price: [
-                {
-                    _: '',
-                    $: {
-                        value: ''
-                    }
-                }
-            ],
-            $: {
-                id: '',
-                locationid: ''
-            },
-            image: [
-                {
-                    $: {
-                        index: '',
-                        showh2h: ''
-                    },
-                    thumb: [''],
-                    main: [''],
-                    large: ['']
-                }
-            ]
-        }
-    ])
+
+    const { width } = useWindowDimensions()
 
     useEffect(() => {
         setLoading(true)
         axios
             .get(apiBaseUrl + apiEndpoints.inventoryById + '/' + carId)
-            .then((response) => {
+            .then((response: any) => {
                 if (response.status === 200) {
                     setCarData(response.data)
 
                     const initialDeposit =
                         0.2 * parseFloat(response.data.price[0].$.value)
                     setDeposit(initialDeposit.toString())
-                } else if (response.status === 502) {
-                    axios
-                        .get(
-                            apiBaseUrl +
-                                apiEndpoints.inventoryById +
-                                '/' +
-                                carId
-                        )
-                        .then((response) => {
-                            if (response.status === 200) {
-                                setCarData(response.data)
-
-                                const initialDeposit =
-                                    0.2 *
-                                    parseFloat(response.data.price[0].$.value)
-                                setDeposit(initialDeposit.toString())
-                            }
-                        })
                 } else {
                     setError(true)
                 }
@@ -175,25 +119,9 @@ const CarDetails = (): JSX.Element => {
                 setLoading(false)
             })
             .catch((e: any) => {
-                console.log(e)
                 setError(true)
             })
     }, [carId])
-
-    useEffect(() => {
-        axios
-            .get(apiBaseUrl + apiEndpoints.inventory)
-            .then((response) => {
-                setError(false)
-                setInitialData(response.data.vehicles.vehicle)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-            .catch(() => {
-                setError(true)
-            })
-    }, [])
 
     useEffect(() => {
         if (openModal || openCalculateMonthlyPrice) {
@@ -206,6 +134,16 @@ const CarDetails = (): JSX.Element => {
             document.body.classList.remove('disable-background-scroll')
         }
     }, [openModal, openCalculateMonthlyPrice])
+
+    const renderDescriptionWithLineBreaks = () => {
+        const rawDescription = carData.description[0]
+        const descriptionWithLineBreaks = rawDescription.replace(
+            /\r\n/g,
+            '<br/>'
+        )
+
+        return { __html: descriptionWithLineBreaks }
+    }
 
     const handleOpenModal = (e: any): void => {
         setModalValue(e.target.value)
@@ -323,7 +261,7 @@ const CarDetails = (): JSX.Element => {
     }
 
     const totalImageLength = carData.image.length
-    const interestRate = 0.08
+    const interestRate = 0.0795
     const carPrice = parseFloat(carData.price[0].$.value)
     const months = 84
 
@@ -362,16 +300,6 @@ const CarDetails = (): JSX.Element => {
         setCurrentIndex(e)
     }
 
-    const otherEquipmentArray = carData.otherequipment
-
-    const flattenedEquipmentArray = otherEquipmentArray
-        .join(',')
-        .split(',')
-        .map((item, index) => ({
-            key: index,
-            value: item.trim()
-        }))
-
     const handleBackBtn = (): void => {
         navigate(routePaths.inventory)
     }
@@ -379,6 +307,12 @@ const CarDetails = (): JSX.Element => {
     const handleToggleFullScreen = (): void => {
         setOpenFullscreenImage(!openFullscreenImage)
     }
+
+    useEffect(() => {
+        if (width < 768) {
+            setOpenFullscreenImage(false)
+        }
+    }, [width])
 
     return (
         <>
@@ -430,14 +364,16 @@ const CarDetails = (): JSX.Element => {
                                                         .large[0]
                                                 }
                                             />
-                                            <div className='car-details-icon-top'>
-                                                <p
-                                                    onClick={
-                                                        handleToggleFullScreen
-                                                    }>
-                                                    Fullskärm
-                                                </p>
-                                            </div>
+                                            {width > 768 && (
+                                                <div className='car-details-icon-top'>
+                                                    <p
+                                                        onClick={
+                                                            handleToggleFullScreen
+                                                        }>
+                                                        Fullskärm
+                                                    </p>
+                                                </div>
+                                            )}
                                             <div className='car-details-icon-bottom'>
                                                 <p>
                                                     {`Bild ${
@@ -604,23 +540,10 @@ const CarDetails = (): JSX.Element => {
                                                 </p>
                                             </div>
                                             <div className='divider'></div>
-                                            <div className='inline-items'>
-                                                {flattenedEquipmentArray.map(
-                                                    (item) => (
-                                                        <React.Fragment
-                                                            key={item.key}>
-                                                            <div className='inline-dot'></div>
-                                                            <div className='inline-item'>
-                                                                <>
-                                                                    {item.value}
-                                                                </>
-                                                            </div>
-                                                        </React.Fragment>
-                                                    )
-                                                )}
-                                            </div>
-                                            <div className='divider'></div>
-                                            <p>{carData.description}</p>
+                                            {/* <p>{carData.description}</p> */}
+                                            <p
+                                                dangerouslySetInnerHTML={renderDescriptionWithLineBreaks()}
+                                            />
                                             <p>
                                                 Registreringsnummer:{' '}
                                                 {carData.identification}
@@ -732,17 +655,6 @@ const CarDetails = (): JSX.Element => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div
-                                    style={{
-                                        width: '100%',
-                                        marginTop: '10rem'
-                                    }}>
-                                    <InventorySlider
-                                        loading={loading}
-                                        error={error}
-                                        data={initialData}
-                                    />
                                 </div>
                             </>
                         )}

@@ -4,6 +4,7 @@ import { routePaths } from '../utils/routePaths'
 import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
 import { IAlteredVehicleData } from '../utils/interfaces'
+import { Helmet } from 'react-helmet'
 import axios from 'axios'
 import logo2 from '../assets/bluebmw.jpg'
 import logo3 from '../assets/uppdragsmall.jpg'
@@ -26,9 +27,9 @@ const Home = (): JSX.Element => {
                 {
                     _: '15 057 mil',
                     $: {
-                        value: '15057',
-                    },
-                },
+                        value: '15057'
+                    }
+                }
             ],
             gearbox: [''],
             primaryfuel: [''],
@@ -37,26 +38,26 @@ const Home = (): JSX.Element => {
                 {
                     _: '',
                     $: {
-                        value: '',
-                    },
-                },
+                        value: ''
+                    }
+                }
             ],
             $: {
                 id: '',
-                locationid: '',
+                locationid: ''
             },
             image: [
                 {
                     $: {
                         index: '',
-                        showh2h: '',
+                        showh2h: ''
                     },
                     thumb: [''],
                     main: [''],
-                    large: [''],
-                },
-            ],
-        },
+                    large: ['']
+                }
+            ]
+        }
     ])
 
     useEffect(() => {
@@ -99,6 +100,14 @@ const Home = (): JSX.Element => {
 
     return (
         <>
+            <Helmet>
+                <title>Kjellman Auto</title>
+                <meta
+                    name='Kjellman Auto'
+                    content='Välkommen till Kjellman Auto'
+                />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             <MainHero handleOpenModal={handleOpenModal} />
             <ImageBanner
                 header={'Bilar i lager'}
@@ -107,7 +116,7 @@ const Home = (): JSX.Element => {
                 url={routePaths.inventory}
                 logo={logo2}
             />
-            <div className="card-with-image-container">
+            <div className='card-with-image-container'>
                 <CardWithImage
                     logo={logo4}
                     title={'Försäljningsuppdrag'}
@@ -135,8 +144,8 @@ const Home = (): JSX.Element => {
 
             {openModal && (
                 <SellModal
-                    headerText="Bilens uppgifter"
-                    submittedText="Tack!"
+                    headerText='Bilens uppgifter'
+                    submittedText='Tack!'
                     onClose={handleCloseModal}
                 />
             )}
