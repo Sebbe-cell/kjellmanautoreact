@@ -125,6 +125,12 @@ const Navbar = (): JSX.Element => {
                                         >
                                             Om oss
                                         </Link>
+                                        <Link
+                                            to={routePaths.policy}
+                                            className="navbar-internal-links"
+                                        >
+                                            Integritetspolicy
+                                        </Link>
                                     </div>
                                 </>
                             )}

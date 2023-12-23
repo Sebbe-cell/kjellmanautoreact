@@ -85,6 +85,9 @@
 }
 
 @media (max-width: 768px) {
+    .navbar-items {
+        margin: 10px 15px;
+    }
     .navbar-icons {
         display: none;
     }

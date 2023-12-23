@@ -7,4 +7,5 @@ export const routePaths = {
     warrantys: '/garantier',
     aboutus: '/om-oss',
     salesassignment: '/forsaljningsuppdrag',
+    policy: '/integritetspolicy',
   };

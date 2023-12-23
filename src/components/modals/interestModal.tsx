@@ -9,7 +9,9 @@ import { apiBaseUrl } from '../../api/apiUrl'
 import { apiEndpoints } from '../../api/endpoints'
 import Loader from '../loader'
 import FormInput from '../formInput'
-import 'react-toastify/dist/ReactToastify.css';
+import PolicyModal from './policyModal'
+import 'react-toastify/dist/ReactToastify.css'
+import FormTextArea from '../formTextarea'
 
 interface IInterestModalProps {
     headerText: string
@@ -21,18 +23,23 @@ interface ICarDetails {
     milage: number
     telephone: number
     email: string
+    information: string
 }
 
 enum FormGroup {
     regNr = 'regNr',
     milage = 'milage',
     telephone = 'telephone',
-    email = 'email'
+    email = 'email',
+    checkbox = 'checkbox',
+    information = 'information'
 }
 
 const InterestModal = (props: IInterestModalProps): JSX.Element => {
     const { headerText, onClose } = props
 
+    const [policyWindow, setPolicyWindow] = useState<boolean>(false)
+    const [isChecked, setIsChecked] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
     const [tradeIn, setTradeIn] = useState<boolean>(false)
@@ -40,17 +47,29 @@ const InterestModal = (props: IInterestModalProps): JSX.Element => {
         regNr: false,
         milage: false,
         telephone: false,
-        email: false
+        email: false,
+        checkbox: false,
+        information: false
     })
     const [initialValues, setInitialValues] = useState<ICarDetails>({
         regNr: '',
         milage: 0,
         telephone: 0,
-        email: ''
+        email: '',
+        information: ''
     })
 
     const handleTradeInClick = (): void => {
         setTradeIn(!tradeIn)
+    }
+
+    const handleCheckboxChange = (): void => {
+        setIsChecked(!isChecked)
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            checkbox: false
+        }))
     }
 
     const handleInputChange = (
@@ -99,6 +118,12 @@ const InterestModal = (props: IInterestModalProps): JSX.Element => {
         } else {
             errors.telephone = false
         }
+        if (isChecked === false) {
+            hasErrors = true
+            errors.checkbox = true
+        } else {
+            errors.checkbox = false
+        }
 
         setErrors({ ...errors })
 
@@ -120,7 +145,9 @@ const InterestModal = (props: IInterestModalProps): JSX.Element => {
                   'Kundens email: ' +
                   initialValues.email +
                   'Kundens telefonnummer: ' +
-                  initialValues.telephone
+                  initialValues.telephone +
+                  'Meddelande: ' +
+                  initialValues.information
         }
         if (isValid) {
             setLoading(true)
@@ -158,150 +185,216 @@ const InterestModal = (props: IInterestModalProps): JSX.Element => {
     }
 
     return (
-        <div className='modal'>
-            {loading && <Loader modalContainer={true} />}
-            <ToastContainer />
-            <div className='modal-container'>
-                <div className='modal-header'>
-                    <h1>{`Intresseanmälan för ${headerText}`}</h1>
-                    <FontAwesomeIcon
-                        icon={faCircleXmark}
-                        size='xl'
-                        onClick={onClose}
-                    />
-                </div>
-                <div className='modal-body'>
-                    <>
-                        <FormInput
-                            label={'E-post adress*'}
-                            id={'E-post adress'}
-                            name={FormGroup.email}
-                            value={initialValues.email}
-                            onChange={handleInputChange}
-                            type='email'
-                            optionalInputStyle={{
-                                border: errors.email ? '2px solid red' : '',
-                                fontSize: errors.email ? '16px' : ''
-                            }}
-                            placeholder={
-                                errors.email ? 'Obligatoriskt fält' : ''
-                            }
+        <>
+            <div className='modal'>
+                {loading && <Loader modalContainer={true} />}
+                <ToastContainer />
+                <div className='modal-container'>
+                    <div className='modal-header'>
+                        <h1>{`Intresseanmälan för ${headerText}`}</h1>
+                        <FontAwesomeIcon
+                            icon={faCircleXmark}
+                            size='xl'
+                            onClick={onClose}
                         />
-                        <FormInput
-                            label={'Telefonnummer*'}
-                            id={'Telefonnummer'}
-                            name={FormGroup.telephone}
-                            value={
-                                initialValues.telephone === 0
-                                    ? ''
-                                    : initialValues.telephone
-                            }
-                            onChange={handleInputChange}
-                            type='number'
-                            onKeyDown={(evt) =>
-                                evt.key === 'e' && evt.preventDefault()
-                            }
-                            optionalInputStyle={{
-                                border: errors.telephone ? '2px solid red' : '',
-                                fontSize: errors.telephone ? '16px' : ''
-                            }}
-                            placeholder={
-                                errors.telephone ? 'Obligatoriskt fält' : ''
-                            }
-                        />
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.4rem',
-                                marginBottom: '-2rem'
-                            }}>
-                            <p>Jag har ett inbyte</p>
-                            <div
-                                onClick={handleTradeInClick}
-                                className={clsx(
-                                    'input-checkbox',
-                                    tradeIn
-                                        ? 'input-checkbox-clicked'
-                                        : 'input-checkbox'
-                                )}>
-                                {tradeIn && <FontAwesomeIcon icon={faCheck} />}
-                            </div>
-                        </div>
-                        {tradeIn && (
-                            <div className='modal-input'>
-                                <FormInput
-                                    label={'Registreringsnummer*'}
-                                    id={'Registreringsnummer'}
-                                    name={FormGroup.regNr}
-                                    value={initialValues.regNr}
-                                    onChange={handleInputChange}
-                                    type='text'
-                                    optionalInputStyle={{
-                                        border: errors.regNr
-                                            ? '2px solid red'
-                                            : '',
-                                        fontSize: errors.regNr ? '16px' : '',
-                                        textTransform: !errors.regNr
-                                            ? 'uppercase'
-                                            : 'none'
-                                    }}
-                                    placeholder={
-                                        errors.regNr ? 'Obligatoriskt fält' : ''
-                                    }
-                                />
-                                <FormInput
-                                    label={'Miltal*'}
-                                    id={'Miltal'}
-                                    name={FormGroup.milage}
-                                    value={
-                                        initialValues.milage === 0
-                                            ? ''
-                                            : initialValues.milage
-                                    }
-                                    onChange={handleInputChange}
-                                    type='number'
-                                    onKeyDown={(evt) =>
-                                        evt.key === 'e' && evt.preventDefault()
-                                    }
-                                    optionalInputStyle={{
-                                        border: errors.milage
-                                            ? '2px solid red'
-                                            : '',
-                                        fontSize: errors.milage ? '16px' : ''
-                                    }}
-                                    placeholder={
-                                        errors.milage
-                                            ? 'Obligatoriskt fält'
-                                            : ''
-                                    }
-                                    optionalText={'mil'}
-                                />
-                            </div>
-                        )}
-                    </>
-                </div>
-                <div className='modal-footer'>
-                    {!isSubmitted ? (
-                        <button
-                            type='submit'
-                            className='modal-btn'
-                            onClick={onSubmit}>
-                            Skicka
-                        </button>
-                    ) : (
+                    </div>
+                    <div className='modal-body'>
                         <>
-                            <button
-                                type='button'
-                                className='modal-btn'
-                                onClick={onClose}>
-                                Stäng
-                            </button>
+                            <FormInput
+                                label={'E-post adress*'}
+                                id={'E-post adress'}
+                                name={FormGroup.email}
+                                value={initialValues.email}
+                                onChange={handleInputChange}
+                                type='email'
+                                optionalInputStyle={{
+                                    border: errors.email ? '2px solid red' : '',
+                                    fontSize: errors.email ? '16px' : ''
+                                }}
+                                placeholder={
+                                    errors.email ? 'Obligatoriskt fält' : ''
+                                }
+                            />
+                            <FormInput
+                                label={'Telefonnummer*'}
+                                id={'Telefonnummer'}
+                                name={FormGroup.telephone}
+                                value={
+                                    initialValues.telephone === 0
+                                        ? ''
+                                        : initialValues.telephone
+                                }
+                                onChange={handleInputChange}
+                                type='number'
+                                onKeyDown={(evt) =>
+                                    evt.key === 'e' && evt.preventDefault()
+                                }
+                                optionalInputStyle={{
+                                    border: errors.telephone
+                                        ? '2px solid red'
+                                        : '',
+                                    fontSize: errors.telephone ? '16px' : ''
+                                }}
+                                placeholder={
+                                    errors.telephone ? 'Obligatoriskt fält' : ''
+                                }
+                            />
+                            <FormTextArea
+                                label={'Eventuellt meddelande'}
+                                id={'Info'}
+                                name={FormGroup.information}
+                                value={initialValues.information}
+                                onChange={handleInputChange}
+                            />
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.4rem',
+                                    marginBottom: '-2rem'
+                                }}>
+                                <div
+                                    onClick={handleTradeInClick}
+                                    className={clsx(
+                                        'input-checkbox',
+                                        tradeIn
+                                            ? 'input-checkbox-clicked'
+                                            : 'input-checkbox'
+                                    )}>
+                                    {tradeIn && (
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    )}
+                                </div>
+                                <span>Jag har ett inbyte</span>
+                            </div>
+                            {tradeIn && (
+                                <div className='modal-input'>
+                                    <FormInput
+                                        label={'Registreringsnummer*'}
+                                        id={'Registreringsnummer'}
+                                        name={FormGroup.regNr}
+                                        value={initialValues.regNr}
+                                        onChange={handleInputChange}
+                                        type='text'
+                                        optionalInputStyle={{
+                                            border: errors.regNr
+                                                ? '2px solid red'
+                                                : '',
+                                            fontSize: errors.regNr
+                                                ? '16px'
+                                                : '',
+                                            textTransform: !errors.regNr
+                                                ? 'uppercase'
+                                                : 'none'
+                                        }}
+                                        placeholder={
+                                            errors.regNr
+                                                ? 'Obligatoriskt fält'
+                                                : ''
+                                        }
+                                    />
+                                    <FormInput
+                                        label={'Miltal*'}
+                                        id={'Miltal'}
+                                        name={FormGroup.milage}
+                                        value={
+                                            initialValues.milage === 0
+                                                ? ''
+                                                : initialValues.milage
+                                        }
+                                        onChange={handleInputChange}
+                                        type='number'
+                                        onKeyDown={(evt) =>
+                                            evt.key === 'e' &&
+                                            evt.preventDefault()
+                                        }
+                                        optionalInputStyle={{
+                                            border: errors.milage
+                                                ? '2px solid red'
+                                                : '',
+                                            fontSize: errors.milage
+                                                ? '16px'
+                                                : ''
+                                        }}
+                                        placeholder={
+                                            errors.milage
+                                                ? 'Obligatoriskt fält'
+                                                : ''
+                                        }
+                                        optionalText={'mil'}
+                                    />
+                                </div>
+                            )}
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                <div>
+                                    <div
+                                        onClick={handleCheckboxChange}
+                                        className={clsx(
+                                            'input-checkbox',
+                                            isChecked
+                                                ? 'input-checkbox-clicked'
+                                                : 'input-checkbox'
+                                        )}>
+                                        {isChecked && (
+                                            <FontAwesomeIcon icon={faCheck} />
+                                        )}
+                                    </div>
+                                </div>
+                                <div
+                                    style={
+                                        errors.checkbox
+                                            ? { color: 'red' }
+                                            : { color: 'white' }
+                                    }>
+                                    Jag samtycker till att mina personuppgifter
+                                    hanteras enligt{' '}
+                                    <span
+                                        onClick={() => setPolicyWindow(true)}
+                                        style={
+                                            errors.checkbox
+                                                ? {
+                                                      color: 'red',
+                                                      cursor: 'pointer'
+                                                  }
+                                                : {
+                                                      color: 'rgb(211, 174, 95)',
+                                                      cursor: 'pointer'
+                                                  }
+                                        }>
+                                        integritetspolicyn.*
+                                    </span>
+                                </div>
+                            </div>
                         </>
-                    )}
+                    </div>
+                    <div className='modal-footer'>
+                        {!isSubmitted ? (
+                            <button
+                                type='submit'
+                                className='modal-btn'
+                                onClick={onSubmit}>
+                                Skicka
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    type='button'
+                                    className='modal-btn'
+                                    onClick={onClose}>
+                                    Stäng
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+
+            {policyWindow && (
+                <PolicyModal
+                    onClosePolicyWindow={() => setPolicyWindow(false)}
+                />
+            )}
+        </>
     )
 }
 

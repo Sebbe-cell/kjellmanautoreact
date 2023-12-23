@@ -22,6 +22,7 @@ const Inventory = (): JSX.Element => {
     const [searchInput, setSearchInput] = useState<string>('')
     const [vehicleData, setVehicleData] = useState<IVehicleData[]>([
         {
+            created: [''],
             monthlyPrice: 0,
             headline: [''],
             miles: [
@@ -89,16 +90,39 @@ const Inventory = (): JSX.Element => {
             })
     }, [])
 
-    const filteredCars = vehicleData.filter((car: IVehicleData) => {
-        const searchLower = searchInput.toLowerCase()
-        return (
-            car.headline[0].toLowerCase().includes(searchLower) ||
-            car.model[0].toLowerCase().includes(searchLower) ||
-            car.gearbox[0].toLowerCase().includes(searchLower) ||
-            car.primaryfuel[0].toLowerCase().includes(searchLower) ||
-            car.price[0].$.value.toLowerCase().includes(searchLower)
-        )
-    })
+    const filteredCars = vehicleData
+        .filter((car: IVehicleData) => {
+            const searchLower = searchInput.toLowerCase()
+            return (
+                car.headline[0].toLowerCase().includes(searchLower) ||
+                car.model[0].toLowerCase().includes(searchLower) ||
+                car.gearbox[0].toLowerCase().includes(searchLower) ||
+                car.primaryfuel[0].toLowerCase().includes(searchLower) ||
+                car.price[0].$.value.toLowerCase().includes(searchLower)
+            )
+        })
+        .sort((carA, carB) => {
+            const dateA =
+                carA.created && carA.created[0]
+                    ? new Date(carA.created[0])
+                    : null
+            const dateB =
+                carB.created && carB.created[0]
+                    ? new Date(carB.created[0])
+                    : null
+
+            // Check if both dates are valid before comparison
+            if (dateA && dateB) {
+                // Compare the dates in descending order
+                return dateB.getTime() - dateA.getTime()
+            } else if (!dateA && !dateB) {
+                // If both dates are null or undefined, maintain the original order
+                return 0
+            } else {
+                // If either date is null or undefined, place the car with the defined date before the other
+                return dateA ? -1 : 1
+            }
+        })
 
     const bulletPoints: IBulletPoints[] = [
         { title: 'Varudeklarerade bilar' },
@@ -137,22 +161,19 @@ const Inventory = (): JSX.Element => {
         <>
             <Helmet>
                 <title>Kjellman Auto - Lager</title>
-                <meta
-                    name='description'
-                    content='Utforska vårt lager'
-                />
+                <meta name='description' content='Utforska vårt lager' />
                 <meta name='keywords' content='cars, kjellman, auto, bil' />
             </Helmet>
             <video
-            style={{width: '100%', height: '400px', objectFit: 'cover'}}
-                    src={videoBg}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    disablePictureInPicture
-                    disableRemotePlayback
-                />
+                style={{ width: '100%', height: '400px', objectFit: 'cover' }}
+                src={videoBg}
+                autoPlay
+                loop
+                muted
+                playsInline
+                disablePictureInPicture
+                disableRemotePlayback
+            />
             <div className='inventory-main-container'>
                 <h1>Bilar till salu</h1>
                 <ul className='inventory-list'>
@@ -202,11 +223,10 @@ const Inventory = (): JSX.Element => {
                                                             to={`${routePaths.inventory}/${car.$.id}`}>
                                                             <div className='inventory-container'>
                                                                 <img
-                                                                    src={
-                                                                        car
-                                                                            .image?.[0]
-                                                                            ?.main[0]
-                                                                    }
+                                                                    src={car.image?.[0]?.main[0].replace(
+                                                                        /^http:/,
+                                                                        'https:'
+                                                                    )}
                                                                     alt={
                                                                         'preview'
                                                                     }

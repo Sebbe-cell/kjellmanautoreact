@@ -11,6 +11,10 @@ import axios from 'axios'
 import Loader from '../components/loader'
 import '../css/modal.css'
 import 'react-toastify/dist/ReactToastify.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import clsx from 'clsx'
+import PolicyModal from '../components/modals/policyModal'
 
 enum FormGroup {
     regNr = 'regNr',
@@ -18,7 +22,8 @@ enum FormGroup {
     telephone = 'telephone',
     email = 'email',
     information = 'information',
-    price = 'price'
+    price = 'price',
+    checkbox = 'checkbox'
 }
 interface ICarDetails {
     regNr: string
@@ -48,9 +53,12 @@ const SalesAssignment = (): JSX.Element => {
         milage: false,
         telephone: false,
         email: false,
-        price: false
+        price: false,
+        checkbox: false
     }
 
+    const [policyWindow, setPolicyWindow] = useState<boolean>(false)
+    const [isChecked, setIsChecked] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [errors, setErrors] = useState<State<ICarDetails>>(initialErrors)
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
@@ -97,6 +105,25 @@ const SalesAssignment = (): JSX.Element => {
         }
     ]
 
+    const handleOpenModal = (): void => {
+        setPolicyWindow(true)
+        document.body.classList.add('disable-background-scroll')
+    }
+
+    const handleCloseModal = (): void => {
+        setPolicyWindow(false)
+        document.body.classList.remove('disable-background-scroll')
+    }
+
+    const handleCheckboxChange = (): void => {
+        setIsChecked(!isChecked)
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            checkbox: false
+        }))
+    }
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
@@ -129,6 +156,13 @@ const SalesAssignment = (): JSX.Element => {
                 hasErrors = true
             } else {
                 errors[fieldName] = false
+            }
+
+            if (isChecked === false) {
+                hasErrors = true
+                errors.checkbox = true
+            } else {
+                errors.checkbox = false
             }
         })
 
@@ -353,6 +387,46 @@ const SalesAssignment = (): JSX.Element => {
                                 />
                             )
                         )}
+                        <div style={{ display: 'flex', gap: '.5rem' }}>
+                            <div>
+                                <div
+                                    onClick={handleCheckboxChange}
+                                    className={clsx(
+                                        'input-checkbox',
+                                        isChecked
+                                            ? 'input-checkbox-clicked'
+                                            : 'input-checkbox'
+                                    )}>
+                                    {isChecked && (
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    )}
+                                </div>
+                            </div>
+                            <div
+                                style={
+                                    errors.checkbox
+                                        ? { color: 'red' }
+                                        : { color: 'white' }
+                                }>
+                                Jag samtycker till att mina personuppgifter
+                                hanteras enligt{' '}
+                                <span
+                                    onClick={handleOpenModal}
+                                    style={
+                                        errors.checkbox
+                                            ? {
+                                                  color: 'red',
+                                                  cursor: 'pointer'
+                                              }
+                                            : {
+                                                  color: 'rgb(211, 174, 95)',
+                                                  cursor: 'pointer'
+                                              }
+                                    }>
+                                    integritetspolicyn.*
+                                </span>
+                            </div>
+                        </div>
                         <div>
                             <button
                                 className='modal-btn'
@@ -364,6 +438,10 @@ const SalesAssignment = (): JSX.Element => {
                     </>
                 )}
             </div>
+
+            {policyWindow && (
+                <PolicyModal onClosePolicyWindow={handleCloseModal} />
+            )}
         </>
     )
 }

@@ -8,11 +8,13 @@ import {
 import { apiBaseUrl } from '../../api/apiUrl'
 import { apiEndpoints } from '../../api/endpoints'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import clsx from 'clsx'
 import FormTextArea from '../formTextarea'
 import Loader from '../loader'
 import FormInput from '../formInput'
+import PolicyModal from './policyModal'
 import 'react-toastify/dist/ReactToastify.css'
 import '../../css/modal.css'
 
@@ -29,7 +31,8 @@ export enum FormGroup {
     milage = 'milage',
     telephone = 'telephone',
     email = 'email',
-    information = 'information'
+    information = 'information',
+    checkbox = 'checkbox'
 }
 
 interface IModalProps {
@@ -41,6 +44,8 @@ interface IModalProps {
 const SellModal = (props: IModalProps): JSX.Element => {
     const { headerText, submittedText, onClose } = props
 
+    const [policyWindow, setPolicyWindow] = useState<boolean>(false)
+    const [isChecked, setIsChecked] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
     const [errors, setErrors] = useState<{ [key in FormGroup]: boolean }>({
@@ -48,7 +53,8 @@ const SellModal = (props: IModalProps): JSX.Element => {
         milage: false,
         telephone: false,
         email: false,
-        information: false
+        information: false,
+        checkbox: false
     })
     const [initialValues, setInitialValues] = useState<ICarDetails>({
         regNr: '',
@@ -71,6 +77,15 @@ const SellModal = (props: IModalProps): JSX.Element => {
         setErrors((prevErrors) => ({
             ...prevErrors,
             [name]: false
+        }))
+    }
+
+    const handleCheckboxChange = (): void => {
+        setIsChecked(!isChecked)
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            checkbox: false
         }))
     }
 
@@ -107,6 +122,13 @@ const SellModal = (props: IModalProps): JSX.Element => {
             hasErrors = true
         } else {
             errors.telephone = false
+        }
+
+        if (isChecked === false) {
+            hasErrors = true
+            errors.checkbox = true
+        } else {
+            errors.checkbox = false
         }
 
         setErrors({ ...errors })
@@ -326,6 +348,50 @@ const SellModal = (props: IModalProps): JSX.Element => {
                                             : ''
                                     }
                                 />
+                                <div style={{ display: 'flex', gap: '.5rem' }}>
+                                    <div>
+                                        <div
+                                            onClick={handleCheckboxChange}
+                                            className={clsx(
+                                                'input-checkbox',
+                                                isChecked
+                                                    ? 'input-checkbox-clicked'
+                                                    : 'input-checkbox'
+                                            )}>
+                                            {isChecked && (
+                                                <FontAwesomeIcon
+                                                    icon={faCheck}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={
+                                            errors.checkbox
+                                                ? { color: 'red' }
+                                                : { color: 'white' }
+                                        }>
+                                        Jag samtycker till att mina
+                                        personuppgifter hanteras enligt{' '}
+                                        <span
+                                            onClick={() =>
+                                                setPolicyWindow(true)
+                                            }
+                                            style={
+                                                errors.checkbox
+                                                    ? {
+                                                          color: 'red',
+                                                          cursor: 'pointer'
+                                                      }
+                                                    : {
+                                                          color: 'rgb(211, 174, 95)',
+                                                          cursor: 'pointer'
+                                                      }
+                                            }>
+                                            integritetspolicyn.*
+                                        </span>
+                                    </div>
+                                </div>
                             </>
                         )}
                     </div>
@@ -348,6 +414,12 @@ const SellModal = (props: IModalProps): JSX.Element => {
                     </div>
                 </div>
             </div>
+
+            {policyWindow && (
+                <PolicyModal
+                    onClosePolicyWindow={() => setPolicyWindow(false)}
+                />
+            )}
         </>
     )
 }

@@ -4,7 +4,10 @@ import { ToastContainer, toast } from 'react-toastify'
 import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
 import { sellFormInfoAfter, ISellFormInfoAfter } from '../utils/sellFormAfter'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import road from '../assets/uppdragstor.jpg'
+import clsx from 'clsx'
 import Hero from '../components/hero'
 import FormInput from '../components/formInput'
 import RoundedCardWithImage from '../components/roundedCardWithImage'
@@ -15,6 +18,7 @@ import transfer from '../assets/transfer.jpg'
 import FormTextArea from '../components/formTextarea'
 import axios from 'axios'
 import Loader from '../components/loader'
+import PolicyModal from '../components/modals/policyModal'
 import 'react-toastify/dist/ReactToastify.css'
 import '../css/modal.css'
 
@@ -23,7 +27,8 @@ export enum FormGroup {
     milage = 'milage',
     telephone = 'telephone',
     email = 'email',
-    information = 'information'
+    information = 'information',
+    checkbox = 'checkbox'
 }
 interface ICarDetails {
     regNr: string
@@ -55,9 +60,12 @@ const Sell = (): JSX.Element => {
         regNr: false,
         milage: false,
         telephone: false,
-        email: false
+        email: false,
+        checkbox: false
     }
 
+    const [policyWindow, setPolicyWindow] = useState<boolean>(false)
+    const [isChecked, setIsChecked] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [errors, setErrors] = useState<State<ICarDetails>>(initialErrors)
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
@@ -122,6 +130,16 @@ const Sell = (): JSX.Element => {
         }
     ]
 
+    const handleOpenModal = (): void => {
+        setPolicyWindow(true)
+        document.body.classList.add('disable-background-scroll')
+    }
+
+    const handleCloseModal = (): void => {
+        setPolicyWindow(false)
+        document.body.classList.remove('disable-background-scroll')
+    }
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
@@ -135,6 +153,15 @@ const Sell = (): JSX.Element => {
         setErrors((prevErrors) => ({
             ...prevErrors,
             [name]: false
+        }))
+    }
+
+    const handleCheckboxChange = (): void => {
+        setIsChecked(!isChecked)
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            checkbox: false
         }))
     }
 
@@ -153,6 +180,13 @@ const Sell = (): JSX.Element => {
                 hasErrors = true
             } else {
                 errors[fieldName] = false
+            }
+
+            if (isChecked === false) {
+                hasErrors = true
+                errors.checkbox = true
+            } else {
+                errors.checkbox = false
             }
         })
 
@@ -325,6 +359,46 @@ const Sell = (): JSX.Element => {
                                 />
                             )
                         )}
+                        <div style={{ display: 'flex', gap: '.5rem' }}>
+                            <div>
+                                <div
+                                    onClick={handleCheckboxChange}
+                                    className={clsx(
+                                        'input-checkbox',
+                                        isChecked
+                                            ? 'input-checkbox-clicked'
+                                            : 'input-checkbox'
+                                    )}>
+                                    {isChecked && (
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    )}
+                                </div>
+                            </div>
+                            <div
+                                style={
+                                    errors.checkbox
+                                        ? { color: 'red' }
+                                        : { color: 'white' }
+                                }>
+                                Jag samtycker till att mina personuppgifter
+                                hanteras enligt{' '}
+                                <span
+                                    onClick={handleOpenModal}
+                                    style={
+                                        errors.checkbox
+                                            ? {
+                                                  color: 'red',
+                                                  cursor: 'pointer'
+                                              }
+                                            : {
+                                                  color: 'rgb(211, 174, 95)',
+                                                  cursor: 'pointer'
+                                              }
+                                    }>
+                                    integritetspolicyn.*
+                                </span>
+                            </div>
+                        </div>
                         <div>
                             <button
                                 className='modal-btn'
@@ -379,6 +453,10 @@ const Sell = (): JSX.Element => {
                     )
                 )}
             </div>
+
+            {policyWindow && (
+                <PolicyModal onClosePolicyWindow={handleCloseModal} />
+            )}
         </>
     )
 }

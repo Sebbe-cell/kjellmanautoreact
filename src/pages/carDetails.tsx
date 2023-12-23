@@ -13,11 +13,13 @@ import {
     faChevronRight,
     faCircleInfo,
     faCloudDownload,
+    faExpand,
     faGasPump,
     faGears,
     faPaintBrush,
     faPhone,
-    faRoad
+    faRoad,
+    faUpRightAndDownLeftFromCenter
 } from '@fortawesome/free-solid-svg-icons'
 import jsPDF from 'jspdf'
 import axios from 'axios'
@@ -29,6 +31,8 @@ import logo from '../assets/logga_svart_guld.png'
 import '../css/carDetails.css'
 import '../css/modal.css'
 import useWindowDimensions from '../utils/useWindowDimensions'
+import { IVehicleData } from '../utils/interfaces'
+import FullscreenModal from '../components/modals/fullscreenModal'
 
 const CarDetails = (): JSX.Element => {
     const { carId } = useParams()
@@ -355,6 +359,15 @@ const CarDetails = (): JSX.Element => {
                                                     icon={faChevronLeft}
                                                     size='3x'
                                                     onClick={goToPrevious}
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        backgroundColor:
+                                                            'rgba(128, 128, 128, 0.5)',
+                                                        width: '32px',
+                                                        height: '32px',
+                                                        borderRadius: '50%',
+                                                        padding: '5px'
+                                                    }}
                                                 />
                                             </div>
                                             <img
@@ -366,12 +379,23 @@ const CarDetails = (): JSX.Element => {
                                             />
                                             {width > 768 && (
                                                 <div className='car-details-icon-top'>
-                                                    <p
+                                                    <FontAwesomeIcon
+                                                        color='white'
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            backgroundColor:
+                                                                'rgba(128, 128, 128, 0.5)',
+                                                            height: '32px',
+                                                            width: '32px',
+                                                            padding: '5px',
+                                                            borderRadius: '4px'
+                                                        }}
+                                                        size='2xl'
                                                         onClick={
                                                             handleToggleFullScreen
-                                                        }>
-                                                        Fullskärm
-                                                    </p>
+                                                        }
+                                                        icon={faExpand}
+                                                    />
                                                 </div>
                                             )}
                                             <div className='car-details-icon-bottom'>
@@ -386,6 +410,15 @@ const CarDetails = (): JSX.Element => {
                                                     icon={faChevronRight}
                                                     onClick={goToNext}
                                                     size='3x'
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        backgroundColor:
+                                                            'rgba(128, 128, 128, 0.5)',
+                                                        width: '32px',
+                                                        height: '32px',
+                                                        borderRadius: '50%',
+                                                        padding: '5px'
+                                                    }}
                                                 />
                                             </div>
                                         </div>
@@ -498,26 +531,31 @@ const CarDetails = (): JSX.Element => {
                                                     />{' '}
                                                     {carData.primaryfuel}
                                                 </p>
-                                                <p
-                                                    style={{
-                                                        margin: '0',
-                                                        backgroundColor:
-                                                            'transparent',
-                                                        padding: '6px',
-                                                        color: 'white',
-                                                        borderRadius: '4px',
-                                                        fontSize: '16px',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent:
-                                                            'center',
-                                                        gap: '0.4rem'
-                                                    }}>
-                                                    <FontAwesomeIcon
-                                                        icon={faBolt}
-                                                    />{' '}
-                                                    {carData.power[0]._}
-                                                </p>
+                                                {!carData.primaryfuel.includes(
+                                                    'El'
+                                                ) && (
+                                                    <p
+                                                        style={{
+                                                            margin: '0',
+                                                            backgroundColor:
+                                                                'transparent',
+                                                            padding: '6px',
+                                                            color: 'white',
+                                                            borderRadius: '4px',
+                                                            fontSize: '16px',
+                                                            display: 'flex',
+                                                            alignItems:
+                                                                'center',
+                                                            justifyContent:
+                                                                'center',
+                                                            gap: '0.4rem'
+                                                        }}>
+                                                        <FontAwesomeIcon
+                                                            icon={faBolt}
+                                                        />{' '}
+                                                        {carData.power[0]._}
+                                                    </p>
+                                                )}
                                                 <p
                                                     style={{
                                                         margin: '0',
@@ -686,33 +724,13 @@ const CarDetails = (): JSX.Element => {
             )}
 
             {openFullscreenImage && (
-                <div className='fullscreen-container'>
-                    <div className='fullscreen-wrapper'>
-                        <div style={{ paddingRight: '2rem' }}>
-                            <FontAwesomeIcon
-                                icon={faChevronLeft}
-                                onClick={goToPrevious}
-                                size='3x'
-                            />
-                        </div>
-                        <div className='fullscreen-img-container'>
-                            <img
-                                alt=''
-                                src={carData.image[currentIndex].large[0]}
-                            />
-                            <div className='test1'>
-                                <p onClick={handleToggleFullScreen}>Stäng</p>
-                            </div>
-                        </div>
-                        <div style={{ paddingLeft: '2rem' }}>
-                            <FontAwesomeIcon
-                                icon={faChevronRight}
-                                onClick={goToNext}
-                                size='3x'
-                            />
-                        </div>
-                    </div>
-                </div>
+                <FullscreenModal
+                    carData={carData}
+                    currentIndex={currentIndex}
+                    goToPrevious={goToPrevious}
+                    goToNext={goToNext}
+                    handleToggleFullScreen={handleToggleFullScreen}
+                />
             )}
         </>
     )

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="10" viewBox="0 0 200 10">
+  <!-- Pencil stroke line with rounded corners -->
+  <path d="M10 5 Q 100 0, 190 5" fill="none" stroke="#D3AE5F" stroke-width="3" stroke-linecap="round" />
+</svg>

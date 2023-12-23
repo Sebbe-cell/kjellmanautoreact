@@ -2,13 +2,15 @@ import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import { apiBaseUrl } from '../../api/apiUrl'
 import { apiEndpoints } from '../../api/endpoints'
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import clsx from 'clsx'
 import axios from 'axios'
 import Loader from '../loader'
 import FormInput from '../formInput'
 import FormTextArea from '../formTextarea'
-import 'react-toastify/dist/ReactToastify.css';
+import PolicyModal from './policyModal'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface IContactModalProps {
     headerText: string
@@ -25,17 +27,21 @@ interface IContactDetails {
 enum FormGroup {
     errand = 'errand',
     telephone = 'telephone',
-    email = 'email'
+    email = 'email',
+    checkbox = 'checkbox'
 }
 
 const ContactInfoFormModal = (props: IContactModalProps): JSX.Element => {
     const { headerText, submittedText, onClose } = props
 
+    const [policyWindow, setPolicyWindow] = useState<boolean>(false)
+    const [isChecked, setIsChecked] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [errors, setErrors] = useState<{ [key in FormGroup]: boolean }>({
         errand: false,
         telephone: false,
-        email: false
+        email: false,
+        checkbox: false
     })
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
     const [initialValues, setInitialValues] = useState<IContactDetails>({
@@ -43,6 +49,15 @@ const ContactInfoFormModal = (props: IContactModalProps): JSX.Element => {
         telephone: undefined,
         email: ''
     })
+
+    const handleCheckboxChange = (): void => {
+        setIsChecked(!isChecked)
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            checkbox: false
+        }))
+    }
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -86,6 +101,12 @@ const ContactInfoFormModal = (props: IContactModalProps): JSX.Element => {
             hasErrors = true
         } else {
             errors.telephone = false
+        }
+        if (isChecked === false) {
+            hasErrors = true
+            errors.checkbox = true
+        } else {
+            errors.checkbox = false
         }
 
         setErrors({ ...errors })
@@ -213,6 +234,50 @@ const ContactInfoFormModal = (props: IContactModalProps): JSX.Element => {
                                             : ''
                                     }
                                 />
+                                <div style={{ display: 'flex', gap: '.5rem' }}>
+                                    <div>
+                                        <div
+                                            onClick={handleCheckboxChange}
+                                            className={clsx(
+                                                'input-checkbox',
+                                                isChecked
+                                                    ? 'input-checkbox-clicked'
+                                                    : 'input-checkbox'
+                                            )}>
+                                            {isChecked && (
+                                                <FontAwesomeIcon
+                                                    icon={faCheck}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={
+                                            errors.checkbox
+                                                ? { color: 'red' }
+                                                : { color: 'white' }
+                                        }>
+                                        Jag samtycker till att mina
+                                        personuppgifter hanteras enligt{' '}
+                                        <span
+                                            onClick={() =>
+                                                setPolicyWindow(true)
+                                            }
+                                            style={
+                                                errors.checkbox
+                                                    ? {
+                                                          color: 'red',
+                                                          cursor: 'pointer'
+                                                      }
+                                                    : {
+                                                          color: 'rgb(211, 174, 95)',
+                                                          cursor: 'pointer'
+                                                      }
+                                            }>
+                                            integritetspolicyn.*
+                                        </span>
+                                    </div>
+                                </div>
                             </>
                         ) : (
                             <>
@@ -242,6 +307,12 @@ const ContactInfoFormModal = (props: IContactModalProps): JSX.Element => {
                     </div>
                 </div>
             </div>
+
+            {policyWindow && (
+                <PolicyModal
+                    onClosePolicyWindow={() => setPolicyWindow(false)}
+                />
+            )}
         </>
     )
 }

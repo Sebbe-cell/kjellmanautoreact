@@ -30,15 +30,15 @@ const ContactWidget = (): JSX.Element => {
     }
 
     return (
-        <div className="contact-widget">
-            <div className="chat-btn" onClick={handleOpenModal}>
-                <FontAwesomeIcon icon={faMessage} size="xl" />
+        <div className='contact-widget'>
+            <div className='btn-95' onClick={handleOpenModal}>
+                <FontAwesomeIcon icon={faMessage} size='xl' />
             </div>
             {openModal && (
                 <ContactInfoFormModal
                     onClose={handleCloseModal}
-                    headerText="Kontakta oss direkt"
-                    submittedText="Tack!"
+                    headerText='Kontakta oss direkt'
+                    submittedText='Tack!'
                 />
             )}
         </div>

@@ -29,6 +29,7 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
 }
 
 .modal-header__monthly {
@@ -47,16 +48,30 @@
 
 @media (max-width: 768px) {
     .modal-header__monthly {
-        border-bottom: 1px solid white;
-        margin-bottom: 30px;
-        display: flex;
+        border-bottom: 0;
         flex-direction: column;
-        width: 100%;
         text-align: start;
     }
     .modal-header__monthly_info {
         text-align: start;
         width: 100%;
+    }
+    .modal-header__monthly_info p {
+        margin: 0;
+    }
+    .modal-header {
+        font-size: 14px;
+        gap: 1rem;
+    }
+    .modal-container {
+        background: #0f1a25;
+        padding: 0.8rem;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+        width: 35rem;
+        margin: 0.5rem;
+        max-height: 90%;
+        overflow-y: auto;
+        border-radius: 6px;
     }
 }
 

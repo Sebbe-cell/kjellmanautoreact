@@ -1,11 +1,13 @@
 import { CSSProperties } from 'react'
 import '../css/input.css'
+import clsx from 'clsx'
 
 interface IFormInputProps {
-    label: string
+    label?: string
     id: string
     name?: string
     max?: string
+    longLabel?: string
     value?: string | number | undefined
     type?: string
     optionalText?: string
@@ -21,6 +23,7 @@ interface IFormInputProps {
 const FormInput = (props: IFormInputProps): JSX.Element => {
     const {
         label,
+        longLabel,
         id,
         name,
         value,
@@ -56,7 +59,7 @@ const FormInput = (props: IFormInputProps): JSX.Element => {
                         <p>{optionalText}</p>
                     </div>
                 )}
-                <label className='forms__label'>{label}</label>
+                <label className={clsx(longLabel ? 'forms__longLabel': 'forms__label')}>{longLabel ? longLabel : label}</label>
             </div>
         </>
     )

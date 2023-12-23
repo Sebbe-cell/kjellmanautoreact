@@ -48,9 +48,9 @@
 
 .car-details-icon-top {
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    top: 10px;
+    left: 30;
+    transform: translate(0%, 0%);
     right: 20px;
     text-align: center;
     display: flex;
@@ -86,10 +86,9 @@
 }
 
 .car-details-icon-bottom p {
-    border: 1px solid white;
-    border-radius: 8px;
-    width: 100px;
-    background-color: gray;
+    width: 120px;
+    border-radius: 4px;
+    background-color: rgb(0, 0, 0, 0.5);
 }
 
 .car-details-info {
@@ -224,6 +223,12 @@
     }
     .car-details-info {
         width: 100%;
+    }
+    .car-details-icon-bottom p {
+        width: 90px;
+        border-radius: 4px;
+        background-color: rgb(0, 0, 0, 0.5);
+        font-size: 13px;
     }
 }
 

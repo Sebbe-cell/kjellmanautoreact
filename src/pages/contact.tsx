@@ -11,20 +11,31 @@ const Contact = (): JSX.Element => {
                 <div className='contact-text-container'>
                     <div>
                         <h1>Öppettider</h1>
-                        <p>Måndag - Fredag: 11.00 - 18.00</p>
-                        <p>Lördag: 12.00 - 15.00</p>
-                        <p>Söndag: Stängt</p>
+                        <p style={{ margin: '0' }}>Måndag - Fredag:</p>
+                        <p style={{ margin: '0' }}>11.00 - 18.00</p>
+                        <p style={{ margin: '18px 0 0 0' }}>Lördag:</p>
+                        <p style={{ margin: '0' }}>12.00 - 15.00</p>
+                        <p style={{ margin: '18px 0 0 0' }}>Söndag:</p>
+                        <p style={{ margin: '0' }}>Stängt</p>
                     </div>
                     <div>
                         <h1>Kontakt</h1>
-                        <p>Address: Teknikervägen 1, 149 45 Nynäshamn</p>
-                        <p>
-                            Telefonnummer:{' '}
+                        <p style={{ margin: '0' }}>Address:</p>
+                        <p style={{ margin: '0' }}>
+                            Teknikervägen 1, 149 45 Nynäshamn
+                        </p>
+                        <p style={{ margin: '18px 0 0 0' }}>Telefonnummer: </p>
+                        <p style={{ margin: '0' }}>
                             <a href='tel:+46 (0)8-400 687 86'>
                                 +46 (0)8-400 687 86
                             </a>
                         </p>
-                        <p>Maila oss: <a href='mailto:info@kjellmanauto.se'>info@kjellmanauto.se</a></p>
+                        <p style={{ margin: '18px 0 0 0' }}>Maila oss:</p>
+                        <p style={{ margin: '0' }}>
+                            <a href='mailto:info@kjellmanauto.se'>
+                                info@kjellmanauto.se
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -16,12 +16,13 @@ const CarDetails = lazy(() => import('../src/pages/carDetails'))
 const Warranty = lazy(() => import('../src/pages/warranty'))
 const AboutUs = lazy(() => import('../src/pages/aboutUs'))
 const SalesAssignment = lazy(() => import('../src/pages/salesAssignment'))
+const Policy = lazy(() => import('../src/pages/policy'))
 
 const AppLayout = (): JSX.Element => {
     return (
-        <div className="main-wrapper">
+        <div className='main-wrapper'>
             <Navbar />
-            <div className="outlet-wrapper">
+            <div className='outlet-wrapper'>
                 <Outlet />
                 <ContactWidget />
             </div>
@@ -72,9 +73,13 @@ const App = (): JSX.Element => {
                                 path={routePaths.salesassignment}
                                 element={<SalesAssignment />}
                             />
+                            <Route
+                                path={routePaths.policy}
+                                element={<Policy />}
+                            />
                             {/* 404 Route */}
                         </Route>
-                        <Route path="*" element={<NotFound />} />
+                        <Route path='*' element={<NotFound />} />
                     </Routes>
                 </Suspense>
             </BrowserRouter>
