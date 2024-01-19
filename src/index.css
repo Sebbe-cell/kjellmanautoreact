@@ -570,7 +570,7 @@ img {
     border-radius: 8px;
     transition: 0.2s;
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     gap: 0.3rem;
     align-items: center;
 }
@@ -1004,5 +1004,50 @@ input::-webkit-calendar-picker-indicator:hover {
     }
     .btn-95 svg {
         --size: 25px;
+    }
+}
+
+.warranty_card {
+    border: 1px solid white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px white;
+    text-align: center;
+}
+
+.warranty_card_price p {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.warranty_card a {
+    color: white;
+    background-color: rgb(211, 174, 95);
+    border-radius: 4px;
+    padding: 10px 0;
+    border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.warranty_card a:hover {
+    background-color: transparent;
+    border: 1px solid rgb(211, 174, 95);
+    border-radius: 4px;
+}
+
+.warranty_card_container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .warranty_card_container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
 }

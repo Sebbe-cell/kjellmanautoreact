@@ -1,29 +1,26 @@
 import { useEffect, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import { Helmet } from 'react-helmet'
 
 import { routePaths } from '../utils/routePaths'
 import { apiBaseUrl } from '../api/apiUrl'
 import { apiEndpoints } from '../api/endpoints'
 import { IAlteredVehicleData } from '../utils/interfaces'
-import { Helmet } from 'react-helmet'
+import { motion, useAnimation } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 import axios from 'axios'
-import logo2 from '../assets/bluebmw.jpg'
+import logo2 from '../assets/tesla.jpg'
 import logo3 from '../assets/uppdragsmall.jpg'
 import logo4 from '../assets/koepliten.jpg'
 import logo5 from '../assets/mapsmall.jpg'
 import MainHero from '../components/mainHero'
 import ImageBanner from '../components/imageBanner'
 import CardWithImage from '../components/cardWithImage'
-import InventorySlider from '../components/inventorySlider'
 import SellModal from '../components/modals/sellModal'
-import snowcar from '../assets/snowcar.jpg'
-import headlight from '../assets/taillight.jpg'
-import { motion, useAnimation } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 import engine from '../assets/engine.mp4'
 import dashboard from '../assets/dashboard.mp4'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import SlickCarousel from '../components/slickCarousel'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Home = (): JSX.Element => {
     const textControls = useAnimation()
@@ -262,7 +259,7 @@ const Home = (): JSX.Element => {
                 <div className='divider' style={{ margin: '0' }}></div>
             </div>
 
-            <div className='infographic-block-container'>
+            {/* <div className='infographic-block-container'>
                 <motion.div
                     ref={textRef}
                     animate={textControls}
@@ -379,7 +376,7 @@ const Home = (): JSX.Element => {
                         </p>
                     </motion.div>
                 )}
-            </div>
+            </div> */}
 
             <div className='card-with-image-container'>
                 <CardWithImage
@@ -400,12 +397,7 @@ const Home = (): JSX.Element => {
             </div>
 
             <div className='inventory-wrapper'>
-                {/* <InventorySlider
-                    data={initialData}
-                    loading={loading}
-                    error={error}
-                /> */}
-                <SlickCarousel data={initialData} />
+                <SlickCarousel data={initialData} loading={loading} error={error}/>
             </div>
 
             {openModal && (

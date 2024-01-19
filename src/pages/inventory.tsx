@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet'
 import axios from 'axios'
 import Loader from '../components/loader'
 import FormInput from '../components/formInput'
-import videoBg from '../assets/jul.mp4'
+import videoBg from '../assets/video_3.mp4'
 import '../css/inventory.css'
 
 interface IBulletPoints {

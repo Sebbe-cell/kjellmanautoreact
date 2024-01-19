@@ -13,13 +13,19 @@ import {
     faChevronRight,
     faCircleInfo,
     faCloudDownload,
+    faCogs,
     faExpand,
     faGasPump,
+    faGear,
     faGears,
     faPaintBrush,
     faPhone,
+    faPlus,
     faRoad,
-    faUpRightAndDownLeftFromCenter
+    faShield,
+    faStar,
+    faUpRightAndDownLeftFromCenter,
+    faWrench
 } from '@fortawesome/free-solid-svg-icons'
 import jsPDF from 'jspdf'
 import axios from 'axios'
@@ -652,10 +658,10 @@ const CarDetails = (): JSX.Element => {
                                                             fontSize: '14px'
                                                         }}>
                                                         <FontAwesomeIcon
-                                                            icon={faPhone}
+                                                            icon={faPlus}
                                                             size='xl'
                                                         />{' '}
-                                                        Kontakta oss
+                                                        Garanti
                                                     </button>
                                                 </div>
                                             </div>
@@ -685,10 +691,10 @@ const CarDetails = (): JSX.Element => {
                                                         fontSize: '14px'
                                                     }}>
                                                     <FontAwesomeIcon
-                                                        icon={faPhone}
+                                                        icon={faPlus}
                                                         size='xl'
                                                     />{' '}
-                                                    Kontakta oss
+                                                    Garanti
                                                 </button>
                                             </div>
                                         </div>
@@ -716,7 +722,7 @@ const CarDetails = (): JSX.Element => {
                         />
                     ) : (
                         <ContactModal
-                            headerText={'Kontakta oss direkt'}
+                            headerText={'Garantier'}
                             onClose={handleCloseModal}
                         />
                     )}

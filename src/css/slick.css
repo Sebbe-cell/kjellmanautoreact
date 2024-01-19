@@ -1,4 +1,9 @@
 /* Slider */
+
+.slick-container {
+    margin: 0 2rem 0 2rem;
+}
+
 .slick-slider {
     position: relative;
 
@@ -122,4 +127,10 @@
 }
 .slick-arrow.slick-hidden {
     display: none;
+}
+@media (max-width: 768px) {
+    .slick-container {
+        margin: 0;
+        overflow: hidden;
+    }
 }
