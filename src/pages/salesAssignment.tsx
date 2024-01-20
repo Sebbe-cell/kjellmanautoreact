@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 import PolicyModal from '../components/modals/policyModal'
+import { Helmet } from 'react-helmet'
 
 enum FormGroup {
     regNr = 'regNr',
@@ -228,6 +229,11 @@ const SalesAssignment = (): JSX.Element => {
 
     return (
         <>
+            <Helmet>
+                <title>Kjellman Auto - Försäljningsuppdrag</title>
+                <meta name='description' content='Vårt försäljningsuppdrag' />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             <Hero imgSrc={herologo} />
             <div className='text-container'>
                 <div>

@@ -4,6 +4,7 @@ import herologo from '../assets/kamrem.jpg'
 import Hero from '../components/hero'
 import WarrantyModal from '../components/modals/warrantyModal'
 import '../css/modal.css'
+import { Helmet } from 'react-helmet'
 
 const Warranty = (): JSX.Element => {
     const [openModal, setOpenModal] = useState<boolean>(false)
@@ -32,6 +33,11 @@ const Warranty = (): JSX.Element => {
 
     return (
         <>
+            <Helmet>
+                <title>Kjellman Auto - Garantivillkor</title>
+                <meta name='description' content='Garantivillkor' />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             <Hero imgSrc={herologo} />
             <div className='text-container'>
                 <div>

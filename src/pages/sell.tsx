@@ -21,6 +21,7 @@ import Loader from '../components/loader'
 import PolicyModal from '../components/modals/policyModal'
 import 'react-toastify/dist/ReactToastify.css'
 import '../css/modal.css'
+import { Helmet } from 'react-helmet'
 
 export enum FormGroup {
     regNr = 'regNr',
@@ -262,6 +263,11 @@ const Sell = (): JSX.Element => {
 
     return (
         <>
+            <Helmet>
+                <title>Kjellman Auto - Sälj</title>
+                <meta name='description' content='Sälj din bil direkt till oss' />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             <Hero imgSrc={road} />
             <div className='text-container'>
                 <div>

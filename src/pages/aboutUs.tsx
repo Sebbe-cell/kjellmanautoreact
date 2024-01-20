@@ -1,12 +1,18 @@
 import Hero from '../components/hero'
 import herologo from '../assets/aboutus.jpg'
 import '../css/modal.css'
+import { Helmet } from 'react-helmet'
 
 const AboutUs = (): JSX.Element => {
     return (
         <>
+            <Helmet>
+                <title>Kjellman Auto - Om oss</title>
+                <meta name='description' content='Läs mer om oss' />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             <Hero imgSrc={herologo} />
-            <div className="text-container">
+            <div className='text-container'>
                 <div>
                     <h1>
                         Välkommen till Kjellman Auto - Din Partner för Begagnade

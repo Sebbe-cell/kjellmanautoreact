@@ -2,10 +2,16 @@ import FindUs from '../components/findus'
 import Hero from '../components/hero'
 import logo from '../assets/map.jpg'
 import '../css/modal.css'
+import { Helmet } from 'react-helmet'
 
 const Contact = (): JSX.Element => {
     return (
         <>
+            <Helmet>
+                <title>Kjellman Auto - Kontakt</title>
+                <meta name='description' content='Kontakta oss direkt' />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             <Hero imgSrc={logo} />
             <div className='contact-container'>
                 <div className='contact-text-container'>

@@ -39,6 +39,7 @@ import '../css/modal.css'
 import useWindowDimensions from '../utils/useWindowDimensions'
 import { IVehicleData } from '../utils/interfaces'
 import FullscreenModal from '../components/modals/fullscreenModal'
+import { Helmet } from 'react-helmet'
 
 const CarDetails = (): JSX.Element => {
     const { carId } = useParams()
@@ -326,6 +327,11 @@ const CarDetails = (): JSX.Element => {
 
     return (
         <>
+            <Helmet>
+            <title>{`Kjellman Auto - ${error ? 'Bilen hittades ej' : carData.headline}`}</title>
+                <meta name='description' content='Utforska vårt lager' />
+                <meta name='keywords' content='cars, kjellman, auto, bil' />
+            </Helmet>
             {loading ? (
                 <>
                     <Loader shouldHaveContainer={true} />
@@ -515,7 +521,10 @@ const CarDetails = (): JSX.Element => {
                                                     <FontAwesomeIcon
                                                         icon={faGears}
                                                     />{' '}
-                                                    {carData.gearbox}
+                                                    {carData.brand[0] ===
+                                                    'Tesla'
+                                                        ? 'Automat'
+                                                        : carData.gearbox}
                                                 </p>
                                                 <p
                                                     style={{
@@ -537,9 +546,8 @@ const CarDetails = (): JSX.Element => {
                                                     />{' '}
                                                     {carData.primaryfuel}
                                                 </p>
-                                                {!carData.primaryfuel.includes(
-                                                    'El'
-                                                ) && (
+                                                {carData.power[0]._.length >
+                                                    1 && (
                                                     <p
                                                         style={{
                                                             margin: '0',

@@ -268,9 +268,11 @@ const Inventory = (): JSX.Element => {
                                                                     </div>
                                                                     <div className='inventory-description'>
                                                                         <span>
-                                                                            {
-                                                                                car.gearbox
-                                                                            }
+                                                                            {car
+                                                                                .brand[0] ===
+                                                                            'Tesla'
+                                                                                ? 'Automat'
+                                                                                : car.gearbox}
                                                                         </span>
                                                                     </div>
                                                                     <div className='inventory-description'>
